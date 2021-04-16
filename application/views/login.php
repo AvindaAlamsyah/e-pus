@@ -50,10 +50,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             </a>
                         </div>
                         <div class="login-form">
-                            <form action="" method="post">
+                            <form action="<?php echo base_url('login/verifikasi') ?>" method="post">
+                                <?php
+                                if ($status == 1) {
+                                    echo $isi;
+                                }
+                                ?>
                                 <div class="form-group">
                                     <label>NISN</label>
-                                    <input class="au-input au-input--full" type="text" name="inputNisn" placeholder="NISN">
+                                    <input class="au-input au-input--full" type="text" name="nisn" placeholder="NISN">
                                 </div>
                                 <div class="form-group">
                                     <label>Password</label>
@@ -68,13 +73,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                     </label>
                                 </div> -->
                                 <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">sign in</button>
-
-                                <!-- <div class="social-login-content">
-                                    <div class="social-button">
-                                        <button class="au-btn au-btn--block au-btn--blue m-b-20">sign in with facebook</button>
-                                        <button class="au-btn au-btn--block au-btn--blue2">sign in with twitter</button>
-                                    </div>
-                                </div> -->
                             </form>
                             <div class="register-link">
                                 <p>

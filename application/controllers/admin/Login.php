@@ -5,22 +5,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Login extends CI_Controller
 {
 
-
     public function __construct()
     {
         parent::__construct();
         $this->load->model('admin/model_admin');
     }
+
     private $pesan = array(
         "status" => 0,
         "isi" => ""
     );
 
-
     public function index()
     {
-        if ($this->session->userdata('status_login') && $this->session->userdata('username') != null && $this->session->userdata('level') == 0) {
-            echo "mamang";
+        if ($this->session->userdata('status_login')) {
+
+            redirect('admin/data_anggota', 'refresh');
         } else {
             $this->load->view('admin/login', $this->pesan);
         }
@@ -28,29 +28,32 @@ class Login extends CI_Controller
 
     public function verifikasi()
     {
-        $dataLogin = array(
+        $data_login = array(
             'username' => $this->input->post('username'),
             'password' => $this->input->post('password')
         );
 
-        if ($dataLogin['username'] == null || $dataLogin['password'] == null) {
+        if ($data_login['username'] == null || $data_login['password'] == null) {
             $this->pesan['status'] = 1;
             $this->pesan['isi'] = "Harap isi kolom Username dan Password";
         } else {
 
-            $dataAdmin = $this->model_admin->get_where(array("username" => $dataLogin['username']));
+            $data_admin = $this->model_admin->get_where(array("username" => $data_login['username']));
 
-            if ($dataAdmin != null) {
-                if (password_verify($dataLogin['password'], $dataAdmin['password'])) {
+            if ($data_admin != null) {
+                if (password_verify($data_login['password'], $data_admin['password'])) {
                     $this->pesan['status'] = 1;
                     $this->pesan['isi'] = "Berhasil";
-                    $dataSession = array(
-                        "id" => $dataAdmin['id_admin'],
-                        "username" => $dataAdmin['username'],
-                        "level" => $dataAdmin['level'],
+                    $data_session = array(
+                        "id" => $data_admin['id_admin'],
+                        "username" => $data_admin['username'],
+                        "nama" => $data_admin['nama_admin'],
+                        "level" => $data_admin['level'],
                         "status_login" => true
                     );
-                    $this->session->set_userdata($dataSession);
+                    $this->session->set_userdata($data_session);
+
+                    redirect('admin/data_anggota', 'refresh');
                 } else {
                     $this->pesan['status'] = 1;
                     $this->pesan['isi'] = "Password salah";
@@ -66,7 +69,6 @@ class Login extends CI_Controller
 
     public function logout()
     {
-
         $this->session->sess_destroy();
 
         redirect("admin/login", "refresh");
@@ -74,7 +76,8 @@ class Login extends CI_Controller
 
     public function test()
     {
-        echo password_hash("supersu", PASSWORD_ARGON2I);
+        //echo password_hash("supersu", PASSWORD_ARGON2I);
+        //echo json_encode($this->session->userdata());
     }
 }
 
