@@ -36,6 +36,10 @@
     <!-- Main CSS-->
     <link href="<?php echo base_url('asset/admin/'); ?>css/theme.css" rel="stylesheet" media="all">
 
+    <!--Favicon-->
+    <link rel="shortcut icon" href="<?php echo base_url('asset/') ?>images/favicon.png" type="image/x-icon">
+    <link rel="icon" href="<?php echo base_url('asset/') ?>images/favicon.png" type="image/x-icon">
+
 </head>
 
 <body class="animsition">
@@ -52,7 +56,7 @@
                         <div class="col-md-12">
                             <div class="overview-wrap m-b-35">
                                 <h2 class="title-1">Data Buku</h2>
-                                <button class="au-btn au-btn-icon au-btn--blue" data-toggle="modal" data-target="#modal_tambah">
+                                <button class="au-btn au-btn-icon au-btn--blue" data-toggle="modal" onclick="tampilFile()" data-target="#modal_tambah">
                                     <i class="zmdi zmdi-plus"></i>tambah data</button>
                             </div>
                             <div class="au-card">
@@ -130,9 +134,24 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label for="tambah_tipe">Tipe</label>
+                            <div class="controls">
+                                <select name="tambah_tipe" id="tambah_tipe" class="form-control">
+                                    <option value="0">E-Book/PDF</option>
+                                    <option value="1">Link</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group file">
                             <label for="tambah_file">File</label>
                             <div class="controls">
                                 <input type="file" id="tambah_file" name="tambah_file" class="form-control-file">
+                            </div>
+                        </div>
+                        <div class="form-group url">
+                            <label for="tambah_link">URL</label>
+                            <div class="controls">
+                                <input type="url" id="tambah_link" name="tambah_link" class="form-control">
                             </div>
                         </div>
                     </div>
@@ -158,6 +177,7 @@
                 </div>
                 <form name="form_edit" id="form_edit" type="POST" enctype="multipart/form-data">
                     <div class="modal-body">
+                        <input type="text" name="edit_id" id="edit_id" class="form-control" hidden>
                         <div class="form-group">
                             <label for="edit_judul">Judul</label>
                             <div class="controls">
@@ -282,6 +302,17 @@
             $('#tabel_buku').DataTable();
         });
 
+        function tampilFile() {
+            let tipe = document.getElementById("tambah_tipe").value;
+            if (tipe == 0) {
+                $('.file').show();
+                $('.url').hide();
+            } else {
+                $('.url').show()
+                $('.file').hide();
+            }
+        }
+
         $('#tabel_buku').DataTable({
             'ajax': {
                 'url': "<?php echo base_url('admin/data_buku/ambil_semua') ?>",
@@ -317,6 +348,7 @@
             responsive: true
         });
 
+        $('.url').hide();
         $('form[name="form_tambah"]').validate({
             rules: {
                 tambah_judul: {
@@ -337,6 +369,9 @@
                     digits: true
                 },
                 tambah_level: {
+                    required: true
+                },
+                tambah_tipe: {
                     required: true
                 },
                 tambah_file: {
@@ -394,24 +429,44 @@
             }
         })
 
-        //ambil data untuk diedit
+        $('#tambah_tipe').change(function() {
+            let tipe = document.getElementById("tambah_tipe").value;
+            if (tipe == 0) {
+                $('.file').show();
+                $('.url').hide();
+                $('#tambah_link').rules('remove');
+                $('#tambah_file').rules('add', {
+                    required: true
+                });
+            } else {
+                $('.url').show()
+                $('.file').hide();
+                $('#tambah_file').rules('remove');
+                $('#tambah_link').rules('add', {
+                    required: true,
+                    url: true
+                });
+            }
+        })
+
         $('#data_buku').on('click', '.item_edit', function() {
             $("#modal_loading").modal("show");
             $.ajax({
-                url: "<?php echo base_url('admin/data_anggota/tampil_edit'); ?>",
+                url: "<?php echo base_url('admin/data_buku/tampil_edit'); ?>",
                 type: "POST",
                 dataType: "JSON",
                 data: {
-                    edit_nisn: $(this).data('item')
+                    edit_id: $(this).data('item')
                 },
                 success: function(data) {
                     $('#modal_loading').modal('hide');
 
-                    $('#edit_nisn').val(data.nisn);
-                    $('#edit_nama').val(data.nama_lengkap);
-                    $('#edit_level').val(data.level);
-                    $('#edit_jurusan').val(data.jurusan);
-                    $('#edit_kelas').val(data.kelas);
+                    $('#edit_judul').val(data.judul_buku);
+                    $('#edit_penerbit').val(data.penerbit);
+                    $('#edit_tahun').val(data.tahun_terbit);
+                    $('#edit_level').val(data.level_buku);
+                    $('#edit_penulis').val(data.penulis);
+                    $('#edit_id').val(data.id_buku);
 
                     $('#modal_edit').modal('show');
                 },
@@ -431,32 +486,47 @@
         //simpan edit data barang
         $('form[name="form_edit"]').validate({
             rules: {
-                edit_nisn: {
+                edit_id: {
                     required: true
                 },
-                edit_nama: {
+                edit_judul: {
+                    required: true,
+                    maxlength: 255
+                },
+                edit_penulis: {
+                    required: true,
+                    maxlength: 155
+                },
+                edit_penerbit: {
+                    required: true,
+                    maxlength: 155
+                },
+                edit_tahun: {
+                    required: true,
+                    maxlength: 4,
+                    digits: true
+                },
+                edit_level: {
                     required: true
-                }
+                },
             },
             lang: "id",
             submitHandler: function(form) {
                 $('#modal_loading').modal('show');
                 $.ajax({
-                    url: "<?php echo base_url('admin/data_anggota/simpan_edit') ?>",
+                    url: "<?php echo base_url('admin/data_buku/simpan_edit') ?>",
                     type: "POST",
                     dataType: "JSON",
                     data: $(form).serialize(),
                     success: function(response) {
-
                         if (response.status == 1) {
-                            $("#modal_tambah").modal("hide");
-                            $("#form_tambah").trigger("reset");
+                            $("#modal_edit").modal("hide");
                             $('#modal_loading').modal('hide');
                             $('#tabel_buku').DataTable().ajax.reload();
                             $.toast({
                                 heading: "Sukses",
                                 text: response.pesan,
-                                position: 'bottom-left',
+                                position: 'top-right',
                                 loader: true,
                                 loaderBg: '#ff6849',
                                 icon: 'success',
@@ -465,10 +535,9 @@
                             });
                         } else {
                             Swal.fire({
-                                title: "Yoyyysss",
+                                title: "Hmmm.....",
                                 text: response.pesan,
-                                type: "error",
-                                footer: "Harap hubungi developer untuk penanganan error."
+                                type: "error"
                             });
                         }
 

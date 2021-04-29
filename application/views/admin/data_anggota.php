@@ -10,7 +10,7 @@
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Data Anggota</title>
+    <title>Data Anggota | Digital Library</title>
 
     <!-- Fontfaces CSS-->
     <link href="<?php echo base_url('asset/admin/'); ?>css/font-face.css" rel="stylesheet" media="all">
@@ -35,6 +35,10 @@
 
     <!-- Main CSS-->
     <link href="<?php echo base_url('asset/admin/'); ?>css/theme.css" rel="stylesheet" media="all">
+
+    <!--Favicon-->
+    <link rel="shortcut icon" href="<?php echo base_url('asset/') ?>images/favicon.png" type="image/x-icon">
+    <link rel="icon" href="<?php echo base_url('asset/') ?>images/favicon.png" type="image/x-icon">
 
 </head>
 

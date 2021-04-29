@@ -3,8 +3,8 @@
     <div class="header-mobile__bar">
         <div class="container-fluid">
             <div class="header-mobile-inner">
-                <a class="logo" href="index.html">
-                    <img src="<?php echo base_url('asset/admin'); ?>images/icon/logo.png" alt="CoolAdmin" />
+                <a class="logo" href="#">
+                    <img src="<?php echo base_url('asset/admin'); ?>images/icon/logo-black.png" alt="Digital Library" />
                 </a>
                 <button class="hamburger hamburger--slider" type="button">
                     <span class="hamburger-box">
@@ -30,7 +30,7 @@
                         <i class="fas fa-book"></i>Data Buku</a>
                 </li>
                 <li>
-                    <a href="form.html">
+                    <a href="#">
                         <i class="far fa-file-text"></i>Laporan</a>
                 </li>
             </ul>
@@ -43,7 +43,7 @@
 <aside class="menu-sidebar d-none d-lg-block">
     <div class="logo">
         <a href="#">
-            <img src="<?php echo base_url("asset/admin/") ?>images/icon/logo.png" alt="Cool Admin" />
+            <img src="<?php echo base_url("asset/admin/") ?>images/icon/logo-black.png" alt="Cool Admin" />
         </a>
     </div>
     <div class="menu-sidebar__content js-scrollbar1">
@@ -62,7 +62,7 @@
                         <i class="fas fa-book"></i>Data Buku</a>
                 </li>
                 <li>
-                    <a href="form.html">
+                    <a href="#">
                         <i class="far fa-file-text"></i>Laporan</a>
                 </li>
             </ul>

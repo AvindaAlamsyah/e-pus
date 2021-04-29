@@ -13,7 +13,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Login Admin</title>
+    <title>Login Admin Digital Library</title>
 
     <!-- Fontfaces CSS-->
     <link href="<?php echo base_url("asset/admin/"); ?>css/font-face.css" rel="stylesheet" media="all">
@@ -36,6 +36,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <!-- Main CSS-->
     <link href="<?php echo base_url("asset/admin/"); ?>css/theme.css" rel="stylesheet" media="all">
 
+    <!--Favicon-->
+    <link rel="shortcut icon" href="<?php echo base_url('asset/') ?>images/favicon.png" type="image/x-icon">
+    <link rel="icon" href="<?php echo base_url('asset/') ?>images/favicon.png" type="image/x-icon">
+
 </head>
 
 <body class="animsition">
@@ -46,7 +50,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <div class="login-content">
                         <div class="login-logo">
                             <a href="#">
-                                <img src="<?php echo base_url("asset/admin/"); ?>images/icon/logo.png" alt="CoolAdmin">
+                                <img src="<?php echo base_url("asset/admin/"); ?>images/icon/logo-black.png" alt="Digital Library">
                             </a>
                         </div>
                         <div class="login-form">
@@ -76,8 +80,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             </form>
                             <div class="register-link">
                                 <p>
-                                    Belum memiliki akun?
-                                    <a href="#">Register.</a>
+                                    Masuk sebagai
+                                    <a href="<?php echo base_url('login'); ?>">Anggota.</a>
                                 </p>
                             </div>
                         </div>
