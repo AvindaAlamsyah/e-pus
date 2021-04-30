@@ -26,6 +26,10 @@
                         <i class="fas fa-group"></i>Data Anggota</a>
                 </li>
                 <li>
+                    <a href="<?php echo base_url("admin/data_admin") ?>">
+                        <i class="fas fa-group"></i>Data Admin</a>
+                </li>
+                <li>
                     <a href="<?php echo base_url('admin/data_buku'); ?>">
                         <i class="fas fa-book"></i>Data Buku</a>
                 </li>
@@ -56,6 +60,10 @@
                 <li>
                     <a href="<?php echo base_url("admin/data_anggota") ?>">
                         <i class="fas fa-group"></i>Data Anggota</a>
+                </li>
+                <li>
+                    <a href="<?php echo base_url("admin/data_admin") ?>">
+                        <i class="fas fa-group"></i>Data Admin</a>
                 </li>
                 <li>
                     <a href="<?php echo base_url('admin/data_buku') ?>">
