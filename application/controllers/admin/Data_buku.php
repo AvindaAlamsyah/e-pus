@@ -13,6 +13,7 @@ class Data_buku extends CI_Controller
     {
         parent::__construct();
         $this->load->model('model_buku');
+        $this->load->model('model_resource');
         if (!$this->session->userdata('status_login')) {
             //session kosong
             redirect('admin/login', 'refresh');
@@ -32,55 +33,91 @@ class Data_buku extends CI_Controller
         echo json_encode(array("data" => $this->model_buku->select_all()));
     }
 
-    public function tambah_buku()
-    {
 
+    private function upload($name, $type, $msg)
+    {
         $config['upload_path'] = './asset/admin/buku/';
-        $config['allowed_types'] = 'pdf';
+        $config['allowed_types'] = $type;
         $config['max_size']  = '0';
         $config['file_name'] = substr(md5(time()), 0, 28);
+        $this->upload->initialize($config);
+        
+        if (!$this->upload->do_upload($name)) {
+            $this->response['pesan'] = "Gagal upload $msg.".$this->upload->display_errors();
+            $this->response['status'] = 0;
+            die(json_encode($this->response));
+        } else {
+            $data_buku['cover'] = $config['file_name'] . $this->upload->data('file_ext');
+            $this->response['status'] = 1;
+            $this->response['pesan'] = $this->response['pesan'].", Berhasil menyimpan $msg";
+        }
+        return $this->upload->data();
+    }
 
-        $this->load->library('upload', $config);
-
+    public function tambah_buku()
+    {
+        $this->load->library('upload');
         $data_buku = array(
             "judul_buku" => $this->input->post('tambah_judul'),
             "penulis" => $this->input->post('tambah_penulis'),
             "penerbit" => $this->input->post('tambah_penerbit'),
             "tahun_terbit" => $this->input->post('tambah_tahun'),
-            "tipe_buku" => $this->input->post('tambah_tipe'),
             "level_buku" => $this->input->post('tambah_level'),
-            "nama_file" => "",
-            "link_buku" => ""
-
+            "stok" => $this->input->post('tambah_stok'),
+            
         );
-
-        if ($data_buku['tipe_buku'] == 0) {
-            if (!$this->upload->do_upload("tambah_file")) {
-                $this->response['pesan'] = $this->upload->display_errors();
-                $this->response['status'] = 0;
-            } else {
-                $data_buku['nama_file'] = $config['file_name'] . ".pdf";
-
-                if ($this->model_buku->insert($data_buku)) {
-                    $this->response['status'] = 1;
-                    $this->response['pesan'] = "Berhasil menyimpan data buku";
-                } else {
-                    $this->response['status'] = 0;
-                    $this->response['pesan'] = "Gagal menyimpan data buku";
-                }
-            }
-        } else {
-            $data_buku['link_buku'] = $this->input->post('tambah_link');
-
-            if ($this->model_buku->insert($data_buku)) {
-                $this->response['status'] = 1;
-                $this->response['pesan'] = "Berhasil menyimpan data buku";
-            } else {
-                $this->response['status'] = 0;
-                $this->response['pesan'] = "Gagal menyimpan data buku";
-            }
+        $data_upload= $this->upload('tambah_cover', 'png|jpg|jpeg', 'cover');
+        $data_buku['cover'] = $data_upload['file_name'];
+        
+        //insert ke array data resource
+        $data_resource = array();
+        $tipe_buku = $this->input->post('tambah_tipe');
+        if ($tipe_buku == 1) {
+            $data_upload = $this->upload('tambah_file','pdf', 'file e-book');
+            $data_resource[0]['resource_id_tipe'] = $tipe_buku;
+            $data_resource[0]['source'] = $data_upload['file_name'];
+        } else if ($tipe_buku == 2) {
+            $data_resource[0]['resource_id_tipe'] = $tipe_buku;
+            $data_resource[0]['source'] = $this->input->post('tambah_link');
+            $this->response['status'] = 1;
+            $this->response['pesan'] = $this->response['pesan'].", Berhasil menyimpan link";
+        } else if ($tipe_buku == 3) {
+            $data_upload = $this->upload('tambah_file','mp3', 'file audio');
+            $data_resource[0]['resource_id_tipe'] = $tipe_buku;
+            $data_resource[0]['source'] = $data_upload['file_name'];
+        } else if ($tipe_buku == 4) {
+            $data_upload = $this->upload('tambah_file','mp4', 'file video');
+            $data_resource[0]['resource_id_tipe'] = $tipe_buku;
+            $data_resource[0]['source'] = $data_upload['file_name'];
+        } else if ($tipe_buku == 5) {
+            $data_upload = $this->upload('tambah_file','pdf', 'file buku');
+            $data_resource[0]['resource_id_tipe'] = $tipe_buku;
+            $data_resource[0]['source'] = $data_upload['file_name'];
+        } else if ($tipe_buku == 6) {
+            $data_upload = $this->upload('tambah_file','pdf', 'file e-book');
+            $data_resource[0]['resource_id_tipe'] = 1;
+            $data_resource[0]['source'] = $data_upload['file_name'];
+            $data_upload2 = $this->upload('tambah_file_2','mp3', 'file audio');
+            $data_resource[1]['resource_id_tipe'] = 3;
+            $data_resource[1]['source'] = $data_upload2['file_name'];
         }
 
+        $id_buku = $this->model_buku->insert_last_id($data_buku);
+        if ($id_buku > 0) {
+            for ($i = 0; $i <count($data_resource); $i++) {
+                $data_resource[$i]['resource_id_buku'] = $id_buku;
+            }
+            if ($this->model_resource->insert_batch($data_resource)){
+                $this->response['status'] = 1;
+                $this->response['pesan'] = $this->response['pesan'].", Berhasil menyimpan data";
+            } else {
+                $this->response['status'] = 0;
+                $this->response['pesan'] = "Gagal menyimpan data";
+            }
+        } else {
+            $this->response['status'] = 0;
+            $this->response['pesan'] = "Gagal menyimpan data";
+        }
         echo json_encode($this->response);
     }
 

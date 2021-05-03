@@ -11,6 +11,12 @@ class Model_buku extends CI_Model
         return $this->db->insert($this->table, $data);
     }
 
+    function insert_last_id($data)
+    {
+        $this->db->insert($this->table, $data);
+        return $this->db->insert_id();
+    }
+
     function select_all()
     {
         return $this->db->get($this->table)->result();

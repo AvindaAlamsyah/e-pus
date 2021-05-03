@@ -134,18 +134,40 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label for="tambah_tahun">Stok</label>
+                            <div class="controls">
+                                <input name="tambah_stok" id="tambah_stok" type="number" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="tambah_tahun">Cover (.jpg/.jpeg/.png)</label>
+                            <div class="controls">
+                                <input name="tambah_cover" id="tambah_cover" type="file" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label for="tambah_tipe">Tipe</label>
                             <div class="controls">
                                 <select name="tambah_tipe" id="tambah_tipe" class="form-control">
-                                    <option value="0">E-Book/PDF</option>
-                                    <option value="1">Link</option>
+                                    <option value="5">Buku</option>
+                                    <option value="1">E-Book/PDF</option>
+                                    <option value="6">E-Book&Audio</option>
+                                    <option value="3">Audio</option>
+                                    <option value="4">Video</option>
+                                    <option value="2">Link</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group file">
-                            <label for="tambah_file">File</label>
+                        <div class="form-group file" id="div-file-1">
+                            <label for="tambah_file" id="label_tambah_file">File</label>
                             <div class="controls">
                                 <input type="file" id="tambah_file" name="tambah_file" class="form-control-file">
+                            </div>
+                        </div>
+                        <div class="form-group file" id="div-file-2">
+                            <label for="tambah_file_2" id="label_tambah_file_2">File</label>
+                            <div class="controls">
+                                <input type="file" id="tambah_file_2" name="tambah_file_2" class="form-control-file">
                             </div>
                         </div>
                         <div class="form-group url">
@@ -304,13 +326,39 @@
 
         function tampilFile() {
             let tipe = document.getElementById("tambah_tipe").value;
-            if (tipe == 0) {
-                $('.file').show();
+            let label = document.getElementById("label_tambah_file");
+            let label2 = document.getElementById("label_tambah_file_2");
+            console.log(tipe)
+            if (tipe == 1) {
+                $('#div-file-1').show();
+                $('#div-file-2').hide();
                 $('.url').hide();
-            } else {
+                label.innerHTML = "File E-book (.pdf)";
+            } else if (tipe == 2){
                 $('.url').show()
                 $('.file').hide();
-            }
+            } else if (tipe == 3) {
+                $('#div-file-1').show();
+                $('#div-file-2').hide();
+                $('.url').hide();
+                label.innerHTML = "File Audio (.mp3)";
+            } else if (tipe == 4) {
+                $('#div-file-1').show();
+                $('#div-file-2').hide();
+                $('.url').hide();
+                label.innerHTML = "File Video (.mp4)";
+            } else if (tipe == 5) {
+                $('#div-file-1').show();
+                $('#div-file-2').hide();
+                $('.url').hide();
+                label.innerHTML = "File Buku (.pdf)";
+            } else if (tipe == 6) {
+                $('#div-file-1').show();
+                $('#div-file-2').show();
+                $('.url').hide();
+                label.innerHTML = "File E-book (.pdf)";
+                label2.innerHTML = "File Audio (.mp3)";
+            } 
         }
 
         $('#tabel_buku').DataTable({
@@ -369,6 +417,12 @@
                     digits: true
                 },
                 tambah_level: {
+                    required: true
+                },
+                tambah_stok: {
+                    required: true
+                },
+                tambah_cover: {
                     required: true
                 },
                 tambah_tipe: {
@@ -431,20 +485,64 @@
 
         $('#tambah_tipe').change(function() {
             let tipe = document.getElementById("tambah_tipe").value;
-            if (tipe == 0) {
-                $('.file').show();
+            let label = document.getElementById("label_tambah_file");
+            let label2 = document.getElementById("label_tambah_file_2");
+            console.log(tipe)
+            if (tipe == 1) {
+                $('#div-file-1').show();
+                $('#div-file-2').hide();
                 $('.url').hide();
+                label.innerHTML = "File E-book (.pdf)";
                 $('#tambah_link').rules('remove');
                 $('#tambah_file').rules('add', {
                     required: true
                 });
-            } else {
+            } else if (tipe == 2){
                 $('.url').show()
                 $('.file').hide();
                 $('#tambah_file').rules('remove');
                 $('#tambah_link').rules('add', {
-                    required: true,
-                    url: true
+                    required: true
+                });
+            } else if (tipe == 3) {
+                $('#div-file-1').show();
+                $('#div-file-2').hide();
+                $('.url').hide();
+                label.innerHTML = "File Audio (.mp3)";
+                $('#tambah_link').rules('remove');
+                $('#tambah_file').rules('add', {
+                    required: true
+                });
+            } else if (tipe == 4) {
+                $('#div-file-1').show();
+                $('#div-file-2').hide();
+                $('.url').hide();
+                label.innerHTML = "File Video (.mp4)";
+                $('#tambah_link').rules('remove');
+                $('#tambah_file').rules('add', {
+                    required: true
+                });
+            } else if (tipe == 5) {
+                $('#div-file-1').show();
+                $('#div-file-2').hide();
+                $('.url').hide();
+                label.innerHTML = "File Buku (.pdf)";
+                $('#tambah_link').rules('remove');
+                $('#tambah_file').rules('add', {
+                    required: true
+                });
+            } else if (tipe == 6) {
+                $('#div-file-1').show();
+                $('#div-file-2').show();
+                $('.url').hide();
+                label.innerHTML = "File E-book (.pdf)";
+                label2.innerHTML = "File Audio (.mp3)";
+                $('#tambah_link').rules('remove');
+                $('#tambah_file').rules('add', {
+                    required: true
+                });
+                $('#tambah_file_2').rules('add', {
+                    required: true
                 });
             }
         })
