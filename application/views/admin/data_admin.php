@@ -5,12 +5,12 @@
     <!-- Required meta tags-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="au theme template">
-    <meta name="author" content="Hau Nguyen">
-    <meta name="keywords" content="au theme template">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
 
     <!-- Title Page-->
-    <title>Data Anggota | Digital Library</title>
+    <title>Data Admin | Digital Library</title>
 
     <!-- Fontfaces CSS-->
     <link href="<?php echo base_url('asset/admin/'); ?>css/font-face.css" rel="stylesheet" media="all">
@@ -55,22 +55,20 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="overview-wrap m-b-35">
-                                <h2 class="title-1">Data Anggota</h2>
+                                <h2 class="title-1">Data Admin</h2>
                                 <button class="au-btn au-btn-icon au-btn--blue" data-toggle="modal" data-target="#modal_tambah">
                                     <i class="zmdi zmdi-plus"></i>tambah data</button>
                             </div>
                             <div class="au-card">
-                                <table id="tabel_anggota" class="table table-striped table-bordered" style="width:100%">
+                                <table id="tabel_admin" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>NIM</th>
+                                            <th>Username</th>
                                             <th>Nama</th>
-                                            <th>Level</th>
-                                            <th>Status</th>
                                             <th>#</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="data_anggota">
+                                    <tbody id="data_admin">
                                     </tbody>
                                 </table>
                             </div>
@@ -95,15 +93,15 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">Tambah Anggota</h4>
+                    <h4 class="modal-title" id="myModalLabel">Tambah Admin</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 </div>
                 <form name="form_tambah" id="form_tambah" type="POST" enctype="multipart/form-data">
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="tambah_barang">NISN</label>
+                            <label for="tambah_barang">Username</label>
                             <div class="controls">
-                                <input name="tambah_nisn" id="tambah_nisn" type="text" class="form-control" placeholder="Nomor Induk Siswa Nasional">
+                                <input name="tambah_username" id="tambah_username" type="text" class="form-control">
                             </div>
                         </div>
                         <div class="form-group">
@@ -113,41 +111,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="tambah_level">Level</label>
-                            <div class="controls">
-                                <select name="tambah_level" id="tambah_level" class="form-control">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
                             <label for="tambah_nama">Nama Lengkap</label>
                             <div class="controls">
-                                <input name="tambah_nama" id="tambah_nama" type="text" class="form-control" placeholder="Nama Lengkap Siswa">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="tambah_kelas">Kelas</label>
-                            <div class="controls">
-                                <select name="tambah_kelas" id="tambah_kelas" class="form-control">
-                                    <option>X</option>
-                                    <option>XI</option>
-                                    <option>XII</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="tambah_jurusan">Jurusan</label>
-                            <div class="controls">
-                                <select name="tambah_jurusan" id="tambah_jurusan" class="form-control">
-                                    <option>Adm. Perkantoran</option>
-                                    <option>Akuntansi</option>
-                                    <option>Perbankan Syariah</option>
-                                    <option>Teknik Komputer Jaringan</option>
-                                    <option>Teknik Sepeda Motor</option>
-                                </select>
+                                <input name="tambah_nama" id="tambah_nama" type="text" class="form-control">
                             </div>
                         </div>
                     </div>
@@ -168,73 +134,22 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">Edit Anggota</h4>
+                    <h4 class="modal-title" id="myModalLabel">Edit Admin</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 </div>
                 <form name="form_edit" id="form_edit" type="POST" enctype="multipart/form-data">
                     <div class="modal-body">
+                        <input name="edit_id" id="edit_id" type="text" class="form-control" hidden>
                         <div class="form-group">
-                            <label for="edit_status">Status</label>
+                            <label for="edit_barang">Username</label>
                             <div class="controls">
-                                <select name="edit_status" id="edit_status" class="form-control">
-                                    <option value="1">Aktif</option>
-                                    <option value="0">Tidak Aktif</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit_barang">NISN</label>
-                            <div class="controls">
-                                <input name="edit_nisn" id="edit_nisn" type="text" class="form-control" placeholder="Nomor Induk Siswa Nasional">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit_level">Level</label>
-                            <div class="controls">
-                                <select name="edit_level" id="edit_level" class="form-control">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                </select>
+                                <input name="edit_username" id="edit_username" type="text" class="form-control">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="edit_nama">Nama Lengkap</label>
                             <div class="controls">
                                 <input name="edit_nama" id="edit_nama" type="text" class="form-control" placeholder="Nama Lengkap Siswa">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit_kelas">Kelas</label>
-                            <div class="controls">
-                                <select name="edit_kelas" id="edit_kelas" class="form-control">
-                                    <option>X</option>
-                                    <option>XI</option>
-                                    <option>XII</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit_jurusan">Jurusan</label>
-                            <div class="controls">
-                                <select name="edit_jurusan" id="edit_jurusan" class="form-control">
-                                    <option>Adm. Perkantoran</option>
-                                    <option>Akuntansi</option>
-                                    <option>Perbankan Syariah</option>
-                                    <option>Teknik Komputer Jaringan</option>
-                                    <option>Teknik Sepeda Motor</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group file">
-                            <label for="edit_ttd">Tanda Tangan</label>
-                            <div class="controls">
-                                <label class="switch switch-3d switch-success mr-3">
-                                    <input id="ttd_status" name="ttd_status" type="checkbox" class="switch-input">
-                                    <span class="switch-label"></span>
-                                    <span class="switch-handle"></span>
-                                </label>
-                                <input type="file" id="edit_ttd" name="edit_ttd" class="form-control-file">
                             </div>
                         </div>
                     </div>
@@ -255,15 +170,15 @@
         <div class="modal-dialog" role="dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Hapus Anggota</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Hapus Admin</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <form id="form_hapus" name="form_hapus" type="POST" enctype="multipart/form-data">
                     <div class="modal-body">
-                        <label><strong>Apakah anda yakin akan menghapus data anggota yang dipilih?</strong></label>
-                        <input type="text" name="hapus_nisn" id="hapus_nisn" class="form-control" hidden>
+                        <label><strong>Apakah anda yakin akan menghapus data admin yang dipilih?</strong></label>
+                        <input type="text" name="hapus_id" id="hapus_id" class="form-control" hidden>
                     </div>
                     <div class="modal-footer">
                         <button type="button" id="btn_hapus" class="btn btn-warning">Hapus</button>
@@ -274,7 +189,6 @@
         </div>
     </div>
     <!-- END Modal Hapus -->
-
     <!-- Modal Reset Pass -->
     <div class="modal fade" id="modal_reset" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="dialog">
@@ -287,7 +201,7 @@
                 </div>
                 <form id="form_reset" name="form_reset" type="POST" enctype="multipart/form-data">
                     <div class="modal-body">
-                        <label><strong>Apakah anda yakin akan me-reset password dari anggota yang dipilih?</strong></label>
+                        <label><strong>Apakah anda yakin akan me-reset password dari admin yang dipilih?</strong></label>
                         <input type="text" name="reset_id" id="reset_id" class="form-control" hidden>
                     </div>
                     <div class="modal-footer">
@@ -348,55 +262,32 @@
     <script src="<?php echo base_url('asset/admin/'); ?>js/main.js"></script>
 
     <script>
-        $('#edit_ttd').hide();
-        document.getElementById('ttd_status').addEventListener('change', (e) => {
-            if (e.target.checked) {
-                $('#edit_ttd').show();
-            } else {
-                $('#edit_ttd').hide();
-            }
-        })
-
         $(document).ready(function() {
-            $('#tabel_anggota').DataTable();
+            $('#tabel_admin').DataTable();
         });
 
-        $('#tabel_anggota').DataTable({
+        $('#tabel_admin').DataTable({
             'ajax': {
-                'url': "<?php echo base_url('admin/data_anggota/ambil_semua_anggota') ?>",
+                'url': "<?php echo base_url('admin/data_admin/ambil_semua_admin') ?>",
                 'method': "GET"
             },
             'columns': [{
-                    'data': "nisn"
+                    'data': "username"
                 },
                 {
-                    'data': "nama_lengkap"
+                    'data': "nama_admin"
                 },
                 {
-                    'data': "level"
-                },
-                {
-                    'data': "status",
-                    render: function(data, type, row) {
-                        if (row.status == 1) {
-                            return 'Aktif';
-                        } else {
-                            return 'Tidak Aktif';
-                        }
-                    }
-                },
-                {
-                    'data': "nisn",
+                    'data': "id_admin",
                     render: function(data, type, row) {
                         return '<div class="btn-group dropleft">' +
                             '<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  ' +
                             '<i class="icons-Pencil"></i>' +
                             '</button>' +
                             '<div style="background-color:aquamarine;" class="dropdown-menu">' +
-                            '<a class="dropdown-item item_detail" href="<?php echo base_url() ?>/admin/data_anggota/detail_anggota/' + row.nisn + '">Detail</a>' +
-                            '<a class="dropdown-item item_edit" href="javascript:void(0)" data-item="' + row.nisn + '">Edit</a>' +
-                            '<a class="dropdown-item item_reset" href="javascript:void(0)" data-item="' + row.nisn + '">Reset Password</a>' +
-                            '<a class="dropdown-item item_hapus" href="javascript:void(0)" data-item="' + row.nisn + '">Hapus</a>' +
+                            '<a class="dropdown-item item_edit" href="javascript:void(0)" data-item="' + row.id_admin + '">Edit</a>' +
+                            '<a class="dropdown-item item_hapus" href="javascript:void(0)" data-item="' + row.id_admin + '">Hapus</a>' +
+                            '<a class="dropdown-item item_reset" href="javascript:void(0)" data-item="' + row.id_admin + '">Reset Password</a>' +
                             '</div>' +
                             '</div>';
                     },
@@ -410,33 +301,23 @@
 
         $('form[name="form_tambah"]').validate({
             rules: {
-                tambah_nisn: {
+                tambah_username: {
                     required: true,
-                    maxlength: 10,
-                    minlength: 10
+                    maxlength: 45
                 },
                 tambah_password: {
                     required: true
                 },
                 tambah_nama: {
                     required: true,
-                    maxlength: 155
-                },
-                tambah_kelas: {
-                    required: true
-                },
-                tambah_jurusan: {
-                    required: true
-                },
-                tambah_level: {
-                    required: true
+                    maxlength: 100
                 }
             },
             lang: "id",
             submitHandler: function(form) {
                 $('#modal_loading').modal('show');
                 $.ajax({
-                    url: "<?php echo base_url('admin/data_anggota/tambah_anggota') ?>",
+                    url: "<?php echo base_url('admin/data_admin/tambah_admin') ?>",
                     type: "POST",
                     dataType: "JSON",
                     data: $(form).serialize(),
@@ -445,7 +326,7 @@
                         if (response.status == 1) {
                             $("#modal_tambah").modal("hide");
                             $("#form_tambah").trigger("reset");
-                            $('#tabel_anggota').DataTable().ajax.reload();
+                            $('#tabel_admin').DataTable().ajax.reload();
                             $.toast({
                                 heading: "Sukses",
                                 text: response.pesan,
@@ -479,24 +360,21 @@
             }
         })
 
-        $('#data_anggota').on('click', '.item_edit', function() {
+        $('#data_admin').on('click', '.item_edit', function() {
             $("#modal_loading").modal("show");
             $.ajax({
-                url: "<?php echo base_url('admin/data_anggota/tampil_edit'); ?>",
+                url: "<?php echo base_url('admin/data_admin/tampil_edit'); ?>",
                 type: "POST",
                 dataType: "JSON",
                 data: {
-                    edit_nisn: $(this).data('item')
+                    edit_id: $(this).data('item')
                 },
                 success: function(data) {
                     $('#modal_loading').modal('hide');
 
-                    $('#edit_nisn').val(data.nisn);
-                    $('#edit_nama').val(data.nama_lengkap);
-                    $('#edit_level').val(data.level);
-                    $('#edit_jurusan').val(data.jurusan);
-                    $('#edit_kelas').val(data.kelas);
-                    $('#edit_status').val(data.status);
+                    $('#edit_username').val(data.username);
+                    $('#edit_nama').val(data.nama_admin);
+                    $('#edit_id').val(data.id_admin);
 
                     $('#modal_edit').modal('show');
                 },
@@ -515,52 +393,31 @@
 
         $('form[name="form_edit"]').validate({
             rules: {
-                edit_nisn: {
+                edit_username: {
                     required: true,
-                    maxlength: 10,
-                    minlength: 10
+                    maxlength: 45,
                 },
                 edit_nama: {
                     required: true,
-                    maxlength: 155
+                    maxlength: 100
                 },
-                edit_kelas: {
+                edit_id: {
                     required: true
-                },
-                edit_jurusan: {
-                    required: true
-                },
-                edit_level: {
-                    required: true
-                },
-                edit_status: {
-                    required: true
-                },
-                edit_ttd: {
-                    required: {
-                        depends: function(element) {
-                            return $("#ttd_status").is(":checked");
-                        }
-                    }
                 }
             },
             lang: "id",
             submitHandler: function(form) {
                 $('#modal_loading').modal('show');
                 $.ajax({
-                    url: "<?php echo base_url('admin/data_anggota/simpan_edit') ?>",
+                    url: "<?php echo base_url('admin/data_admin/simpan_edit') ?>",
                     type: "POST",
                     dataType: "JSON",
-                    processData: false,
-                    contentType: false,
-                    data: new FormData(form),
+                    data: $(form).serialize(),
                     success: function(response) {
                         $('#modal_loading').modal('hide');
-                        $('#form_edit').trigger('reset');
-                        $('#edit_ttd').hide();
                         if (response.status == 1) {
                             $("#modal_edit").modal("hide");
-                            $('#tabel_anggota').DataTable().ajax.reload();
+                            $('#tabel_admin').DataTable().ajax.reload();
                             $.toast({
                                 heading: "Sukses",
                                 text: response.pesan,
@@ -594,26 +451,26 @@
             }
         })
 
-        $('#data_anggota').on('click', '.item_hapus', function() {
+        $('#data_admin').on('click', '.item_hapus', function() {
             let id = $(this).data('item');
-            $('#hapus_nisn').val(id);
+            $('#hapus_id').val(id);
             $('#modal_hapus').modal('show');
         })
 
         $('#btn_hapus').on('click', function() {
             $('#modal_loading').modal('show');
             $.ajax({
-                url: "<?php echo base_url('admin/data_anggota/hapus_anggota') ?>",
+                url: "<?php echo base_url('admin/data_admin/hapus_admin') ?>",
                 type: "POST",
                 dataType: "JSON",
                 data: {
-                    hapus_nisn: document.getElementById("hapus_nisn").value
+                    hapus_id: document.getElementById("hapus_id").value
                 },
                 success: function(response) {
                     $('#modal_loading').modal('hide');
                     if (response.status == 1) {
                         $("#modal_hapus").modal("hide");
-                        $('#tabel_anggota').DataTable().ajax.reload();
+                        $('#tabel_admin').DataTable().ajax.reload();
                         $.toast({
                             heading: "Sukses",
                             text: response.pesan,
@@ -625,7 +482,6 @@
                             stack: 6
                         });
                     } else {
-                        $('#modal_loading').modal('hide');
                         Swal.fire({
                             title: "Hmmmm.....",
                             text: response.pesan,
@@ -647,7 +503,7 @@
             });
         })
 
-        $('#data_anggota').on('click', '.item_reset', function() {
+        $('#data_admin').on('click', '.item_reset', function() {
             let id = $(this).data('item');
             $('#reset_id').val(id);
             $('#modal_reset').modal('show');
@@ -656,7 +512,7 @@
         $('#btn_reset').on('click', function() {
             $('#modal_loading').modal('show');
             $.ajax({
-                url: "<?php echo base_url('admin/data_anggota/reset_password') ?>",
+                url: "<?php echo base_url('admin/data_admin/reset_password') ?>",
                 type: "POST",
                 dataType: "JSON",
                 data: {

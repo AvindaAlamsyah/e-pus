@@ -49,6 +49,7 @@ class Login extends CI_Controller
                         "username" => $data_admin['username'],
                         "nama" => $data_admin['nama_admin'],
                         "level" => $data_admin['level'],
+                        "tipe" => 'adm',
                         "status_login" => true
                     );
                     $this->session->set_userdata($data_session);
