@@ -226,6 +226,17 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group file">
+                            <label for="edit_ttd">Tanda Tangan</label>
+                            <div class="controls">
+                                <label class="switch switch-3d switch-success mr-3">
+                                    <input id="ttd_status" name="ttd_status" type="checkbox" class="switch-input">
+                                    <span class="switch-label"></span>
+                                    <span class="switch-handle"></span>
+                                </label>
+                                <input type="file" id="edit_ttd" name="edit_ttd" class="form-control-file">
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-info btn-simpan">Simpan</button>
@@ -263,6 +274,31 @@
         </div>
     </div>
     <!-- END Modal Hapus -->
+
+    <!-- Modal Reset Pass -->
+    <div class="modal fade" id="modal_reset" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Reset Password</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="form_reset" name="form_reset" type="POST" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <label><strong>Apakah anda yakin akan me-reset password dari anggota yang dipilih?</strong></label>
+                        <input type="text" name="reset_id" id="reset_id" class="form-control" hidden>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btn_reset" class="btn btn-warning">Reset</button>
+                        <button type="reset" data-dismiss="modal" class="btn btn-inverse">Batal</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- END Modal Reset Pass -->
 
     <!-- modal loading -->
     <div id="modal_loading" data-backdrop="static" data-keyboard="false" class="modal bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
@@ -312,6 +348,15 @@
     <script src="<?php echo base_url('asset/admin/'); ?>js/main.js"></script>
 
     <script>
+        $('#edit_ttd').hide();
+        document.getElementById('ttd_status').addEventListener('change', (e) => {
+            if (e.target.checked) {
+                $('#edit_ttd').show();
+            } else {
+                $('#edit_ttd').hide();
+            }
+        })
+
         $(document).ready(function() {
             $('#tabel_anggota').DataTable();
         });
@@ -331,7 +376,14 @@
                     'data': "level"
                 },
                 {
-                    'data': "status"
+                    'data': "status",
+                    render: function(data, type, row) {
+                        if (row.status == 1) {
+                            return 'Aktif';
+                        } else {
+                            return 'Tidak Aktif';
+                        }
+                    }
                 },
                 {
                     'data': "nisn",
@@ -341,7 +393,9 @@
                             '<i class="icons-Pencil"></i>' +
                             '</button>' +
                             '<div style="background-color:aquamarine;" class="dropdown-menu">' +
+                            '<a class="dropdown-item item_detail" href="<?php echo base_url() ?>/admin/data_anggota/detail_anggota/' + row.nisn + '">Detail</a>' +
                             '<a class="dropdown-item item_edit" href="javascript:void(0)" data-item="' + row.nisn + '">Edit</a>' +
+                            '<a class="dropdown-item item_reset" href="javascript:void(0)" data-item="' + row.nisn + '">Reset Password</a>' +
                             '<a class="dropdown-item item_hapus" href="javascript:void(0)" data-item="' + row.nisn + '">Hapus</a>' +
                             '</div>' +
                             '</div>';
@@ -387,10 +441,10 @@
                     dataType: "JSON",
                     data: $(form).serialize(),
                     success: function(response) {
+                        $('#modal_loading').modal('hide');
                         if (response.status == 1) {
                             $("#modal_tambah").modal("hide");
                             $("#form_tambah").trigger("reset");
-                            $('#modal_loading').modal('hide');
                             $('#tabel_anggota').DataTable().ajax.reload();
                             $.toast({
                                 heading: "Sukses",
@@ -481,6 +535,13 @@
                 },
                 edit_status: {
                     required: true
+                },
+                edit_ttd: {
+                    required: {
+                        depends: function(element) {
+                            return $("#ttd_status").is(":checked");
+                        }
+                    }
                 }
             },
             lang: "id",
@@ -490,11 +551,15 @@
                     url: "<?php echo base_url('admin/data_anggota/simpan_edit') ?>",
                     type: "POST",
                     dataType: "JSON",
-                    data: $(form).serialize(),
+                    processData: false,
+                    contentType: false,
+                    data: new FormData(form),
                     success: function(response) {
+                        $('#modal_loading').modal('hide');
+                        $('#form_edit').trigger('reset');
+                        $('#edit_ttd').hide();
                         if (response.status == 1) {
                             $("#modal_edit").modal("hide");
-                            $('#modal_loading').modal('hide');
                             $('#tabel_anggota').DataTable().ajax.reload();
                             $.toast({
                                 heading: "Sukses",
@@ -545,9 +610,9 @@
                     hapus_nisn: document.getElementById("hapus_nisn").value
                 },
                 success: function(response) {
+                    $('#modal_loading').modal('hide');
                     if (response.status == 1) {
                         $("#modal_hapus").modal("hide");
-                        $('#modal_loading').modal('hide');
                         $('#tabel_anggota').DataTable().ajax.reload();
                         $.toast({
                             heading: "Sukses",
@@ -561,6 +626,57 @@
                         });
                     } else {
                         $('#modal_loading').modal('hide');
+                        Swal.fire({
+                            title: "Hmmmm.....",
+                            text: response.pesan,
+                            type: "error"
+                        });
+                    }
+
+                },
+                error: function(xhr, status, error) {
+                    var errorMessage = xhr.status + ': ' + xhr.statusText;
+                    $('#modal_loading').modal("hide");
+                    Swal.fire({
+                        title: "Oops...",
+                        text: errorMessage,
+                        type: "error",
+                        footer: "Harap hubungi developer untuk penanganan error."
+                    });
+                }
+            });
+        })
+
+        $('#data_anggota').on('click', '.item_reset', function() {
+            let id = $(this).data('item');
+            $('#reset_id').val(id);
+            $('#modal_reset').modal('show');
+        })
+
+        $('#btn_reset').on('click', function() {
+            $('#modal_loading').modal('show');
+            $.ajax({
+                url: "<?php echo base_url('admin/data_anggota/reset_password') ?>",
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    reset_id: document.getElementById("reset_id").value
+                },
+                success: function(response) {
+                    $('#modal_loading').modal('hide');
+                    if (response.status == 1) {
+                        $("#modal_reset").modal("hide");
+                        $.toast({
+                            heading: "Sukses",
+                            text: response.pesan,
+                            position: 'top-right',
+                            loader: true,
+                            loaderBg: '#ff6849',
+                            icon: 'success',
+                            hideAfter: 3500,
+                            stack: 6
+                        });
+                    } else {
                         Swal.fire({
                             title: "Hmmmm.....",
                             text: response.pesan,

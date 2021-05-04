@@ -68,15 +68,47 @@ class Data_anggota extends CI_Controller
             "nama_lengkap" => $this->input->post('edit_nama'),
             "kelas" => $this->input->post('edit_kelas'),
             "jurusan" => $this->input->post('edit_jurusan'),
-            "status" => $this->input->post('edit_status')
+            "status" => $this->input->post('edit_status'),
+            "ttd" => ""
         );
+        if ($this->input->post('ttd_status') == null) {
 
-        if ($this->model_user->update($data_user, array("nisn" => $data_user['nisn']))) {
-            $this->response['status'] = 1;
-            $this->response['pesan'] = "Data anggota berhasil disimpan.";
+            if ($this->model_user->update($data_user, array("nisn" => $data_user['nisn']))) {
+                $this->response['status'] = 1;
+                $this->response['pesan'] = "Data anggota berhasil disimpan.";
+            } else {
+                $this->response['status'] = 0;
+                $this->response['pesan'] = "NISN sudah ada, harap periksa lagi data yang anda masukkan.";
+            }
         } else {
-            $this->response['status'] = 0;
-            $this->response['pesan'] = "NISN sudah ada, harap periksa lagi data yang anda masukkan.";
+            $query = $this->model_user->select_where(array('nisn' => $data_user['nisn']));
+
+            if ($query->ttd != null) {
+                $path = './asset/admin/ttd/' . $query->ttd;
+                chmod($path, 0777);
+                unlink($path);
+            }
+
+            $config['upload_path'] = './asset/admin/ttd/';
+            $config['allowed_types'] = 'png';
+            $config['max_size']  = '400';
+            $config['file_name'] = $data_user['nisn'];
+
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('edit_ttd')) {
+                $this->response['pesan'] = $this->upload->display_errors();
+                $this->response['status'] = 0;
+            } else {
+                $data_user['ttd'] = $config['file_name'] . ".png";
+                if ($this->model_user->update($data_user, array("nisn" => $data_user['nisn']))) {
+                    $this->response['status'] = 1;
+                    $this->response['pesan'] = "Data anggota berhasil disimpan.";
+                } else {
+                    $this->response['status'] = 0;
+                    $this->response['pesan'] = "NISN sudah ada, harap periksa lagi data yang anda masukkan.";
+                }
+            }
         }
 
         echo json_encode($this->response);
@@ -87,6 +119,14 @@ class Data_anggota extends CI_Controller
         $where = array(
             "nisn" => $this->input->post('hapus_nisn')
         );
+
+        $query = $this->model_user->select_where($where);
+
+        if ($query->ttd !== null) {
+            $path = './asset/admin/ttd/' . $query->ttd;
+            chmod($path, 0777);
+            unlink($path);
+        }
 
         if ($this->model_user->delete($where)) {
             $this->response['status'] = 1;
@@ -100,9 +140,33 @@ class Data_anggota extends CI_Controller
         echo json_encode($this->response);
     }
 
-    public function test()
+    public function reset_password()
     {
-        echo json_encode($this->model_anggota->select_all());
+        $where = array(
+            "nisn" => $this->input->post('reset_id')
+        );
+
+        $query = $this->model_user->select_where($where);
+
+        if ($this->model_user->update(array('password' => password_hash($query->nisn, PASSWORD_ARGON2I)), $where)) {
+            $this->response['status'] = 1;
+            $this->response['pesan'] = "Berhasil reset password anggota.";
+        } else {
+            $this->response['status'] = 0;
+            $this->response['pesan'] = "Gagal reset password anggota.";
+        }
+
+        echo json_encode($this->response);
+    }
+
+    public function detail_anggota($nisn)
+    {
+        $detail = $this->model_user->select_where(array('nisn' => $nisn));
+        if ($detail !== null) {
+            $this->load->view('admin/detail_anggota', $detail);
+        } else {
+            echo "ERROR";
+        }
     }
 }
 

@@ -25,10 +25,16 @@
                     <a href="<?php echo base_url("admin/data_anggota") ?>">
                         <i class="fas fa-group"></i>Data Anggota</a>
                 </li>
-                <li>
-                    <a href="<?php echo base_url("admin/data_admin") ?>">
-                        <i class="fas fa-group"></i>Data Admin</a>
-                </li>
+                <?php
+                if ($this->session->userdata('level') == 0) {
+                ?>
+                    <li>
+                        <a href="<?php echo base_url("admin/data_admin") ?>">
+                            <i class="fas fa-group"></i>Data Admin</a>
+                    </li>
+                <?php
+                }
+                ?>
                 <li>
                     <a href="<?php echo base_url('admin/data_buku'); ?>">
                         <i class="fas fa-book"></i>Data Buku</a>
@@ -61,10 +67,16 @@
                     <a href="<?php echo base_url("admin/data_anggota") ?>">
                         <i class="fas fa-group"></i>Data Anggota</a>
                 </li>
-                <li>
-                    <a href="<?php echo base_url("admin/data_admin") ?>">
-                        <i class="fas fa-group"></i>Data Admin</a>
-                </li>
+                <?php
+                if ($this->session->userdata('level') == 0) {
+                ?>
+                    <li>
+                        <a href="<?php echo base_url("admin/data_admin") ?>">
+                            <i class="fas fa-group"></i>Data Admin</a>
+                    </li>
+                <?php
+                }
+                ?>
                 <li>
                     <a href="<?php echo base_url('admin/data_buku') ?>">
                         <i class="fas fa-book"></i>Data Buku</a>
