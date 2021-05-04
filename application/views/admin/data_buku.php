@@ -134,13 +134,13 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="tambah_tahun">Stok</label>
+                            <label for="tambah_stok">Stok</label>
                             <div class="controls">
                                 <input name="tambah_stok" id="tambah_stok" type="number" class="form-control">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="tambah_tahun">Cover (.jpg/.jpeg/.png)</label>
+                            <label for="tambah_cover">Cover (.jpg/.jpeg/.png)</label>
                             <div class="controls">
                                 <input name="tambah_cover" id="tambah_cover" type="file" class="form-control">
                             </div>
@@ -234,6 +234,52 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="edit_stok">Stok</label>
+                            <div class="controls">
+                                <input name="edit_stok" id="edit_stok" type="number" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_cover">Cover (.jpg/.jpeg/.png)</label>
+                            <div class="controls">
+                                <input name="edit_cover" id="edit_cover" type="file" class="form-control">
+                                <a id="edit_lihat_cover" href="#" class="btn">Lihat Cover</a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_tipe">Tipe</label>
+                            <div class="controls">
+                                <select name="edit_tipe" id="edit_tipe" class="form-control">
+                                    <option value="5">Buku</option>
+                                    <option value="1">E-Book/PDF</option>
+                                    <option value="6">E-Book&Audio</option>
+                                    <option value="3">Audio</option>
+                                    <option value="4">Video</option>
+                                    <option value="2">Link</option>
+                                </select>
+                                <a id="edit_lihat_file" href="#" class="btn">Lihat File</a>
+                                <a id="edit_lihat_file_2" href="#" class="btn" >Lihat File</a>
+                            </div>
+                        </div>
+                        <div class="form-group file" id="div-e-file-1">
+                            <label for="edit_file" id="label_edit_file">File</label>
+                            <div class="controls">
+                                <input type="file" id="edit_file" name="edit_file" class="form-control-file">
+                            </div>
+                        </div>
+                        <div class="form-group file" id="div-e-file-2">
+                            <label for="edit_file_2" id="label_edit_file_2">File</label>
+                            <div class="controls">
+                                <input type="file" id="edit_file_2" name="edit_file_2" class="form-control-file">
+                            </div>
+                        </div>
+                        <div class="form-group url">
+                            <label for="edit_link">URL</label>
+                            <div class="controls">
+                                <input type="url" id="edit_link" name="edit_link" class="form-control">
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-info btn-simpan">Simpan</button>
@@ -320,6 +366,7 @@
     <script src="<?php echo base_url('asset/admin/'); ?>js/main.js"></script>
 
     <script>
+        var tipe_edit;
         $(document).ready(function() {
             $('#tabel_buku').DataTable();
         });
@@ -328,7 +375,7 @@
             let tipe = document.getElementById("tambah_tipe").value;
             let label = document.getElementById("label_tambah_file");
             let label2 = document.getElementById("label_tambah_file_2");
-            console.log(tipe)
+            
             if (tipe == 1) {
                 $('#div-file-1').show();
                 $('#div-file-2').hide();
@@ -361,6 +408,7 @@
             } 
         }
 
+        
         $('#tabel_buku').DataTable({
             'ajax': {
                 'url': "<?php echo base_url('admin/data_buku/ambil_semua') ?>",
@@ -435,7 +483,7 @@
             lang: "id",
             submitHandler: function(form) {
                 $('#modal_loading').modal('show');
-                var fd = new FormData(form);
+                let fd = new FormData(form);
                 $.ajax({
                     url: "<?php echo base_url('admin/data_buku/tambah_buku') ?>",
                     type: "POST",
@@ -487,7 +535,7 @@
             let tipe = document.getElementById("tambah_tipe").value;
             let label = document.getElementById("label_tambah_file");
             let label2 = document.getElementById("label_tambah_file_2");
-            console.log(tipe)
+            
             if (tipe == 1) {
                 $('#div-file-1').show();
                 $('#div-file-2').hide();
@@ -547,6 +595,207 @@
             }
         })
 
+        function tampilFileEdit(tipe, resource) {
+            let label = document.getElementById("label_edit_file");
+            let label2 = document.getElementById("label_edit_file_2");
+            let labellihat = document.getElementById("edit_lihat_file");
+            let labellihat2 = document.getElementById("edit_lihat_file_2");
+            
+            $('#edit_lihat_file').unbind('click');
+            $('#edit_lihat_file_2').unbind('click');
+
+            if (tipe == 1) {
+                $('#div-e-file-1').show();
+                $('#div-e-file-2').hide();
+                $('#edit_lihat_file').show();
+                $('.url').hide();
+                label.innerHTML = "File E-book (.pdf)";
+                labellihat.innerHTML = "Lihat File E-book (.pdf)";
+                $('#edit_lihat_file_2').hide();
+                $('#edit_lihat_file').click(function(){
+                    window.open('<?= base_url('asset/admin/buku/')?>'+resource[0].source, '_blank', 'fullscreen=yes'); 
+                    return false;
+                });
+                $('#edit_link').rules('remove');
+                $('#edit_file_2').rules('remove');
+                $('#edit_file').rules('add', {
+                    required: true
+                });
+            } else if (tipe == 2){
+                $('.url').show()
+                $('.file').hide();
+                $('#edit_lihat_file').hide();
+                $('#edit_lihat_file_2').hide();
+                $('#edit_link').val(resource[0].source);
+                $('#edit_file').rules('remove');
+                $('#edit_file_2').rules('remove');
+                $('#edit_link').rules('add', {
+                    required: true
+                });
+            } else if (tipe == 3) {
+                $('#div-e-file-1').show();
+                $('#div-file-2').hide();
+                $('#edit_lihat_file').show();
+                $('.url').hide();
+                label.innerHTML = "File Audio (.mp3)";
+                labellihat.innerHTML = "Lihat File Audio (.mp3)";
+                $('#edit_lihat_file_2').hide();
+                $('#edit_lihat_file').click(function(){
+                    window.open('<?= base_url('asset/admin/buku/')?>'+resource[0].source, '_blank', 'fullscreen=yes'); 
+                    return false;
+                });
+                $('#edit_link').rules('remove');
+                $('#edit_file_2').rules('remove');
+                $('#edit_file').rules('add', {
+                    required: true
+                });
+            } else if (tipe == 4) {
+                $('#div-e-file-1').show();
+                $('#div-e-file-2').hide();
+                $('#edit_lihat_file').show();
+                $('.url').hide();
+                label.innerHTML = "File Video (.mp4)";
+                labellihat.innerHTML = "Lihat File Video (.mp4)";
+                $('#edit_lihat_file_2').hide();
+                $('#edit_lihat_file').click(function(){
+                    window.open('<?= base_url('asset/admin/buku/')?>'+resource[0].source, '_blank', 'fullscreen=yes'); 
+                    return false;
+                });
+                $('#edit_link').rules('remove');
+                $('#edit_file_2').rules('remove');
+                $('#edit_file').rules('add', {
+                    required: true
+                });
+            } else if (tipe == 5) {
+                $('#div-e-file-1').show();
+                $('#div-e-file-2').hide();
+                $('#edit_lihat_file').show();
+                $('.url').hide();
+                label.innerHTML = "File Buku (.pdf)";
+                labellihat.innerHTML = "Lihat File Buku (.pdf)";
+                $('#edit_lihat_file_2').hide();
+                $('#edit_lihat_file').click(function(){
+                    window.open('<?= base_url('asset/admin/buku/')?>'+resource[0].source, '_blank', 'fullscreen=yes'); 
+                    return false;
+                });
+                $('#edit_link').rules('remove');
+                $('#edit_file_2').rules('remove');
+                $('#edit_file').rules('add', {
+                    required: true
+                });
+            } else if (tipe == 6) {
+                $('#div-e-file-1').show();
+                $('#div-e-file-2').show();
+                $('#edit_lihat_file').show();
+                $('#edit_lihat_file_2').show();
+                $('.url').hide();
+                label.innerHTML = "File E-book (.pdf)";
+                labellihat.innerHTML = "Lihat File E-book (.pdf)";
+                label2.innerHTML = "File Audio (.mp3)";
+                labellihat2.innerHTML = "Lihat File Audio (.mp3)";
+                let res1 = (resource[0].resource_id_tipe == 1) ? resource[0].source: resource[1].source;
+                let res2 = (resource[1].resource_id_tipe == 3) ? resource[1].source: resource[0].source;
+                $('#edit_lihat_file').click(function(){
+                    window.open('<?= base_url('asset/admin/buku/')?>'+res1, '_blank', 'fullscreen=yes'); 
+                    return false;
+                });
+                $('#edit_lihat_file_2').click(function(){
+                    window.open('<?= base_url('asset/admin/buku/')?>'+res2, '_blank', 'fullscreen=yes'); 
+                    return false;
+                });
+                $('#edit_link').rules('remove');
+                $('#edit_file_2').rules('add', {
+                    required: true
+                });
+                $('#edit_file').rules('add', {
+                    required: true
+                });
+            } 
+
+            if (tipe_edit == 6) {
+                $('#edit_file').rules('remove');
+                $('#edit_file_2').rules('remove');
+            } else if (tipe_edit == 1 || tipe_edit == 3 || tipe_edit == 4 || tipe_edit == 5) {
+                $('#edit_file').rules('remove');
+            }
+        }
+
+        $('#edit_tipe').change(function() {
+            let tipe = document.getElementById("edit_tipe").value;
+            let label = document.getElementById("label_edit_file");
+            let label2 = document.getElementById("label_edit_file_2");
+            
+            if (tipe == 1) {
+                $('#div-e-file-1').show();
+                $('#div-e-file-2').hide();
+                $('.url').hide();
+                label.innerHTML = "File E-book (.pdf)";
+                $('#edit_link').rules('remove');
+                $('#edit_file_2').rules('remove');
+                $('#edit_file').rules('add', {
+                    required: true
+                });
+            } else if (tipe == 2){
+                $('.url').show()
+                $('.file').hide();
+                $('#edit_file').rules('remove');
+                $('#edit_file_2').rules('remove');
+                $('#edit_link').rules('add', {
+                    required: true
+                });
+            } else if (tipe == 3) {
+                $('#div-e-file-1').show();
+                $('#div-e-file-2').hide();
+                $('.url').hide();
+                label.innerHTML = "File Audio (.mp3)";
+                $('#edit_link').rules('remove');
+                $('#edit_file_2').rules('remove');
+                $('#edit_file').rules('add', {
+                    required: true
+                });
+            } else if (tipe == 4) {
+                $('#div-e-file-1').show();
+                $('#div-e-file-2').hide();
+                $('.url').hide();
+                label.innerHTML = "File Video (.mp4)";
+                $('#edit_link').rules('remove');
+                $('#edit_file_2').rules('remove');
+                $('#edit_file').rules('add', {
+                    required: true
+                });
+            } else if (tipe == 5) {
+                $('#div-e-file-1').show();
+                $('#div-e-file-2').hide();
+                $('.url').hide();
+                label.innerHTML = "File Buku (.pdf)";
+                $('#edit_link').rules('remove');
+                $('#edit_file_2').rules('remove');
+                $('#edit_file').rules('add', {
+                    required: true
+                });
+            } else if (tipe == 6) {
+                $('#div-e-file-1').show();
+                $('#div-e-file-2').show();
+                $('.url').hide();
+                label.innerHTML = "File E-book (.pdf)";
+                label2.innerHTML = "File Audio (.mp3)";
+                $('#edit_link').rules('remove');
+                $('#edit_file').rules('add', {
+                    required: true
+                });
+                $('#edit_file_2').rules('add', {
+                    required: true
+                });
+            }
+            
+            if (tipe_edit == 6) {
+                $('#edit_file').rules('remove');
+                $('#edit_file_2').rules('remove');
+            } else if (tipe_edit == 1 || tipe_edit == 3 || tipe_edit == 4 || tipe_edit == 5 && tipe_edit == tipe) {
+                $('#edit_file').rules('remove');
+            }
+        })
+
         $('#data_buku').on('click', '.item_edit', function() {
             $("#modal_loading").modal("show");
             $.ajax({
@@ -558,14 +807,24 @@
                 },
                 success: function(data) {
                     $('#modal_loading').modal('hide');
-
+                    let cover = data.cover;
+                    tipe_edit = data.tipe;
+                    
                     $('#edit_judul').val(data.judul_buku);
                     $('#edit_penerbit').val(data.penerbit);
                     $('#edit_tahun').val(data.tahun_terbit);
                     $('#edit_level').val(data.level_buku);
                     $('#edit_penulis').val(data.penulis);
                     $('#edit_id').val(data.id_buku);
-
+                    $('#edit_stok').val(data.stok);
+                    $('#edit_tipe').val(data.tipe);
+                    $('#edit_lihat_cover').unbind('click');
+                    $('#edit_lihat_cover').click(function(){
+                        window.open('<?= base_url('asset/admin/buku/')?>'+cover, '_blank', 'fullscreen=yes'); 
+                        return false;
+                    });
+                    tampilFileEdit(data.tipe, data.resource);
+                    
                     $('#modal_edit').modal('show');
                 },
                 error: function(xhr, status, error) {
@@ -607,18 +866,26 @@
                 edit_level: {
                     required: true
                 },
+                edit_tipe: {
+                    required: true
+                }
             },
             lang: "id",
             submitHandler: function(form) {
                 $('#modal_loading').modal('show');
+                let fd = new FormData(form);
                 $.ajax({
                     url: "<?php echo base_url('admin/data_buku/simpan_edit') ?>",
                     type: "POST",
                     dataType: "JSON",
-                    data: $(form).serialize(),
+                    processData: false,
+                    contentType: false,
+                    data: fd,
                     success: function(response) {
+                        
                         if (response.status == 1) {
                             $("#modal_edit").modal("hide");
+                            $("#form_edit").trigger("reset");
                             $('#modal_loading').modal('hide');
                             $('#tabel_buku').DataTable().ajax.reload();
                             $.toast({
@@ -631,12 +898,14 @@
                                 hideAfter: 3500,
                                 stack: 6
                             });
+                            
                         } else {
                             Swal.fire({
                                 title: "Hmmm.....",
                                 text: response.pesan,
                                 type: "error"
                             });
+                            $('#modal_loading').modal('hide');
                         }
 
                     },
