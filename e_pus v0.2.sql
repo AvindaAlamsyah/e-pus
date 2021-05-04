@@ -133,7 +133,7 @@ CREATE TABLE `user` (
   `nama_lengkap` varchar(155) NOT NULL,
   `kelas` tinytext NOT NULL,
   `jurusan` varchar(100) NOT NULL,
-  `tanda_tangan` text DEFAULT NULL,
+  `ttd` text DEFAULT NULL,
   `level` tinyint(1) NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

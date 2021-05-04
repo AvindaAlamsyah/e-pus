@@ -30,7 +30,10 @@ class Data_buku extends CI_Controller
 
     public function ambil_semua()
     {
-        echo json_encode(array("data" => $this->model_buku->select_all()));
+        $where = array(
+            "deleted_at" => null,
+        );
+        echo json_encode(array("data" => $this->model_buku->select_all_where($where)));
     }
 
 
