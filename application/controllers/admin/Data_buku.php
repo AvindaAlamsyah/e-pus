@@ -17,7 +17,7 @@ class Data_buku extends CI_Controller
         if (!$this->session->userdata('status_login')) {
             //session kosong
             redirect('admin/login', 'refresh');
-        } else if (!$this->session->userdata('level') == 0) {
+        } else if (!$this->session->userdata('tipe') == 'adm') {
             //akses bukan admin
             redirect("welcome", "refresh");
         }
