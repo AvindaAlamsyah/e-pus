@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 05, 2021 at 10:02 AM
+-- Generation Time: May 06, 2021 at 08:06 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -101,9 +101,10 @@ CREATE TABLE `peminjaman` (
   `tanggal_pinjam` date NOT NULL,
   `batas_tanggal_kembali` date NOT NULL,
   `tanggal_kembali` date DEFAULT NULL,
-  `metode` int(11) NOT NULL,
+  `metode` varchar(11) NOT NULL,
   `buku_id_buku` int(11) NOT NULL,
-  `user_nisn` int(10) NOT NULL
+  `user_nisn` varchar(10) NOT NULL,
+  `id_petugas` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -183,7 +184,8 @@ ALTER TABLE `buku`
 ALTER TABLE `peminjaman`
   ADD PRIMARY KEY (`id_peminjaman`),
   ADD KEY `fk_peminjaman_buku_idx` (`buku_id_buku`),
-  ADD KEY `fk_peminjaman_user1_idx` (`user_nisn`);
+  ADD KEY `user_nisn` (`user_nisn`),
+  ADD KEY `id_petugas` (`id_petugas`);
 
 --
 -- Indexes for table `resource`
@@ -241,7 +243,9 @@ ALTER TABLE `resource`
 -- Constraints for table `peminjaman`
 --
 ALTER TABLE `peminjaman`
-  ADD CONSTRAINT `fk_peminjaman_buku` FOREIGN KEY (`buku_id_buku`) REFERENCES `buku` (`id_buku`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_peminjaman_buku` FOREIGN KEY (`buku_id_buku`) REFERENCES `buku` (`id_buku`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `peminjaman_ibfk_1` FOREIGN KEY (`user_nisn`) REFERENCES `user` (`nisn`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `peminjaman_ibfk_2` FOREIGN KEY (`id_petugas`) REFERENCES `admin` (`id_admin`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `resource`
