@@ -29,7 +29,18 @@
   <!--Favicon-->
   <link rel="shortcut icon" href="<?php echo base_url('asset/') ?>images/favicon.png" type="image/x-icon">
   <link rel="icon" href="<?php echo base_url('asset/') ?>images/favicon.png" type="image/x-icon">
-
+  <?php
+      if ($tipe_buku == 1 || $tipe_buku == 5 || $tipe_buku == 6) {
+        $this->load->view('detail_buku/pdf-head');
+      }
+      if ($tipe_buku == 3 || $tipe_buku == 6) {
+        $this->load->view('detail_buku/audio-head');
+      }
+      if ($tipe_buku == 4) {
+        $this->load->view('detail_buku/video-head');
+      }
+      ?>
+  
 </head>
 
 <body>
@@ -50,7 +61,7 @@
         <div class="col-md-8">
           <ul class="list-inline custom-breadcrumb">
             <li class="list-inline-item"><a class="h2 text-primary font-secondary" href="<?php echo base_url('buku'); ?>">Buku</a></li>
-            <li class="list-inline-item text-white h4 font-secondary nasted"><?php echo $detail['judul_buku']; ?></li>
+            <li class="list-inline-item text-white h4 font-secondary nasted"><?php echo $judul_buku; ?></li>
           </ul>
           <!-- <p class="text-lighten">Our courses offer a good compromise between the continuous assessment favoured by some universities and the emphasis placed on final exams by others.</p> -->
         </div>
@@ -79,7 +90,7 @@
                 <i class="ti-pencil-alt text-primary icon-md mr-2"></i>
                 <div class="text-left">
                   <h6 class="mb-0">PENULIS</h6>
-                  <p class="mb-0"><?php echo $detail['penulis']; ?></p>
+                  <p class="mb-0"><?php echo $penulis; ?></p>
                 </div>
               </div>
             </li>
@@ -88,7 +99,7 @@
                 <i class="ti-printer text-primary icon-md mr-2"></i>
                 <div class="text-left">
                   <h6 class="mb-0">PENERBIT</h6>
-                  <p class="mb-0"><?php echo $detail['penerbit']; ?></p>
+                  <p class="mb-0"><?php echo $penerbit; ?></p>
                 </div>
               </div>
             </li>
@@ -97,24 +108,33 @@
                 <i class="ti-time text-primary icon-md mr-2"></i>
                 <div class="text-left">
                   <h6 class="mb-0">TAHUN</h6>
-                  <p class="mb-0"><?php echo $detail['tahun_terbit']; ?></p>
+                  <p class="mb-0"><?php echo $tahun_terbit; ?></p>
                 </div>
               </div>
             </li>
           </ul>
         </div>
-        <?php echo $link; ?>
         <!-- border -->
         <div class="col-12 mt-4 order-4">
           <div class="border-bottom border-primary"></div>
         </div>
       </div>
+      <?php
+      if ($tipe_buku == 1 || $tipe_buku == 5 || $tipe_buku == 6) {
+        $this->load->view('detail_buku/pdf');
+      }
+      if ($tipe_buku == 2) {
+        $this->load->view('detail_buku/link');
+      }
+      if ($tipe_buku == 3 || $tipe_buku == 6) {
+        $this->load->view('detail_buku/audio');
+      }
+      if ($tipe_buku == 4) {
+        $this->load->view('detail_buku/video');
+      }
+      ?>
       <!-- course details -->
-      <div class="row justify-content-center">
-        <div class="col-12 mb-4">
-          <?php echo $pdf; ?>
-        </div>
-      </div>
+
     </div>
   </section>
   <!-- /section -->
@@ -126,7 +146,7 @@
       <div class="container">
         <div class="row">
           <div class="col-sm-7 text-sm-left text-center">
-            <p class="mb-0">Copyright
+            <p class="mb-0">Copyright 
               <script>
                 var CurrentYear = new Date().getFullYear()
                 document.write(CurrentYear)
@@ -159,13 +179,21 @@
   <script src="<?php echo base_url('asset/') ?>plugins/venobox/venobox.min.js"></script>
   <!-- filter -->
   <script src="<?php echo base_url('asset/') ?>plugins/filterizr/jquery.filterizr.min.js"></script>
-  <!-- google map -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu5nZKbeK-WHQ70oqOWo-_4VmwOwKP9YQ"></script>
-  <script src="<?php echo base_url('asset/') ?>plugins/google-map/gmap.js"></script>
 
   <!-- Main Script -->
   <script src="<?php echo base_url('asset/') ?>js/script.js"></script>
 
+  <?php
+      if ($tipe_buku == 1 || $tipe_buku == 5 || $tipe_buku == 6) {
+        $this->load->view('detail_buku/pdf-script');
+      }
+      if ($tipe_buku == 3 || $tipe_buku == 6) {
+        $this->load->view('detail_buku/audio-script');
+      }
+      if ($tipe_buku == 4) {
+        $this->load->view('detail_buku/video-script');
+      }
+      ?>
 </body>
 
 </html>

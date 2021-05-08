@@ -10,6 +10,7 @@ class Buku extends CI_Controller
     {
         parent::__construct();
         $this->load->model('model_buku');
+        $this->load->model('model_resource');
         if (!$this->session->userdata('status_login')) {
             //session kosong
             redirect('login', 'refresh');
@@ -24,23 +25,29 @@ class Buku extends CI_Controller
         $this->load->view('buku', $data);
     }
 
-    public function detail_buku($buku)
+    public function detail_buku($id)
     {
-        $data = array(
-            "tipe_buku" => "",
-            "pdf" => "",
-            "link" => ""
+        $where = array(
+            'peminjaman.tanggal_kembali' => null,
+            'peminjaman.buku_id_buku' => $id,
+            'peminjaman.user_nisn' => $this->session->userdata('nisn'),
         );
-        $data_buku = $this->model_buku->select_where(array('id_buku' => $buku));
-        if ($data_buku['tipe_buku'] == 0) {
-            $data['pdf'] = '<iframe src="https://docs.google.com/gview?url=https://prototype.robotindo.id/assets/' . $data_buku['nama_file'] . '&embedded=true" style="width:600px; height:500px;" frameborder="0"></iframe>';
-        } else {
-            $data['link'] = '<div class="col-xl-3 text-sm-right text-left order-sm-2 order-3 order-xl-3 col-sm-6 mb-4 mb-xl-0">
-            <a href="' . $data_buku['link_buku'] . '" class="btn btn-primary" target="_blank">Baca buku</a>
-          </div>';
+        $this->load->database();
+        $this->db->select('b.*');
+        $this->db->join('buku b', 'peminjaman.buku_id_buku = b.id_buku');
+        $data = $this->db->get_where('peminjaman', $where)->row_array();
+        if (empty($data)) {
+            redirect('buku');
         }
-        $data['detail'] = $data_buku;
 
+        $data_resource = $this->model_resource->select_all_where(array("resource_id_buku" => $data['id_buku']));
+        if (count($data_resource) == 1) {
+            $data['tipe_buku'] = $data_resource[0]->resource_id_tipe;
+        } else if (count($data_resource) > 1) {
+            $data['tipe_buku'] = 6;
+        }
+        
+        $data['resource'] = $data_resource;
         $this->load->view('detail_buku', $data);
     }
 }
