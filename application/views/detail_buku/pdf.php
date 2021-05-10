@@ -1,5 +1,10 @@
 <div class="row justify-content-center">
     <div class="container">
+    <?php 
+        if ($tipe_buku == 5) {
+            $this->load->view('detail_buku/buku');
+        }
+    ?>
         <div class="row justify-content-end ">
             <div id="zoom_controls">
                 <button id="zoom_out">-</button>

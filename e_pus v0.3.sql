@@ -104,7 +104,7 @@ CREATE TABLE `peminjaman` (
   `metode` varchar(11) NOT NULL,
   `buku_id_buku` int(11) NOT NULL,
   `user_nisn` varchar(10) NOT NULL,
-  `id_petugas` int(11) NOT NULL
+  `id_petugas` int(11) NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

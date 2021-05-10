@@ -33,7 +33,7 @@ class Buku extends CI_Controller
             'peminjaman.user_nisn' => $this->session->userdata('nisn'),
         );
         $this->load->database();
-        $this->db->select('b.*');
+        $this->db->select('b.*, peminjaman.metode, peminjaman.batas_tanggal_kembali');
         $this->db->join('buku b', 'peminjaman.buku_id_buku = b.id_buku');
         $data = $this->db->get_where('peminjaman', $where)->row_array();
         if (empty($data)) {

@@ -71,12 +71,14 @@
 
   document.getElementById('zoom_in').addEventListener('click', (e) => {
     if (myState.pdf == null) return;
+    if (myState.zoom >= 5) return;
     myState.zoom += 0.5;
     render();
   });
 
   document.getElementById('zoom_out').addEventListener('click', (e) => {
     if (myState.pdf == null) return;
+    if (myState.zoom <= 0.5) return;
     myState.zoom -= 0.5;
     render();
   });
