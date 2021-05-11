@@ -22,6 +22,10 @@
                         <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                 </li>
                 <li>
+                    <a href="#">
+                    <i class="fa fa-handshake-o" aria-hidden="true"></i>Peminjaman</a>
+                </li>
+                <li>
                     <a href="<?php echo base_url("admin/data_anggota") ?>">
                         <i class="fas fa-group"></i>Data Anggota</a>
                 </li>
@@ -62,6 +66,10 @@
                 <li>
                     <a href="#">
                         <i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                </li>
+                <li>
+                    <a href="<?php echo base_url("admin/peminjaman") ?>">
+                    <i class="fa fa-handshake-o" aria-hidden="true"></i>Peminjaman</a>
                 </li>
                 <li>
                     <a href="<?php echo base_url("admin/data_anggota") ?>">
