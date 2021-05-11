@@ -76,29 +76,64 @@
           <!-- course item -->
           <div class="col-lg-4 col-sm-6 mb-5">
             <div class="card p-0 border-primary rounded-0 hover-shadow">
+            <img style="object-fit: cover" class="card-img-top rounded-0" src="<?php echo base_url('asset/admin/buku/'.$buku->cover) ?>" alt="cover tidak ada">
               <div class="card-body">
                 <ul class="list-inline mb-2">
                   <li class="list-inline-item"><i class="ti-star mr-1 text-color"></i>Level <?php echo $buku->level_buku; ?></li>
-                  <li class="list-inline-item"><i class="ti-tag mr-1 text-color"></i><?php if ($buku->tipe_buku == 0) {
-                                                                                        echo "E-Book";
-                                                                                      } else {
-                                                                                        echo "Link";
-                                                                                      }; ?></li>
+                  <li class="list-inline-item"><i class="ti-tag mr-1 text-color"></i><?php echo $buku->tipe_buku; ?></li>
                 </ul>
                 <a href="course-single.html">
                   <h4 class="card-title">Judul</h4>
                 </a>
                 <p class="card-text mb-4"><?php echo $buku->judul_buku; ?></p>
-                <a href="<?php echo base_url('buku/detail_buku/' . $buku->id_buku) ?>" class="btn btn-primary btn-sm">Baca buku</a>
+                <buttton onclick="baca(<?php echo $buku->id_buku; ?>)" class="btn btn-primary btn-sm">Baca buku</buttton>
               </div>
             </div>
           </div>
         <?php } ?>
       </div>
       <!-- /course list -->
+      <?php echo $this->pagination->create_links(); ?>
     </div>
   </section>
   <!-- /courses -->
+
+  <!-- Modal List -->
+  <div id="modal_list" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Tambah Admin</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <table>
+                        <tbody id="list-buku" class="table">
+                        
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- END Modal List -->
+    <!-- modal loading -->
+    <div id="modal_loading" data-backdrop="static" data-keyboard="false" class="modal bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center"> <strong>Tunggu sebentar yaaa....</strong>
+                    <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- END modal loading -->
 
   <!-- footer -->
   <footer>
@@ -146,6 +181,73 @@
 
   <!-- Main Script -->
   <script src="<?php echo base_url('asset/') ?>js/script.js"></script>
+  <script>
+    function baca(id) {
+      $('#modal_loading').modal('show');
+      $.ajax({
+        url : "<?php echo base_url('buku/pinjam'); ?>",
+        type: "post",
+        dataType: "json",
+        data : { id_buku: id},
+        success: function(data){
+          $('#modal_loading').modal('hide');
+          if (data.status) {
+            window.location.href = data.data;
+          } else {
+            var html ="";
+            for (let index = 0; index < data.data.length; index++) {
+               html += "<tr>"+
+                  "<td>"+data.data[index].judul_buku+"</td>"+
+                  "<td><button class='.btn-danger' onclick='kembalikan("+data.data[index].id_peminjaman+")'>Kembalikan</button></td>";
+              
+            }
+            document.getElementById("list-buku").innerHTML += html;
+            $('#modal_list').modal('show');
+          }
+        },
+        error:  function(xhr, status, error) {
+          var errorMessage = xhr.status + ': ' + xhr.statusText;
+          $('#modal_loading').modal("hide");
+          Swal.fire({
+            title: "Oops...",
+            text: errorMessage,
+            type: "error",
+            footer: "Harap hubungi developer untuk penanganan error."
+          });
+        }
+      });
+    }
+
+    function kembalikan(id){
+      $('modal_loading').modal('show');
+      $.ajax({
+        url : "<?php echo base_url('buku/kembali'); ?>",
+        type : "post",
+        dataType : "json",
+        data : {id_peminjaman: id},
+        success: function(data){
+          $('#modal_loading').modal('hide');
+          if (data.status) {
+            $('#modal_list').modal('hide');
+            alert(data.data);
+          } else {
+            alert(data.data);
+          }
+        },
+        error:  function(xhr, status, error) {
+          var errorMessage = xhr.status + ': ' + xhr.statusText;
+          $('#modal_loading').modal("hide");
+          Swal.fire({
+            title: "Oops...",
+            text: errorMessage,
+            type: "error",
+            footer: "Harap hubungi developer untuk penanganan error."
+          });
+        }
+      })
+    }
+
+  </script>
 
 </body>
 
