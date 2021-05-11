@@ -93,6 +93,56 @@
         <!-- END PAGE CONTAINER-->
     </div>
 
+    <!-- Modal pinjam -->
+    <div class="modal fade" id="modal_pinjam" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Pinjamkan Buku Fisik</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="form_pinjam" name="form_pinjam" type="POST" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <label><strong>Apakah anda yakin akan meminjamkan buku yang dipilih?</strong></label>
+                        <input type="text" name="pinjam_id" id="pinjam_id" class="form-control" hidden>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btn_pinjam" class="btn btn-warning">Ya</button>
+                        <button type="reset" data-dismiss="modal" class="btn btn-inverse">Batal</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- END Modal pinjam -->
+
+    <!-- Modal kembali -->
+    <div class="modal fade" id="modal_kembali" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Kembalikan Buku Fisik</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="form_kembali" name="form_kembali" type="POST" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <label><strong>Apakah anda yakin akan mengembalikan buku yang dipilih?</strong></label>
+                        <input type="text" name="kembali_id" id="kembali_id" class="form-control" hidden>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btn_kembali" class="btn btn-warning">Ya</button>
+                        <button type="reset" data-dismiss="modal" class="btn btn-inverse">Batal</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- END Modal kembali -->
+
     <!-- modal loading -->
     <div id="modal_loading" data-backdrop="static" data-keyboard="false" class="modal bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog modal-sm modal-dialog-centered">
@@ -198,19 +248,24 @@
         });
 
         $('#data_peminjaman').on('click', '.item_pinjam', function() {
-            $('#modal_loading').modal('show');
-
             let id = $(this).data('item');
+            $('#pinjam_id').val(id);
+            $('#modal_pinjam').modal('show');
+        })
+
+        $('#btn_pinjam').on('click', function() {
+            $('#modal_loading').modal('show');
+            
             $.ajax({
                 url: "<?php echo base_url('admin/peminjaman/pinjam') ?>",
                 type: "POST",
                 dataType: "JSON",
                 data: {
-                    id_peminjaman: id
+                    id_peminjaman: document.getElementById("pinjam_id").value
                 },
                 success: function(response) {
+                    $('#modal_loading').modal('hide');
                     if (response.status == 1) {
-                        $('#modal_loading').modal('hide');
                         $('#tabel_peminjaman').DataTable().ajax.reload();
                         $.toast({
                             heading: "Sukses",
@@ -222,8 +277,9 @@
                             hideAfter: 3500,
                             stack: 6
                         });
+                        $('#modal_pinjam').modal('hide');
+
                     } else {
-                        $('#modal_loading').modal('hide');
                         Swal.fire({
                             title: "Hmmmm.....",
                             text: response.pesan,
@@ -245,20 +301,27 @@
             });
         })
 
-        $('#data_peminjaman').on('click', '.item_kembali', function() {
-            $('#modal_loading').modal('show');
+        
 
+        $('#data_peminjaman').on('click', '.item_kembali', function() {
             let id = $(this).data('item');
+            $('#kembali_id').val(id);
+            $('#modal_kembali').modal('show');
+        })
+
+        $('#btn_kembali').on('click', function() {
+            $('#modal_loading').modal('show');
+            
             $.ajax({
                 url: "<?php echo base_url('admin/peminjaman/kembali') ?>",
                 type: "POST",
                 dataType: "JSON",
                 data: {
-                    id_peminjaman: id
+                    id_peminjaman: document.getElementById("kembali_id").value
                 },
                 success: function(response) {
+                    $('#modal_loading').modal('hide');
                     if (response.status == 1) {
-                        $('#modal_loading').modal('hide');
                         $('#tabel_peminjaman').DataTable().ajax.reload();
                         $.toast({
                             heading: "Sukses",
@@ -270,8 +333,8 @@
                             hideAfter: 3500,
                             stack: 6
                         });
+                        $('#modal_kembali').modal('hide');
                     } else {
-                        $('#modal_loading').modal('hide');
                         Swal.fire({
                             title: "Hmmmm.....",
                             text: response.pesan,
@@ -292,7 +355,6 @@
                 }
             });
         })
-        
     </script>
 
 </body>
