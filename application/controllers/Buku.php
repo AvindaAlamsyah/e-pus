@@ -85,7 +85,7 @@ class Buku extends CI_Controller
     {
         $data = array(
             "data" => "",
-            "status" => false
+            "status" => 0
         );
 
         date_default_timezone_set("Asia/Jakarta");
@@ -95,13 +95,13 @@ class Buku extends CI_Controller
             "tanggal_kembali" => null
         );
 
-        $list_pinjam = $this->model_peminjaman->select_where($where);
+        $list_pinjam = $this->model_peminjaman->select_join_where($where);
         
         if ($list_pinjam->num_rows() < 5) {
 
-            if ($this->model_peminjaman->select_where(array('tanggal_kembali' => null, 'buku_id_buku' => $this->input->post('id_buku')))->num_rows() > 0) {
+            if ($this->model_peminjaman->select_join_where(array('tanggal_kembali' => null, 'buku_id_buku' => $this->input->post('id_buku')))->num_rows() > 0) {
                 $data['data'] = "buku/detail_buku/".$this->input->post('id_buku');
-                $data['status'] = true;
+                $data['status'] = 1;
             } else {
                 $data_peminjam = array(
                     'tanggal_pinjam' => date("Y-m-d H:i:s"),
@@ -110,11 +110,18 @@ class Buku extends CI_Controller
                     'buku_id_buku' => $this->input->post('id_buku'),
                     'user_nisn' => $this->session->userdata('nisn')
                 );
-    
-                if ($this->model_peminjaman->insert($data_peminjam)) {
-                    $data['data'] = "buku/detail_buku/".$this->input->post('id_buku');
-                    $data['status'] = true;
-                } 
+                $stok_buku = $this->model_buku->select_where(array('id_buku'=>$data_peminjam['buku_id_buku']));
+                $buku_pinjam = $this->model_peminjaman->select_where(array('buku_id_buku'=>$data_peminjam['buku_id_buku'], 'tanggal_kembali' => null))->num_rows();
+
+                if (($stok_buku['stok'] - $buku_pinjam) > 0) {
+                    if ($this->model_peminjaman->insert($data_peminjam)) {
+                        $data['data'] = "buku/detail_buku/".$this->input->post('id_buku');
+                        $data['status'] = 1;
+                    } 
+                } else {
+                    $data['data'] = "Mohon maaf, stok buku sudah habis";
+                    $data['status'] = 2;
+                }
             }
         } else {
             $data['data'] = $list_pinjam->result();

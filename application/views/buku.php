@@ -76,7 +76,7 @@
           <!-- course item -->
           <div class="col-lg-4 col-sm-6 mb-5">
             <div class="card p-0 border-primary rounded-0 hover-shadow">
-            <img style="object-fit: cover" class="card-img-top rounded-0" src="<?php echo base_url('asset/admin/buku/'.$buku->cover) ?>" alt="cover tidak ada">
+            <img style="object-fit: contain; height: 300px;" class="card-img-top rounded-0" src="<?php echo base_url('asset/admin/buku/'.$buku->cover) ?>" alt="cover tidak ada">
               <div class="card-body">
                 <ul class="list-inline mb-2">
                   <li class="list-inline-item"><i class="ti-star mr-1 text-color"></i>Level <?php echo $buku->level_buku; ?></li>
@@ -85,7 +85,7 @@
                 <a href="course-single.html">
                   <h4 class="card-title">Judul</h4>
                 </a>
-                <p class="card-text mb-4"><?php echo $buku->judul_buku; ?></p>
+                <p class="card-text mb-4" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"><?php echo $buku->judul_buku; ?></p>
                 <buttton onclick="baca(<?php echo $buku->id_buku; ?>)" class="btn btn-primary btn-sm">Baca buku</buttton>
               </div>
             </div>
@@ -191,10 +191,13 @@
         data : { id_buku: id},
         success: function(data){
           $('#modal_loading').modal('hide');
-          if (data.status) {
+          if (data.status == 1) {
             window.location.href = data.data;
+          } else if(data.status == 2){
+            alert(data.data);
           } else {
             var html ="";
+            $("#list-buku").empty();
             for (let index = 0; index < data.data.length; index++) {
                html += "<tr>"+
                   "<td>"+data.data[index].judul_buku+"</td>"+
@@ -208,12 +211,7 @@
         error:  function(xhr, status, error) {
           var errorMessage = xhr.status + ': ' + xhr.statusText;
           $('#modal_loading').modal("hide");
-          Swal.fire({
-            title: "Oops...",
-            text: errorMessage,
-            type: "error",
-            footer: "Harap hubungi developer untuk penanganan error."
-          });
+          alert(errorMessage);
         }
       });
     }
@@ -237,12 +235,7 @@
         error:  function(xhr, status, error) {
           var errorMessage = xhr.status + ': ' + xhr.statusText;
           $('#modal_loading').modal("hide");
-          Swal.fire({
-            title: "Oops...",
-            text: errorMessage,
-            type: "error",
-            footer: "Harap hubungi developer untuk penanganan error."
-          });
+          alert(errorMessage);
         }
       })
     }
