@@ -145,20 +145,17 @@
           <!-- course item -->
           <div class="col-lg-4 col-sm-6 mb-5">
             <div class="card p-0 border-primary rounded-0 hover-shadow">
+            <img style="object-fit: contain; height: 300px;" class="card-img-top rounded-0" src="<?php echo base_url('asset/admin/buku/'.$buku->cover) ?>" alt="cover tidak ada">
               <div class="card-body">
                 <ul class="list-inline mb-2">
                   <li class="list-inline-item"><i class="ti-star mr-1 text-color"></i>Level <?php echo $buku->level_buku; ?></li>
-                  <li class="list-inline-item"><i class="ti-tag mr-1 text-color"></i><?php if ($buku->tipe_buku == 0) {
-                                                                                        echo "E-Book";
-                                                                                      } else {
-                                                                                        echo "Link";
-                                                                                      }; ?></li>
+                  <li class="list-inline-item"><i class="ti-tag mr-1 text-color"></i><?php echo $buku->tipe_buku; ?></li>
                 </ul>
                 <a href="course-single.html">
                   <h4 class="card-title">Judul</h4>
                 </a>
-                <p class="card-text mb-4"><?php echo $buku->judul_buku; ?></p>
-                <a href="<?php echo base_url('buku/detail_buku/' . $buku->id_buku); ?>" class="btn btn-primary btn-sm">Baca buku</a>
+                <p class="card-text mb-4" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"><?php echo $buku->judul_buku; ?></p>
+                <buttton onclick="baca(<?php echo $buku->id_buku; ?>)" class="btn btn-primary btn-sm">Baca buku</buttton>
               </div>
             </div>
           </div>

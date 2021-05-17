@@ -44,7 +44,7 @@
                         <i class="fas fa-book"></i>Data Buku</a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="<?php echo base_url('admin/laporan'); ?>">
                         <i class="far fa-file-text"></i>Laporan</a>
                 </li>
             </ul>
@@ -90,7 +90,7 @@
                         <i class="fas fa-book"></i>Data Buku</a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="<?php echo base_url('admin/laporan'); ?>">
                         <i class="far fa-file-text"></i>Laporan</a>
                 </li>
             </ul>

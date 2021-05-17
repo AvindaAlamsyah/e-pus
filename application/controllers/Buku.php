@@ -50,7 +50,6 @@ class Buku extends CI_Controller
         
         $data = array(
             'buku' => $this->model_resource->select_all_join($this->session->userdata('level'), $config['per_page'], $this->uri->segment(3))
-            // 'buku' => $this->model_resource->select_test($this->session->userdata('level'), $config['per_page'], $this->uri->segment(3))
         );
         $this->load->view('buku', $data);
     }

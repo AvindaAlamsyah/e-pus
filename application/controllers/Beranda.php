@@ -10,6 +10,8 @@ class Beranda extends CI_Controller
     {
         parent::__construct();
         $this->load->model('model_buku');
+        $this->load->model('model_resource');
+        
         if (!$this->session->userdata('status_login')) {
             //session kosong
             redirect('login', 'refresh');
@@ -22,7 +24,7 @@ class Beranda extends CI_Controller
         $data = array(
             "buku" => ""
         );
-        $data['buku'] = $this->model_buku->select_limit_where('level_buku <= ' . $this->session->userdata('level'));
+        $data['buku'] = $this->model_buku->select_limit_where(array('buku.level_buku <= '=>$this->session->userdata('level')));
         $this->load->view('beranda', $data);
     }
 }

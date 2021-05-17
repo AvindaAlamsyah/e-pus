@@ -31,6 +31,10 @@ class Model_buku extends CI_Model
 
     function select_limit_where($where)
     {
+        $this->db->select('buku.id_buku, buku.judul_buku, buku.level_buku, buku.cover, GROUP_CONCAT( IF(book_type.book_type_name = "book","E-book,Fisik",book_type.book_type_name)) AS tipe_buku', false);
+        $this->db->join('resource', 'buku.id_buku = resource.resource_id_buku', 'inner');
+        $this->db->join('book_type', 'resource.resource_id_tipe = book_type.id_book_type', 'inner');
+        $this->db->group_by('buku.id_buku');
         $this->db->order_by('id_buku', 'desc');
 
         return $this->db->get_where($this->table, $where, 3)->result();
