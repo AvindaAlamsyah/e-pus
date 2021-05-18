@@ -50,7 +50,6 @@ class Data_buku extends CI_Controller
             $this->response['status'] = 0;
             die(json_encode($this->response));
         } else {
-            $data_buku['cover'] = $config['file_name'] . $this->upload->data('file_ext');
             $this->response['status'] = 1;
             $this->response['pesan'] = $this->response['pesan'] . ", Berhasil upload $msg";
         }
