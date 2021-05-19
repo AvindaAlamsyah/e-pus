@@ -14,6 +14,7 @@ class Data_buku extends CI_Controller
         parent::__construct();
         $this->load->model('model_buku');
         $this->load->model('model_resource');
+        $this->load->model('model_peminjaman');
         if (!$this->session->userdata('status_login')) {
             //session kosong
             redirect('admin/login', 'refresh');
@@ -295,9 +296,22 @@ class Data_buku extends CI_Controller
 
     public function hapus_buku()
     {
+        $id = $this->input->post('hapus_id');
         $where = array(
-            "id_buku" => $this->input->post('hapus_id')
+            "id_buku" => $id,
         );
+
+        if (!$this->model_peminjaman->select_where(['buku_id_buku'=>$id])->num_rows()) {
+            if ($this->model_buku->delete($where)) {
+                $this->response['status'] = 1;
+                $this->response['pesan'] = "Berhasil menghapus data buku";
+            } else {
+                $this->response['status'] = 0;
+                $this->response['pesan'] = "Gagal menghapus data buku";
+            }
+            echo json_encode($this->response);
+            return;
+        }
 
         $data = array(
             'deleted_at' => date('Y-m-d H:i:s'),

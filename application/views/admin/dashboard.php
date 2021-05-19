@@ -50,8 +50,6 @@
                             <div class="col-md-12">
                                 <div class="overview-wrap">
                                     <h2 class="title-1">overview</h2>
-                                    <button class="au-btn au-btn-icon au-btn--blue">
-                                        <i class="zmdi zmdi-plus"></i>add item</button>
                                 </div>
                             </div>
                         </div>
@@ -79,7 +77,7 @@
                                     <div class="overview__inner">
                                         <div class="overview-box clearfix">
                                             <div class="icon">
-                                                <i class="zmdi zmdi-shopping-cart"></i>
+                                                <i class="zmdi zmdi-collection-bookmark"></i>
                                             </div>
                                             <div class="text">
                                                 <h2 id="totalBuku">99999</h2>
@@ -87,7 +85,7 @@
                                             </div>
                                         </div>
                                         <div class="overview-chart">
-                                            <canvas id="widgetChart2"></canvas>
+                                            <canvas id="bukuChart"></canvas>
                                         </div>
                                     </div>
                                 </div>
@@ -100,12 +98,12 @@
                                                 <i class="zmdi zmdi-calendar-note"></i>
                                             </div>
                                             <div class="text">
-                                                <h2>1,086</h2>
-                                                <span>this week</span>
+                                                <h2 id="totalPeminjamanAktif">99999</h2>
+                                                <span>peminjaman aktif</span>
                                             </div>
                                         </div>
                                         <div class="overview-chart">
-                                            <canvas id="widgetChart3"></canvas>
+                                            <canvas id="peminjamanAktifChart"></canvas>
                                         </div>
                                     </div>
                                 </div>
@@ -118,12 +116,12 @@
                                                 <i class="zmdi zmdi-money"></i>
                                             </div>
                                             <div class="text">
-                                                <h2>$1,060,386</h2>
-                                                <span>total earnings</span>
+                                                <h2 id="totalPeminjaman">99999</h2>
+                                                <span>total peminjaman</span>
                                             </div>
                                         </div>
                                         <div class="overview-chart">
-                                            <canvas id="widgetChart4"></canvas>
+                                            <canvas id="totalPeminjamanChart"></canvas>
                                         </div>
                                     </div>
                                 </div>
@@ -321,258 +319,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="au-card au-card--no-shadow au-card--no-pad m-b-40">
-                                    <div class="au-card-title" style="background-image:url('../asset/admin/images/bg-title-01.jpg');">
-                                        <div class="bg-overlay bg-overlay--blue"></div>
-                                        <h3>
-                                            <i class="zmdi zmdi-account-calendar"></i>26 April, 2018</h3>
-                                        <button class="au-btn-plus">
-                                            <i class="zmdi zmdi-plus"></i>
-                                        </button>
-                                    </div>
-                                    <div class="au-task js-list-load">
-                                        <div class="au-task__title">
-                                            <p>Tasks for John Doe</p>
-                                        </div>
-                                        <div class="au-task-list js-scrollbar3">
-                                            <div class="au-task__item au-task__item--danger">
-                                                <div class="au-task__item-inner">
-                                                    <h5 class="task">
-                                                        <a href="#">Meeting about plan for Admin Template 2018</a>
-                                                    </h5>
-                                                    <span class="time">10:00 AM</span>
-                                                </div>
-                                            </div>
-                                            <div class="au-task__item au-task__item--warning">
-                                                <div class="au-task__item-inner">
-                                                    <h5 class="task">
-                                                        <a href="#">Create new task for Dashboard</a>
-                                                    </h5>
-                                                    <span class="time">11:00 AM</span>
-                                                </div>
-                                            </div>
-                                            <div class="au-task__item au-task__item--primary">
-                                                <div class="au-task__item-inner">
-                                                    <h5 class="task">
-                                                        <a href="#">Meeting about plan for Admin Template 2018</a>
-                                                    </h5>
-                                                    <span class="time">02:00 PM</span>
-                                                </div>
-                                            </div>
-                                            <div class="au-task__item au-task__item--success">
-                                                <div class="au-task__item-inner">
-                                                    <h5 class="task">
-                                                        <a href="#">Create new task for Dashboard</a>
-                                                    </h5>
-                                                    <span class="time">03:30 PM</span>
-                                                </div>
-                                            </div>
-                                            <div class="au-task__item au-task__item--danger js-load-item">
-                                                <div class="au-task__item-inner">
-                                                    <h5 class="task">
-                                                        <a href="#">Meeting about plan for Admin Template 2018</a>
-                                                    </h5>
-                                                    <span class="time">10:00 AM</span>
-                                                </div>
-                                            </div>
-                                            <div class="au-task__item au-task__item--warning js-load-item">
-                                                <div class="au-task__item-inner">
-                                                    <h5 class="task">
-                                                        <a href="#">Create new task for Dashboard</a>
-                                                    </h5>
-                                                    <span class="time">11:00 AM</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="au-task__footer">
-                                            <button class="au-btn au-btn-load js-load-btn">load more</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="au-card au-card--no-shadow au-card--no-pad m-b-40">
-                                    <div class="au-card-title" style="background-image:url('../asset/admin/images/bg-title-02.jpg');">
-                                        <div class="bg-overlay bg-overlay--blue"></div>
-                                        <h3>
-                                            <i class="zmdi zmdi-comment-text"></i>New Messages</h3>
-                                        <button class="au-btn-plus">
-                                            <i class="zmdi zmdi-plus"></i>
-                                        </button>
-                                    </div>
-                                    <div class="au-inbox-wrap js-inbox-wrap">
-                                        <div class="au-message js-list-load">
-                                            <div class="au-message__noti">
-                                                <p>You Have
-                                                    <span>2</span>
-
-                                                    new messages
-                                                </p>
-                                            </div>
-                                            <div class="au-message-list">
-                                                <div class="au-message__item unread">
-                                                    <div class="au-message__item-inner">
-                                                        <div class="au-message__item-text">
-                                                            <div class="avatar-wrap">
-                                                                <div class="avatar">
-                                                                    <img src="<?php echo base_url('asset/admin/'); ?>images/icon/avatar-02.jpg" alt="John Smith">
-                                                                </div>
-                                                            </div>
-                                                            <div class="text">
-                                                                <h5 class="name">John Smith</h5>
-                                                                <p>Have sent a photo</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="au-message__item-time">
-                                                            <span>12 Min ago</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="au-message__item unread">
-                                                    <div class="au-message__item-inner">
-                                                        <div class="au-message__item-text">
-                                                            <div class="avatar-wrap online">
-                                                                <div class="avatar">
-                                                                    <img src="<?php echo base_url('asset/admin/'); ?>images/icon/avatar-03.jpg" alt="Nicholas Martinez">
-                                                                </div>
-                                                            </div>
-                                                            <div class="text">
-                                                                <h5 class="name">Nicholas Martinez</h5>
-                                                                <p>You are now connected on message</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="au-message__item-time">
-                                                            <span>11:00 PM</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="au-message__item">
-                                                    <div class="au-message__item-inner">
-                                                        <div class="au-message__item-text">
-                                                            <div class="avatar-wrap online">
-                                                                <div class="avatar">
-                                                                    <img src="<?php echo base_url('asset/admin/'); ?>images/icon/avatar-04.jpg" alt="Michelle Sims">
-                                                                </div>
-                                                            </div>
-                                                            <div class="text">
-                                                                <h5 class="name">Michelle Sims</h5>
-                                                                <p>Lorem ipsum dolor sit amet</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="au-message__item-time">
-                                                            <span>Yesterday</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="au-message__item">
-                                                    <div class="au-message__item-inner">
-                                                        <div class="au-message__item-text">
-                                                            <div class="avatar-wrap">
-                                                                <div class="avatar">
-                                                                    <img src="<?php echo base_url('asset/admin/'); ?>images/icon/avatar-05.jpg" alt="Michelle Sims">
-                                                                </div>
-                                                            </div>
-                                                            <div class="text">
-                                                                <h5 class="name">Michelle Sims</h5>
-                                                                <p>Purus feugiat finibus</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="au-message__item-time">
-                                                            <span>Sunday</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="au-message__item js-load-item">
-                                                    <div class="au-message__item-inner">
-                                                        <div class="au-message__item-text">
-                                                            <div class="avatar-wrap online">
-                                                                <div class="avatar">
-                                                                    <img src="<?php echo base_url('asset/admin/'); ?>images/icon/avatar-04.jpg" alt="Michelle Sims">
-                                                                </div>
-                                                            </div>
-                                                            <div class="text">
-                                                                <h5 class="name">Michelle Sims</h5>
-                                                                <p>Lorem ipsum dolor sit amet</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="au-message__item-time">
-                                                            <span>Yesterday</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="au-message__item js-load-item">
-                                                    <div class="au-message__item-inner">
-                                                        <div class="au-message__item-text">
-                                                            <div class="avatar-wrap">
-                                                                <div class="avatar">
-                                                                    <img src="<?php echo base_url('asset/admin/'); ?>images/icon/avatar-05.jpg" alt="Michelle Sims">
-                                                                </div>
-                                                            </div>
-                                                            <div class="text">
-                                                                <h5 class="name">Michelle Sims</h5>
-                                                                <p>Purus feugiat finibus</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="au-message__item-time">
-                                                            <span>Sunday</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="au-message__footer">
-                                                <button class="au-btn au-btn-load js-load-btn">load more</button>
-                                            </div>
-                                        </div>
-                                        <div class="au-chat">
-                                            <div class="au-chat__title">
-                                                <div class="au-chat-info">
-                                                    <div class="avatar-wrap online">
-                                                        <div class="avatar avatar--small">
-                                                            <img src="<?php echo base_url('asset/admin/'); ?>images/icon/avatar-02.jpg" alt="John Smith">
-                                                        </div>
-                                                    </div>
-                                                    <span class="nick">
-                                                        <a href="#">John Smith</a>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="au-chat__content">
-                                                <div class="recei-mess-wrap">
-                                                    <span class="mess-time">12 Min ago</span>
-                                                    <div class="recei-mess__inner">
-                                                        <div class="avatar avatar--tiny">
-                                                            <img src="<?php echo base_url('asset/admin/'); ?>images/icon/avatar-02.jpg" alt="John Smith">
-                                                        </div>
-                                                        <div class="recei-mess-list">
-                                                            <div class="recei-mess">Lorem ipsum dolor sit amet, consectetur adipiscing elit non iaculis</div>
-                                                            <div class="recei-mess">Donec tempor, sapien ac viverra</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="send-mess-wrap">
-                                                    <span class="mess-time">30 Sec ago</span>
-                                                    <div class="send-mess__inner">
-                                                        <div class="send-mess-list">
-                                                            <div class="send-mess">Lorem ipsum dolor sit amet, consectetur adipiscing elit non iaculis</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="au-chat-textfield">
-                                                <form class="au-form-icon">
-                                                    <input class="au-input au-input--full au-input--h65" type="text" placeholder="Type a message">
-                                                    <button class="au-input-icon">
-                                                        <i class="zmdi zmdi-camera"></i>
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="copyright">
@@ -615,75 +362,293 @@
     <script type="text/javascript">
         $(document).ready(function() {
             try {
-                //AnggotaChart
-                $.ajax({
-                    url: "<?php echo base_url('admin/dashboard/stats_anggota');?>",
-                    dataType:'json',
-                    method: "GET",
-                    success: function(response) {
-                        if (!response.status) return; 
-                        document.getElementById("totalAnggotaAktif").innerHTML=response.total;
-                        var ctx = document.getElementById("anggotaChart");
-                        if (ctx) {
-                            ctx.height = 130;
-                            var myChart = new Chart(ctx, {
-                                type: 'bar',
-                                data: {
-                                    labels: response.data.kelas,
-                                    type: 'bar',
-                                    datasets: [{
-                                        data: response.data.jumlah,
-                                        label: 'jumlah',
-                                        backgroundColor: 'rgba(255,255,255,.1)',
-                                        borderColor: 'rgba(255,255,255,.55)',
-                                    },]
-                                },
-                                options: {
-                                    maintainAspectRatio: false,
-                                    legend: {
-                                        display: false
-                                    },
-                                    layout: {
-                                        padding: {
-                                        left: 0,
-                                        right: 0,
-                                        top: 0,
-                                        bottom: 0
-                                        }
-                                    },
-                                    responsive: true,
-                                    scales: {
-                                        xAxes: [{
-                                            gridLines: {
-                                                color: 'transparent',
-                                                zeroLineColor: 'transparent'
-                                            },
-                                            ticks: {
-                                                fontSize: 2,
-                                                fontColor: 'transparent'
-                                            }
-                                        }],
-                                        yAxes: [{
-                                            display: false,
-                                            ticks: {
-                                                display: false,
-                                                beginAtZero: true
-                                            }
-                                        }]
-                                    },
-                                    title: {
-                                        display: false,
-                                    }
-                                }
-                            });
-                        }
-                    }
-                })
-                
+                getAnggotaStats();
+                getBukuStats();
+                getPeminjamanAktifStats();
+                getTotalPeminjamanStats()
             } catch (error) {
                 console.log(error);
             }
         });
+        //AnggotaChart
+        function getAnggotaStats() {
+            $.ajax({
+                url: "<?php echo base_url('admin/dashboard/stats_anggota');?>",
+                dataType:'json',
+                method: "GET",
+                success: function(response) {
+                    if (!response.status) return; 
+                    document.getElementById("totalAnggotaAktif").innerHTML=response.total;
+                    let ctx = document.getElementById("anggotaChart");
+                    if (ctx) {
+                        ctx.height = 130;
+                        let myChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: response.data.kelas,
+                                type: 'bar',
+                                datasets: [{
+                                    data: response.data.jumlah,
+                                    label: 'jumlah',
+                                    backgroundColor: 'rgba(255,255,255,.1)',
+                                    borderColor: 'rgba(255,255,255,.55)',
+                                },]
+                            },
+                            options: {
+                                maintainAspectRatio: false,
+                                legend: {
+                                    display: false
+                                },
+                                layout: {
+                                    padding: {
+                                    left: 0,
+                                    right: 0,
+                                    top: 0,
+                                    bottom: 0
+                                    }
+                                },
+                                responsive: true,
+                                scales: {
+                                    xAxes: [{
+                                        gridLines: {
+                                            color: 'transparent',
+                                            zeroLineColor: 'transparent'
+                                        },
+                                        ticks: {
+                                            fontSize: 2,
+                                            fontColor: 'transparent'
+                                        }
+                                    }],
+                                    yAxes: [{
+                                        display: false,
+                                        ticks: {
+                                            display: false,
+                                            beginAtZero: true
+                                        }
+                                    }]
+                                },
+                                title: {
+                                    display: false,
+                                }
+                            }
+                        });
+                    }
+                }
+            })
+        }
+
+        //BukuChart
+        function getBukuStats() {
+            $.ajax({
+                url: "<?php echo base_url('admin/dashboard/stats_buku');?>",
+                dataType:'json',
+                method: "GET",
+                success: function(response) {
+                    if (!response.status) return; 
+                    document.getElementById("totalBuku").innerHTML=response.total;
+                    let ctx = document.getElementById("bukuChart");
+                    if (ctx) {
+                        ctx.height = 130;
+                        let myChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: response.data.tipe_name,
+                                type: 'bar',
+                                datasets: [{
+                                    data: response.data.jumlah,
+                                    label: 'jumlah',
+                                    backgroundColor: 'rgba(255,255,255,.1)',
+                                    borderColor: 'rgba(255,255,255,.55)',
+                                },]
+                            },
+                            options: {
+                                maintainAspectRatio: false,
+                                legend: {
+                                    display: false
+                                },
+                                layout: {
+                                    padding: {
+                                    left: 0,
+                                    right: 0,
+                                    top: 0,
+                                    bottom: 0
+                                    }
+                                },
+                                responsive: true,
+                                scales: {
+                                    xAxes: [{
+                                        gridLines: {
+                                            color: 'transparent',
+                                            zeroLineColor: 'transparent'
+                                        },
+                                        ticks: {
+                                            fontSize: 2,
+                                            fontColor: 'transparent'
+                                        }
+                                    }],
+                                    yAxes: [{
+                                        display: false,
+                                        ticks: {
+                                            display: false,
+                                            beginAtZero: true
+                                        }
+                                    }]
+                                },
+                                title: {
+                                    display: false,
+                                }
+                            }
+                        });
+                    }
+                }
+            })
+        }
+
+        //PeminjamanAktifChart
+        function getPeminjamanAktifStats() {
+            $.ajax({
+                url: "<?php echo base_url('admin/dashboard/stats_peminjaman_aktif');?>",
+                dataType:'json',
+                method: "GET",
+                success: function(response) {
+                    if (!response.status) return; 
+                    document.getElementById("totalPeminjamanAktif").innerHTML=response.total;
+                    let ctx = document.getElementById("peminjamanAktifChart");
+                    if (ctx) {
+                        ctx.height = 130;
+                        let myChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: response.data.tipe_name,
+                                type: 'bar',
+                                datasets: [{
+                                    data: response.data.jumlah,
+                                    label: 'jumlah',
+                                    backgroundColor: 'rgba(255,255,255,.1)',
+                                    borderColor: 'rgba(255,255,255,.55)',
+                                },]
+                            },
+                            options: {
+                                maintainAspectRatio: false,
+                                legend: {
+                                    display: false
+                                },
+                                layout: {
+                                    padding: {
+                                    left: 0,
+                                    right: 0,
+                                    top: 0,
+                                    bottom: 0
+                                    }
+                                },
+                                responsive: true,
+                                scales: {
+                                    xAxes: [{
+                                        gridLines: {
+                                            color: 'transparent',
+                                            zeroLineColor: 'transparent'
+                                        },
+                                        ticks: {
+                                            fontSize: 2,
+                                            fontColor: 'transparent'
+                                        }
+                                    }],
+                                    yAxes: [{
+                                        display: false,
+                                        ticks: {
+                                            display: false,
+                                            beginAtZero: true
+                                        }
+                                    }]
+                                },
+                                title: {
+                                    display: false,
+                                }
+                            }
+                        });
+                    }
+                }
+            })
+        }
+
+        //TotalPeminjamanChart
+        function getTotalPeminjamanStats() {
+            $.ajax({
+                url: "<?php echo base_url('admin/dashboard/stats_seluruh_peminjaman');?>",
+                dataType:'json',
+                method: "GET",
+                success: function(response) {
+                    if (!response.status) return; 
+                    document.getElementById("totalPeminjaman").innerHTML=response.total;
+                    let ctx = document.getElementById("totalPeminjamanChart");
+                    if (ctx) {
+                        ctx.height = 130;
+                        let myChart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: response.data.tanggal,
+                                type: 'line',
+                                datasets: [{
+                                    data: response.data.jumlah,
+                                    label: 'Jumlah',
+                                    backgroundColor: 'transparent',
+                                    borderColor: 'rgba(255,255,255,.55)',
+                                },]
+                            },
+                            options: {
+                                maintainAspectRatio: false,
+                                legend: {
+                                    display: false
+                                },
+                                responsive: true,
+                                tooltips: {
+                                    mode: 'index',
+                                    titleFontSize: 12,
+                                    titleFontColor: '#000',
+                                    bodyFontColor: '#000',
+                                    backgroundColor: '#fff',
+                                    titleFontFamily: 'Montserrat',
+                                    bodyFontFamily: 'Montserrat',
+                                    cornerRadius: 3,
+                                    intersect: false,
+                                },
+                                scales: {
+                                    xAxes: [{
+                                        gridLines: {
+                                            color: 'transparent',
+                                            zeroLineColor: 'transparent'
+                                        },
+                                        ticks: {
+                                            fontSize: 2,
+                                            fontColor: 'transparent'
+                                        }
+                                    }],
+                                    yAxes: [{
+                                        display: false,
+                                        ticks: {
+                                            display: false,
+                                        }
+                                    }]
+                                },
+                                title: {
+                                    display: false,
+                                },
+                                elements: {
+                                    line: {
+                                        borderWidth: 1
+                                    },
+                                    point: {
+                                        radius: 4,
+                                        hitRadius: 10,
+                                        hoverRadius: 4
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+            })
+        }
     </script>
 </body>
 
