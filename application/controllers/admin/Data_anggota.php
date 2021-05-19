@@ -197,20 +197,21 @@ class Data_anggota extends CI_Controller
             }
             $data_insert=array();
             for ($i=1; $i < count($data); $i++) { 
-                $data_insert[$i]['nama_lengkap'] = $data[$i][$NAMA];
-                $data_insert[$i]['password'] = password_hash($data[$i][$NISN], PASSWORD_ARGON2I);
-                $data_insert[$i]['status'] = 1;
-                $data_insert[$i][$cols[1]] = $data[$i][$NISN];
-                $data_insert[$i][$cols[2]] = $data[$i][$KELAS];
-                $data_insert[$i][$cols[3]] = $data[$i][$JURUSAN];
+                $data_insert[$i-1]['nama_lengkap'] = $data[$i][$NAMA];
+                $data_insert[$i-1]['password'] = password_hash($data[$i][$NISN], PASSWORD_ARGON2I);
+                $data_insert[$i-1]['status'] = 1;
+                $data_insert[$i-1][$cols[1]] = $data[$i][$NISN];
+                $data_insert[$i-1][$cols[2]] = $data[$i][$KELAS];
+                $data_insert[$i-1][$cols[3]] = $data[$i][$JURUSAN];
                 if ($data[$i][$KELAS] == 'X'){
-                    $data_insert[$i]['level'] = 1;  
+                    $data_insert[$i-1]['level'] = 1;  
                 } else if ($data[$i][$KELAS] == 'XI'){
-                    $data_insert[$i]['level'] = 2;  
+                    $data_insert[$i-1]['level'] = 2;  
                 } else if ($data[$i][$KELAS] == 'XII'){
-                    $data_insert[$i]['level'] = 3;  
+                    $data_insert[$i-1]['level'] = 3;  
                 }
             }
+            
             $this->load->helper('MyDB');
             $sql = insert_batch_string('user', $data_insert, true);
             $this->load->database();
