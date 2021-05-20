@@ -56,8 +56,12 @@
                         <div class="col-md-12">
                             <div class="overview-wrap m-b-35">
                                 <h2 class="title-1">Data Anggota</h2>
-                                <button class="au-btn au-btn-icon au-btn--blue" data-toggle="modal" data-target="#modal_tambah">
-                                    <i class="zmdi zmdi-plus"></i>tambah data</button>
+                                <div>
+                                    <button class="au-btn au-btn-icon au-btn--blue" data-toggle="modal" data-target="#modal_import">
+                                        <i class="zmdi zmdi-plus"></i>import data</button>
+                                    <button class="au-btn au-btn-icon au-btn--blue" data-toggle="modal" data-target="#modal_tambah">
+                                        <i class="zmdi zmdi-plus"></i>tambah data</button>
+                                </div>
                             </div>
                             <div class="au-card">
                                 <table id="tabel_anggota" class="table table-striped table-bordered" style="width:100%">
@@ -274,6 +278,34 @@
         </div>
     </div>
     <!-- END Modal Hapus -->
+
+    <!-- Modal Import -->
+    <div class="modal fade" id="modal_import" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Import Anggota</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="form_import" name="form_import" type="POST" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="form-group file" id="div-import">
+                            <label for="import_file" id="label_edit_file">File (.xlsx)</label>
+                            <div class="controls">
+                                <input type="file" id="import_file" name="import_file" class="form-control-file">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="btn_import" class="btn btn-warning">Import</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- END Modal Import -->
 
     <!-- Modal Reset Pass -->
     <div class="modal fade" id="modal_reset" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -696,6 +728,65 @@
                     });
                 }
             });
+        })
+
+        $('form[name="form_import"]').validate({
+            rules: {
+                import_file: {
+                    required: true
+                }
+            },
+            lang: "id",
+            submitHandler: function(form) {
+                $('#modal_loading').modal('show');
+                let fd = new FormData(form);
+                $.ajax({
+                    url: "<?php echo base_url('admin/data_anggota/import') ?>",
+                    type: "POST",
+                    dataType: "JSON",
+                    processData: false,
+                    contentType: false,
+                    data: fd,
+                    success: function(response) {
+                        if (response.status == 1) {
+                            $("#modal_import").modal("hide");
+                            $("#form_import").trigger("reset");
+                            $('#modal_loading').modal('hide');
+                            $('#tabel_anggota').DataTable().ajax.reload();
+                            $.toast({
+                                heading: "Sukses",
+                                text: response.pesan,
+                                position: 'top-right',
+                                loader: true,
+                                loaderBg: '#ff6849',
+                                icon: 'success',
+                                hideAfter: 3500,
+                                stack: 6
+                            });
+                        } else {
+                            $('#modal_loading').modal('hide');
+                            $("#form_import").trigger("reset");
+                            Swal.fire({
+                                title: "Hmmmm.....",
+                                text: response.pesan,
+                                type: "error"
+                            });
+                        }
+
+                    },
+                    error: function(xhr, status, error) {
+                        var errorMessage = xhr.status + ': ' + xhr.statusText;
+                        $('#modal_loading').modal("hide");
+                        $("#form_import").trigger("reset");
+                        Swal.fire({
+                            title: "Oops...",
+                            text: errorMessage,
+                            type: "error",
+                            footer: "Harap hubungi developer untuk penanganan error."
+                        });
+                    }
+                });
+            }
         })
     </script>
 

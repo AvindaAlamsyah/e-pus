@@ -10,7 +10,7 @@
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Data Buku</title>
+    <title>Data Buku | Digital Library</title>
 
     <!-- Fontfaces CSS-->
     <link href="<?php echo base_url('asset/admin/'); ?>css/font-face.css" rel="stylesheet" media="all">

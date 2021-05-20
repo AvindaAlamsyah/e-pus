@@ -168,6 +168,86 @@ class Data_anggota extends CI_Controller
             echo "ERROR";
         }
     }
+
+    public function import() 
+    {
+        $this->load->library('upload');
+        $this->load->library('MySimpleXLSX');
+        $upload_data = $this->upload('import_file', 'xlsx', 'Import');
+        $NAMA = 0;
+        $NISN = 1;
+        $KELAS = 2;
+        $JURUSAN = 3;
+        $cols = array('nama','nisn','kelas','jurusan');
+        if ( $xlsx = SimpleXLSX::parse('./asset/admin/temp/file-import.xlsx') ) {
+            $data = $xlsx->rows();
+            for ($i=0; $i < count($data[0]); $i++) { 
+                if ($data[0][$i] == $cols[0]) {
+                    $NAMA = $i;
+                }
+                else if ($data[0][$i] == $cols[1]) {
+                    $NISN = $i;
+                }
+                else if ($data[0][$i] == $cols[2]) {
+                    $KELAS = $i;
+                }
+                else if ($data[0][$i] == $cols[3]) {
+                    $JURUSAN = $i;
+                } 
+            }
+            $data_insert=array();
+            for ($i=1; $i < count($data); $i++) { 
+                $data_insert[$i-1]['nama_lengkap'] = $data[$i][$NAMA];
+                $data_insert[$i-1]['password'] = password_hash($data[$i][$NISN], PASSWORD_ARGON2I);
+                $data_insert[$i-1]['status'] = 1;
+                $data_insert[$i-1][$cols[1]] = $data[$i][$NISN];
+                $data_insert[$i-1][$cols[2]] = $data[$i][$KELAS];
+                $data_insert[$i-1][$cols[3]] = $data[$i][$JURUSAN];
+                if ($data[$i][$KELAS] == 'X'){
+                    $data_insert[$i-1]['level'] = 1;  
+                } else if ($data[$i][$KELAS] == 'XI'){
+                    $data_insert[$i-1]['level'] = 2;  
+                } else if ($data[$i][$KELAS] == 'XII'){
+                    $data_insert[$i-1]['level'] = 3;  
+                }
+            }
+            
+            $this->load->helper('MyDB');
+            $sql = insert_batch_string('user', $data_insert, true);
+            $this->load->database();
+            if($this->db->query($sql)){
+                $this->response = array('status'=>1,'pesan'=>'Berhasil Import Data Anggota');
+                echo json_encode($this->response);
+            } else {
+                $this->response = array('status'=>0,'pesan'=>'Gagal Import Data Anggota');
+                echo json_encode($this->response);
+            }
+
+        } else {
+            $this->response = array('status'=>0,'pesan'=>SimpleXLSX::parseError());
+            echo json_encode($this->response);
+        }
+    }
+
+    private function upload($name, $type, $msg)
+    {
+        $config['upload_path'] = './asset/admin/temp/';
+        $config['allowed_types'] = $type;
+        $config['max_size']  = '0';
+        $config['file_name'] = 'file-import';
+        $config['overwrite'] = TRUE;
+        $this->upload->initialize($config);
+
+        if (!$this->upload->do_upload($name)) {
+            $this->response['pesan'] = "Gagal upload $msg." . $this->upload->display_errors();
+            $this->response['status'] = 0;
+            die(json_encode($this->response));
+        } else {
+            $this->response['status'] = 1;
+            $this->response['pesan'] = $this->response['pesan'] . ", Berhasil upload $msg";
+        }
+        return $this->upload->data();
+    }
 }
 
 

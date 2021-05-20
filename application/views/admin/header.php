@@ -4,7 +4,7 @@
         <div class="container-fluid">
             <div class="header-mobile-inner">
                 <a class="logo" href="#">
-                    <img src="<?php echo base_url('asset/admin'); ?>images/icon/logo-black.png" alt="Digital Library" />
+                    <img src="<?php echo base_url('asset/admin'); ?>/images/icon/logo-black.png" alt="Digital Library" />
                 </a>
                 <button class="hamburger hamburger--slider" type="button">
                     <span class="hamburger-box">
@@ -18,11 +18,11 @@
         <div class="container-fluid">
             <ul class="navbar-mobile__list list-unstyled">
                 <li>
-                    <a href="#">
-                        <i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                    <a href="<?php echo base_url("admin/dashboard") ?>">
+                        <i class="fas fa-tachometer-alt"></i>Dasbor</a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="<?php echo base_url("admin/peminjaman") ?>">
                     <i class="fa fa-handshake-o" aria-hidden="true"></i>Peminjaman</a>
                 </li>
                 <li>
@@ -64,8 +64,8 @@
         <nav class="navbar-sidebar">
             <ul class="list-unstyled navbar__list">
                 <li>
-                    <a href="#">
-                        <i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                    <a href="<?php echo base_url("admin/dashboard") ?>">
+                        <i class="fas fa-tachometer-alt"></i>Dasbor</a>
                 </li>
                 <li>
                     <a href="<?php echo base_url("admin/peminjaman") ?>">
