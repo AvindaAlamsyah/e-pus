@@ -4,13 +4,14 @@
         <div class="container">
             <div class="row no-gutters">
                 <div class="col-lg-4 text-center text-lg-left">
-                    <a class="text-color mr-3" href="callto:0351366099"><strong>CALL</strong> (0351) 366 099</a>
+                    <a class="text-color mr-3" href="callto:0351366099"><strong>TELP. </strong> (0351) 366 099</a>
                 </div>
                 <div class="col-lg-8 text-center text-lg-right">
                     <ul class="list-inline d-inline">
                         <li class="list-inline-item mx-0"><a class="d-inline-block p-2 text-color" href="mailto:smkn1geger.kab.madiun@gmail.com"><i class="ti-email"></i></a></li>
-                        <li class="list-inline-item mx-0"><a class="d-inline-block p-2 text-color" href="#"><i class="ti-twitter-alt"></i></a></li>
-                        <li class="list-inline-item mx-0"><a class="d-inline-block p-2 text-color" href="#"><i class="ti-instagram"></i></a></li>
+                        <li class="list-inline-item mx-0"><a class="d-inline-block p-2 text-color" href="https://smkn1geger.sch.id/" target="_blank"><i class="ti-world"></i></a></li>
+                        <li class="list-inline-item mx-0"><a class="d-inline-block p-2 text-color" href="https://www.facebook.com/smknsatugeger.smknsatugeger" target="_blank"><i class="ti-facebook"></i></a></li>
+                        <li class="list-inline-item mx-0"><a class="d-inline-block p-2 text-color" href="https://www.youtube.com/channel/UCOmTnY_lzvhl1OWi4sU_oqw" target="_blank"><i class="ti-youtube"></i></a></li>
                     </ul>
                 </div>
             </div>
@@ -27,14 +28,14 @@
 
                 <div class="collapse navbar-collapse" id="navigation">
                     <ul class="navbar-nav ml-auto text-center">
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="<?php echo base_url(); ?>">Home</a>
                         </li>
                         <li class="nav-item @@about">
                             <a class="nav-link" href="<?php echo base_url('buku') ?>">Buku</a>
                         </li>
                         <li class="nav-item @@contact">
-                            <a class="nav-link" href="#">CONTACT</a>
+                            <a class="nav-link" href="<?php echo base_url('peraturan') ?>">Peraturan</a>
                         </li>
                         <li class="nav-item dropdown view">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

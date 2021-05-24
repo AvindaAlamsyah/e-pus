@@ -61,6 +61,11 @@ class Model_buku extends CI_Model
     {
         return $this->db->get_where($this->table, $where)->row_array();
     }
+
+    function count($where)
+    {
+        return $this->db->get_where($this->table, $where);
+    }
 }
 
 /* End of file Model_buku.php */

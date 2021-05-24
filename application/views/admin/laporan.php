@@ -56,14 +56,14 @@
                         <div class="col-md-12">
                             <div class="overview-wrap m-b-35">
                                 <h2 class="title-1">Laporan Peminjaman Bulanan</h2>
-                                <button class="au-btn au-btn-icon au-btn--blue" data-toggle="modal" data-target="">
+                                <button class="au-btn au-btn-icon au-btn--blue" onclick="simpan_bulanan()">
                                     <i class="zmdi zmdi-archive"></i>Simpan ke Excel</button>
                             </div>
                             <div class="au-card">
                                 <div class="form-group row">
                                     <div class="col col-md-12">
                                         <div class="input-group">
-                                        <input class="form-control" type="month" value="<?php echo date('Y-m'); ?>" id="bulan_search">
+                                            <input class="form-control" type="month" value="<?php echo date('Y-m'); ?>" id="bulan_search">
                                             <div class="input-group-btn">
                                                 <button class="btn btn-primary" onclick="cari_bulanan()">Cari</button>
                                             </div>
@@ -177,28 +177,33 @@
         $('#tabel_laporan_bulan').DataTable().ajax.reload();
     }
 
+    function simpan_bulanan() {
+        let bulan = document.getElementById('bulan_search').value;
+        location.replace('<?php echo base_url("admin/export/index/") ?>' + bulan);
+    }
+
     $('#tabel_laporan_bulan').DataTable({
         'ajax': {
             'url': "<?php echo base_url('admin/laporan/ambil_semua_bulanan') ?>",
             'method': "POST",
-            'data' : function(d){
+            'data': function(d) {
                 d.bulan = document.getElementById('bulan_search').value;
             }
         },
         'columns': [{
-            'data': "nama_lengkap"
+                'data': "nama_lengkap"
             },
             {
-            'data': "judul_buku"
+                'data': "judul_buku"
             },
             {
-            'data': "tanggal_pinjam"
+                'data': "tanggal_pinjam"
             },
             {
-            'data': "tanggal_kembali"
+                'data': "tanggal_kembali"
             },
             {
-            'data': "metode"
+                'data': "metode"
             }
         ],
         responsive: true
@@ -224,8 +229,8 @@
             },
             {
                 'data': "nisn",
-                'render': function(data, type, row) {    
-                    return '<a class="btn btn-sm btn-success" href="javascript:void(0)" data-item="' + row.nisn + '">Simpan ke Excel</a>'
+                'render': function(data, type, row) {
+                    return '<a class="btn btn-sm btn-success print" href="javascript:void(0)" data-item="' + row.nisn + '">Simpan ke Excel</a>'
                 },
                 'width': "5%",
                 "orderable": false,
@@ -234,6 +239,45 @@
         ],
         responsive: true
     });
+
+    $('#data_laporan_siswa').on('click', '.print', function() {
+        // $("#modal_loading").modal("show");
+        let a = $(this).data('item');
+        let url = "<?php echo base_url('admin/export/simpan_pinjaman_siswa/'); ?>" + a + "";
+        location.replace(url);
+        // $("modal_loading").modal("hide");
+        // $.ajax({
+        //     url: "<?php echo base_url('admin/export/simpan_pinjaman_siswa'); ?>",
+        //     type: "POST",
+        //     dataType: "JSON",
+        //     data: {
+        //         edit_nisn: $(this).data('item')
+        //     },
+        //     success: function(data) {
+        //         $('#modal_loading').modal('hide');
+
+        //         $('#edit_id').val(data.nisn);
+        //         $('#edit_nisn').val(data.nisn);
+        //         $('#edit_nama').val(data.nama_lengkap);
+        //         $('#edit_level').val(data.level);
+        //         $('#edit_jurusan').val(data.jurusan);
+        //         $('#edit_kelas').val(data.kelas);
+        //         $('#edit_status').val(data.status);
+
+        //         $('#modal_edit').modal('show');
+        //     },
+        //     error: function(xhr, status, error) {
+        //         var errorMessage = xhr.status + ': ' + xhr.statusText;
+        //         $('#modal_loading').modal("hide");
+        //         Swal.fire({
+        //             title: "Oops...",
+        //             text: errorMessage,
+        //             type: "error",
+        //             footer: "Harap hubungi developer untuk penanganan error."
+        //         });
+        //     }
+        // })
+    })
     </script>
 
 </body>

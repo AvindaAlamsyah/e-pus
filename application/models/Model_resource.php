@@ -63,26 +63,28 @@ class Model_resource extends CI_Model
         return $this->db->get_where($this->table, $where)->row_array();
     }
 
-    function select_all_join($level, $limit, $offset)
+    function select_all_join($level, $limit, $offset, $like = null)
     {
         $this->db->select('buku.id_buku, buku.judul_buku, buku.level_buku, buku.cover, GROUP_CONCAT( IF(book_type.book_type_name = "book","E-book,Fisik",book_type.book_type_name)) AS tipe_buku', false);
         $this->db->join('resource', 'buku.id_buku = resource.resource_id_buku', 'inner');
         $this->db->join('book_type', 'resource.resource_id_tipe = book_type.id_book_type', 'inner');
         $this->db->where('buku.level_buku <=', $level);
+        if($like){
+            $this->db->like('buku.judul_buku', $like);
+        }
         $this->db->group_by('buku.id_buku');
         
         return $this->db->get('buku',$limit,$offset)->result();
     }
 
-    function select_test($level, $limit, $offset)
+    function count_tipe()
     {
-        return $this->db->get_where('dummy_data',array('level_buku <= '=>$level),$limit,$offset)->result();
+        $this->db->select('book_type.book_type_name, COUNT(resource.id_resource) AS total');
+        $this->db->from($this->table);
+        $this->db->join('book_type', 'resource.resource_id_tipe = book_type.id_book_type');
+        $this->db->group_by('book_type.id_book_type');
         
-    }
-
-    function count_buku()
-    {
-        return $this->db->get('buku')->num_rows();
+        return $this->db->get();
         
     }
 }

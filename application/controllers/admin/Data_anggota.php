@@ -27,6 +27,7 @@ class Data_anggota extends CI_Controller
         $this->load->view('admin/data_anggota');
     }
 
+    //done test avinda
     public function tambah_anggota()
     {
         $data_user = array(
@@ -50,16 +51,19 @@ class Data_anggota extends CI_Controller
         echo json_encode($this->response);
     }
 
+    //done test avinda
     public function ambil_semua_anggota()
     {
         echo json_encode(array("data" => $this->model_user->select_all()));
     }
 
+    //done test avinda
     public function tampil_edit()
     {
         echo json_encode($this->model_user->select_where(array("nisn" => $this->input->post('edit_nisn'))));
     }
 
+    //done test avinda
     public function simpan_edit()
     {
         $data_user = array(
@@ -68,12 +72,13 @@ class Data_anggota extends CI_Controller
             "nama_lengkap" => $this->input->post('edit_nama'),
             "kelas" => $this->input->post('edit_kelas'),
             "jurusan" => $this->input->post('edit_jurusan'),
-            "status" => $this->input->post('edit_status'),
-            "ttd" => ""
+            "status" => $this->input->post('edit_status')
         );
+        $nisn = $this->input->post('edit_id');
+        
         if ($this->input->post('ttd_status') == null) {
 
-            if ($this->model_user->update($data_user, array("nisn" => $data_user['nisn']))) {
+            if ($this->model_user->update($data_user, array("nisn" => $nisn))) {
                 $this->response['status'] = 1;
                 $this->response['pesan'] = "Data anggota berhasil disimpan.";
             } else {
@@ -81,7 +86,7 @@ class Data_anggota extends CI_Controller
                 $this->response['pesan'] = "NISN sudah ada, harap periksa lagi data yang anda masukkan.";
             }
         } else {
-            $query = $this->model_user->select_where(array('nisn' => $data_user['nisn']));
+            $query = $this->model_user->select_where(array('nisn' => $nisn));
 
             if ($query->ttd != null) {
                 $path = './asset/admin/ttd/' . $query->ttd;
@@ -114,6 +119,7 @@ class Data_anggota extends CI_Controller
         echo json_encode($this->response);
     }
 
+    //done test avinda
     public function hapus_anggota()
     {
         $where = array(
@@ -140,6 +146,7 @@ class Data_anggota extends CI_Controller
         echo json_encode($this->response);
     }
 
+    //done test avinda
     public function reset_password()
     {
         $where = array(
@@ -159,6 +166,7 @@ class Data_anggota extends CI_Controller
         echo json_encode($this->response);
     }
 
+    //donte test avinda
     public function detail_anggota($nisn)
     {
         $detail = $this->model_user->select_where(array('nisn' => $nisn));
@@ -169,6 +177,7 @@ class Data_anggota extends CI_Controller
         }
     }
 
+    //done test avinda
     public function import() 
     {
         $this->load->library('upload');
@@ -229,6 +238,7 @@ class Data_anggota extends CI_Controller
         }
     }
 
+    //done test avinda
     private function upload($name, $type, $msg)
     {
         $config['upload_path'] = './asset/admin/temp/';

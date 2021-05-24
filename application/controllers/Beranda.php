@@ -22,9 +22,11 @@ class Beranda extends CI_Controller
     public function index()
     {
         $data = array(
-            "buku" => ""
+            "buku" => "",
+            "tipe"=> ""            
         );
         $data['buku'] = $this->model_buku->select_limit_where(array('buku.level_buku <= '=>$this->session->userdata('level')));
+        $data['tipe'] = $this->model_resource->count_tipe()->result();
         $this->load->view('beranda', $data);
     }
 }
