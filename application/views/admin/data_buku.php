@@ -64,7 +64,7 @@
                                     <thead>
                                         <tr>
                                             <th>Judul</th>
-                                            <th>Tahun Terbit</th>
+                                            <th>Tipe</th>
                                             <th>Level</th>
                                             <th>#</th>
                                         </tr>
@@ -411,14 +411,14 @@
         
         $('#tabel_buku').DataTable({
             'ajax': {
-                'url': "<?php echo base_url('admin/data_buku/ambil_semua') ?>",
+                'url': "<?php echo base_url('admin/data_buku/ambil_semua2') ?>",
                 'method': "GET"
             },
             'columns': [{
                     'data': "judul_buku"
                 },
                 {
-                    'data': "tahun_terbit"
+                    'data': "tipe_buku"
                 },
                 {
                     'data': "level_buku"

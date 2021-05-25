@@ -56,8 +56,6 @@
                         <div class="col-md-12">
                             <div class="overview-wrap m-b-35">
                                 <h2 class="title-1">Data Peminjaman Buku (Fisik)</h2>
-                                <button class="au-btn au-btn-icon au-btn--blue" data-toggle="modal" onclick="tampilFile()" data-target="#modal_tambah">
-                                    <i class="zmdi zmdi-plus"></i>tambah data</button>
                             </div>
                             <div class="au-card">
                                 <table id="tabel_peminjaman" class="table table-striped table-bordered" style="width:100%">
@@ -233,9 +231,9 @@
                     'render': function(data, type, row) {
                         
                         if(row.metode == 'online') {
-                            return '<a class="btn btn-sm btn-warning item_pinjam" href="javascript:void(0)" data-item="' + row.id_peminjaman + '">Pinjam</a>'
+                            return '<a class="btn btn-sm btn-warning item_pinjam" href="javascript:void(0)" data-item="' + row.id_peminjaman + '">Pinjamkan</a>'
                         } else if (row.metode == 'offline') {
-                            return '<a class="btn btn-sm btn-success item_kembali" href="javascript:void(0)" data-item="' + row.id_peminjaman + '">Kembali</a>'
+                            return '<a class="btn btn-sm btn-success item_kembali" href="javascript:void(0)" data-item="' + row.id_peminjaman + '">Kembalikan</a>'
                         }
                         
                     },

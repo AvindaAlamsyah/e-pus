@@ -37,6 +37,12 @@ class Data_buku extends CI_Controller
         echo json_encode(array("data" => $this->model_buku->select_all_where($where)));
     }
 
+    public function ambil_semua2()
+    {
+        $this->load->database();
+        $data = $this->db->query('SELECT buku.*, GROUP_CONCAT(book_type.book_type_name ORDER BY resource.resource_id_tipe SEPARATOR \'&\') AS tipe_buku FROM `buku` JOIN `resource` ON buku.id_buku = resource.resource_id_buku JOIN book_type ON resource.resource_id_tipe = book_type.id_book_type WHERE buku.deleted_at IS NULL GROUP BY buku.id_buku')->result_array();
+        echo json_encode(array("data" => $data));
+    }
 
     private function upload($name, $type, $msg)
     {
@@ -298,11 +304,15 @@ class Data_buku extends CI_Controller
     {
         $id = $this->input->post('hapus_id');
         $where = array(
-            "id_buku" => $id,
+            "resource_id_buku" => $id,
         );
 
         if (!$this->model_peminjaman->select_where(['buku_id_buku'=>$id])->num_rows()) {
-            if ($this->model_buku->delete($where)) {
+            $resource = $this->model_resource->select_all_where($where);
+            foreach ($resource as $key => $value) {
+                $this->delete_file($value->source);
+            }
+            if ($this->model_buku->delete(["id_buku" => $id])) {
                 $this->response['status'] = 1;
                 $this->response['pesan'] = "Berhasil menghapus data buku";
             } else {
@@ -344,7 +354,7 @@ class Data_buku extends CI_Controller
     private function delete_file($file)
     {
         $path = "./asset/admin/buku/$file";
-        chmod($path, 0777);
+        @chmod($path, 0777);
         if (is_file($path)) {
             @unlink($path);
         }
