@@ -30,6 +30,9 @@ class Buku extends CI_Controller
             
         } else {
             $data['keyword'] = $this->session->userdata('keyword');
+            if ($this->uri->segment(3) == null) {
+                $data['keyword'] = null;
+            }
         }        
 
         $this->db->like('buku.judul_buku', $data['keyword']);
@@ -65,13 +68,7 @@ class Buku extends CI_Controller
             'buku' => $this->model_resource->select_all_join($this->session->userdata('level'), $config['per_page'], $this->uri->segment(3), $data['keyword'])
         );
         $this->load->view('buku', $data);
-    }
-
-    public function cari()
-    {
-        $this->load->view('buku');
-    }
-    
+    }    
 
     public function detail_buku($id)
     {
