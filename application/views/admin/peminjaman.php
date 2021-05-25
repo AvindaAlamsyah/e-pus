@@ -55,7 +55,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="overview-wrap m-b-35">
-                                <h2 class="title-1">Data Peminjaman Buku</h2>
+                                <h2 class="title-1">Data Peminjaman Buku (Fisik)</h2>
                                 <button class="au-btn au-btn-icon au-btn--blue" data-toggle="modal" onclick="tampilFile()" data-target="#modal_tambah">
                                     <i class="zmdi zmdi-plus"></i>tambah data</button>
                             </div>

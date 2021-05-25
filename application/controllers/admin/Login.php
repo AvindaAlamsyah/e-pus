@@ -54,7 +54,7 @@ class Login extends CI_Controller
                     );
                     $this->session->set_userdata($data_session);
 
-                    redirect('admin/data_anggota', 'refresh');
+                    redirect('admin/Dashboard', 'refresh');
                 } else {
                     $this->pesan['status'] = 1;
                     $this->pesan['isi'] = "Password salah";
