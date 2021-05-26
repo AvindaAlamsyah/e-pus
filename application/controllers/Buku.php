@@ -17,6 +17,9 @@ class Buku extends CI_Controller
         if (!$this->session->userdata('status_login')) {
             //session kosong
             redirect('login', 'refresh');
+        } else if ($this->session->userdata('tipe') !== 'usr') {
+            //akses bukan user
+            redirect("admin/login", "refresh");
         }
     }
 
@@ -203,11 +206,6 @@ class Buku extends CI_Controller
         }
         
         echo json_encode($data);
-    }
-
-    public function test($level)
-    {
-        echo json_encode($this->model_resource->select_all_join($level));
     }
 }
 

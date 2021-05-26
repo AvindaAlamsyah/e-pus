@@ -18,7 +18,15 @@ class Login extends CI_Controller
 
     public function index()
     {
-        $this->load->view('login', $this->pesan);
+        if ($this->session->userdata('status_login') && $this->session->userdata('tipe') == 'usr') {
+            //session ada
+            redirect('beranda', 'refresh');
+        } else if ($this->session->userdata('status_login')) {
+            //akses bukan user
+            redirect("admin/dashboard", "refresh");
+        } else {
+            $this->load->view('login', $this->pesan);
+        }        
     }
 
     public function verifikasi()
@@ -42,6 +50,7 @@ class Login extends CI_Controller
                         "nisn" => $data_user->nisn,
                         "nama" => $data_user->nama_lengkap,
                         "level" => $data_user->level,
+                        "tipe" => "usr",
                         "status_login" => true
                     );
                     $this->session->set_userdata($data_session);

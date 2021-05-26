@@ -18,9 +18,9 @@ class Data_buku extends CI_Controller
         if (!$this->session->userdata('status_login')) {
             //session kosong
             redirect('admin/login', 'refresh');
-        } else if (!$this->session->userdata('tipe') == 'adm') {
+        } else if ($this->session->userdata('tipe') !== 'adm') {
             //akses bukan admin
-            redirect("welcome", "refresh");
+            redirect("beranda", "refresh");
         }
     }
 
@@ -337,18 +337,6 @@ class Data_buku extends CI_Controller
 
 
         echo json_encode($this->response);
-    }
-
-    public function test()
-    {
-        $path = './asset/buku/cv-dts.pdf';
-        chmod($path, 0777);
-
-        if (unlink($path)) {
-            echo "berhasil";
-        } else {
-            echo "gagal";
-        }
     }
 
     private function delete_file($file)

@@ -17,9 +17,9 @@ class Dashboard extends CI_Controller
         if (!$this->session->userdata('status_login')) {
             //session kosong
             redirect('admin/login', 'refresh');
-        } else if (!$this->session->userdata('tipe') == 'adm') {
+        } else if ($this->session->userdata('tipe') !== 'adm') {
             //akses bukan admin
-            redirect("login", "refresh");
+            redirect("beranda", "refresh");
         }
     }
 
@@ -191,6 +191,7 @@ class Dashboard extends CI_Controller
         $this->response['data'] = $data;
         echo json_encode($this->response);
     }
+    
     private function get_sql($tipe) {
         $sql = '
             SELECT
