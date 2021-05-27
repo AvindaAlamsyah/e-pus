@@ -131,7 +131,7 @@ class Buku extends CI_Controller
                         );
     
                         if ($this->model_peminjaman->insert($data_peminjam)) {
-                            $data['data'] = "buku/detail_buku/".$id_buku;
+                            $data['data'] = base_url()."buku/detail_buku/".$id_buku;
                             $data['status'] = 1;
                         } else {
                             $data['data'] = "Kesalahan teknis pencatatan data peminjamanmu.";
@@ -147,7 +147,7 @@ class Buku extends CI_Controller
                 }
                 
             } else {
-                $data['data'] = "buku/detail_buku/".$id_buku;
+                $data['data'] = base_url()."buku/detail_buku/".$id_buku;
                 $data['status'] = 1;
             }
         } else {
@@ -186,7 +186,7 @@ class Buku extends CI_Controller
                     );
 
                     if ($this->model_peminjaman->insert($data_peminjam)) {
-                        $data['data'] = "buku/detail_buku/".$id_buku_baru;
+                        $data['data'] = base_url()."buku/detail_buku/".$id_buku_baru;
                         $data['status'] = true;
                     } else {
                         $data['data'] = "Kesalahan teknis pencatatan data peminjamanmu.";
