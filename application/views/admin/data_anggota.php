@@ -64,19 +64,21 @@
                                 </div>
                             </div>
                             <div class="au-card">
-                                <table id="tabel_anggota" class="table table-striped table-bordered" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th>NIM</th>
-                                            <th>Nama</th>
-                                            <th>Level</th>
-                                            <th>Status</th>
-                                            <th>#</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="data_anggota">
-                                    </tbody>
-                                </table>
+                                <div class="table-responsive">
+                                    <table id="tabel_anggota" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>NIM</th>
+                                                <th>Nama</th>
+                                                <th>Level</th>
+                                                <th>Status</th>
+                                                <th>#</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="data_anggota">
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

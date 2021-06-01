@@ -60,17 +60,19 @@
                                     <i class="zmdi zmdi-plus"></i>tambah data</button>
                             </div>
                             <div class="au-card">
-                                <table id="tabel_admin" class="table table-striped table-bordered" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th>Username</th>
-                                            <th>Nama</th>
-                                            <th>#</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="data_admin">
-                                    </tbody>
-                                </table>
+                                <div class="table-responsive">
+                                    <table id="tabel_admin" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Username</th>
+                                                <th>Nama</th>
+                                                <th>#</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="data_admin">
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

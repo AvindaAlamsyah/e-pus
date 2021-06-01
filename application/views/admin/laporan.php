@@ -70,19 +70,21 @@
                                         </div>
                                     </div>
                                 </div>
-                                <table id="tabel_laporan_bulan" class="table table-striped table-bordered" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th>Peminjam</th>
-                                            <th>Judul Buku</th>
-                                            <th>Tanggal Pinjam</th>
-                                            <th>Tanggal Kembali</th>
-                                            <th>Metode Pinjam</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="data_laporan_bulan">
-                                    </tbody>
-                                </table>
+                                <div class="table-responsive">
+                                    <table id="tabel_laporan_bulan" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Peminjam</th>
+                                                <th>Judul Buku</th>
+                                                <th>Tanggal Pinjam</th>
+                                                <th>Tanggal Kembali</th>
+                                                <th>Metode Pinjam</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="data_laporan_bulan">
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -92,18 +94,20 @@
                                 <h2 class="title-1">Laporan Peminjaman Siswa</h2>
                             </div>
                             <div class="au-card">
-                                <table id="tabel_laporan_siswa" class="table table-striped table-bordered" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th>NISN</th>
-                                            <th>Nama Lengkap</th>
-                                            <th>Total Pinjam</th>
-                                            <th>#</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="data_laporan_siswa">
-                                    </tbody>
-                                </table>
+                                <div class="table-responsive">
+                                    <table id="tabel_laporan_siswa" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>NISN</th>
+                                                <th>Nama Lengkap</th>
+                                                <th>Total Pinjam</th>
+                                                <th>#</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="data_laporan_siswa">
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

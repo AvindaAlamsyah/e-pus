@@ -58,22 +58,24 @@
                                 <h2 class="title-1">Data Peminjaman Buku (Fisik)</h2>
                             </div>
                             <div class="au-card">
-                                <table id="tabel_peminjaman" class="table table-striped table-bordered" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th>Nama</th>
-                                            <th>Kelas</th>
-                                            <th>Judul</th>
-                                            <th>Tanggal Pinjam</th>
-                                            <th>Batas Kembali</th>
-                                            <th>Metode</th>
-                                            <th>Telat</th>
-                                            <th>#</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="data_peminjaman">
-                                    </tbody>
-                                </table>
+                                <div class="table-responsive">
+                                    <table id="tabel_peminjaman" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Nama</th>
+                                                <th>Kelas</th>
+                                                <th>Judul</th>
+                                                <th>Tanggal Pinjam</th>
+                                                <th>Batas Kembali</th>
+                                                <th>Metode</th>
+                                                <th>Telat</th>
+                                                <th>#</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="data_peminjaman">
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

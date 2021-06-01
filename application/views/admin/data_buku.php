@@ -60,18 +60,20 @@
                                     <i class="zmdi zmdi-plus"></i>tambah data</button>
                             </div>
                             <div class="au-card">
-                                <table id="tabel_buku" class="table table-striped table-bordered" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th>Judul</th>
-                                            <th>Tipe</th>
-                                            <th>Level</th>
-                                            <th>#</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="data_buku">
-                                    </tbody>
-                                </table>
+                                <div class="table-responsive">
+                                    <table id="tabel_buku" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Judul</th>
+                                                <th>Tipe</th>
+                                                <th>Level</th>
+                                                <th>#</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="data_buku">
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
