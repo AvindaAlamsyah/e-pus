@@ -262,6 +262,11 @@ class Dashboard extends CI_Controller
 
     public function peminjaman_terakhir($limit)
     {
+        if (!is_numeric($limit)) { 
+            http_response_code(400);
+            die(json_encode($this->response));
+         }
+        $limit = (int)$limit;
         $this->load->database();
         $data = $this->db->query('SELECT u.nama_lengkap as nama, u.kelas, b.judul_buku as judul, DATE_FORMAT(peminjaman.tanggal_pinjam, "%d-%m-%Y") as tanggal_pinjam, DATE_FORMAT(peminjaman.batas_tanggal_kembali, "%d-%m-%Y") as batas_kembali, peminjaman.metode FROM peminjaman JOIN buku b ON peminjaman.buku_id_buku = b.id_buku JOIN user u ON peminjaman.user_nisn = u.nisn ORDER BY peminjaman.id_peminjaman DESC LIMIT '.$limit)->result_array();
 
@@ -273,6 +278,11 @@ class Dashboard extends CI_Controller
 
     public function top_peminjam($limit)
     {
+        if (!is_numeric($limit)) { 
+            http_response_code(400);
+            die(json_encode($this->response));
+         }
+        $limit = (int)$limit;
         $this->load->database();
         $data = $this->db->query('SELECT u.nama_lengkap as nama, COUNT(*) as jumlah FROM user u JOIN peminjaman p ON u.nisn = p.user_nisn GROUP BY u.nisn ORDER BY jumlah DESC LIMIT '.$limit)->result_array();
 
