@@ -17,6 +17,9 @@ class Buku extends CI_Controller
         if (!$this->session->userdata('status_login')) {
             //session kosong
             redirect('login', 'refresh');
+        } else if ($this->session->userdata('tipe') !== 'usr') {
+            //akses bukan user
+            redirect("admin/login", "refresh");
         }
     }
 
@@ -128,7 +131,7 @@ class Buku extends CI_Controller
                         );
     
                         if ($this->model_peminjaman->insert($data_peminjam)) {
-                            $data['data'] = "buku/detail_buku/".$id_buku;
+                            $data['data'] = base_url()."buku/detail_buku/".$id_buku;
                             $data['status'] = 1;
                         } else {
                             $data['data'] = "Kesalahan teknis pencatatan data peminjamanmu.";
@@ -144,7 +147,7 @@ class Buku extends CI_Controller
                 }
                 
             } else {
-                $data['data'] = "buku/detail_buku/".$id_buku;
+                $data['data'] = base_url()."buku/detail_buku/".$id_buku;
                 $data['status'] = 1;
             }
         } else {
@@ -183,7 +186,7 @@ class Buku extends CI_Controller
                     );
 
                     if ($this->model_peminjaman->insert($data_peminjam)) {
-                        $data['data'] = "buku/detail_buku/".$id_buku_baru;
+                        $data['data'] = base_url()."buku/detail_buku/".$id_buku_baru;
                         $data['status'] = true;
                     } else {
                         $data['data'] = "Kesalahan teknis pencatatan data peminjamanmu.";
@@ -203,11 +206,6 @@ class Buku extends CI_Controller
         }
         
         echo json_encode($data);
-    }
-
-    public function test($level)
-    {
-        echo json_encode($this->model_resource->select_all_join($level));
     }
 }
 

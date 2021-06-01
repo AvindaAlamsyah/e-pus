@@ -18,12 +18,15 @@ class Login extends CI_Controller
 
     public function index()
     {
-        if ($this->session->userdata('status_login')) {
-
-            redirect('admin/data_anggota', 'refresh');
-        } else {
+        if ($this->session->userdata('status_login') && $this->session->userdata('tipe') == 'adm') {
+            //session ada
+            redirect('admin/dashboard', 'refresh');
+        } else if ($this->session->userdata('status_login')) {
+            //akses bukan admin
+            redirect("beranda", "refresh");
+        } else{
             $this->load->view('admin/login', $this->pesan);
-        }
+        }       
     }
 
     public function verifikasi()
@@ -73,12 +76,6 @@ class Login extends CI_Controller
         $this->session->sess_destroy();
 
         redirect("admin/login", "refresh");
-    }
-
-    public function test()
-    {
-        //echo password_hash("supersu", PASSWORD_ARGON2I);
-        //echo json_encode($this->session->userdata());
     }
 }
 

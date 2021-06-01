@@ -5,7 +5,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Beranda extends CI_Controller
 {
 
-
     public function __construct()
     {
         parent::__construct();
@@ -15,9 +14,11 @@ class Beranda extends CI_Controller
         if (!$this->session->userdata('status_login')) {
             //session kosong
             redirect('login', 'refresh');
+        } else if ($this->session->userdata('tipe') !== 'usr') {
+            //akses bukan user
+            redirect("admin/login", "refresh");
         }
     }
-
 
     public function index()
     {

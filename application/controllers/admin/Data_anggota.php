@@ -16,9 +16,9 @@ class Data_anggota extends CI_Controller
         if (!$this->session->userdata('status_login')) {
             //session kosong
             redirect('admin/login', 'refresh');
-        } else if (!$this->session->userdata('tipe') == 'adm') {
+        } else if ($this->session->userdata('tipe') !== 'adm') {
             //akses bukan admin
-            redirect("login", "refresh");
+            redirect("beranda", "refresh");
         }
     }
 
@@ -27,7 +27,6 @@ class Data_anggota extends CI_Controller
         $this->load->view('admin/data_anggota');
     }
 
-    //done test avinda
     public function tambah_anggota()
     {
         $data_user = array(
@@ -51,19 +50,16 @@ class Data_anggota extends CI_Controller
         echo json_encode($this->response);
     }
 
-    //done test avinda
     public function ambil_semua_anggota()
     {
         echo json_encode(array("data" => $this->model_user->select_all()));
     }
 
-    //done test avinda
     public function tampil_edit()
     {
         echo json_encode($this->model_user->select_where(array("nisn" => $this->input->post('edit_nisn'))));
     }
 
-    //done test avinda
     public function simpan_edit()
     {
         $data_user = array(
@@ -119,7 +115,6 @@ class Data_anggota extends CI_Controller
         echo json_encode($this->response);
     }
 
-    //done test avinda
     public function hapus_anggota()
     {
         $where = array(
@@ -146,7 +141,6 @@ class Data_anggota extends CI_Controller
         echo json_encode($this->response);
     }
 
-    //done test avinda
     public function reset_password()
     {
         $where = array(
@@ -166,7 +160,6 @@ class Data_anggota extends CI_Controller
         echo json_encode($this->response);
     }
 
-    //donte test avinda
     public function detail_anggota($nisn)
     {
         $detail = $this->model_user->select_where(array('nisn' => $nisn));
@@ -177,7 +170,6 @@ class Data_anggota extends CI_Controller
         }
     }
 
-    //done test avinda
     public function import() 
     {
         $this->load->library('upload');
@@ -238,7 +230,6 @@ class Data_anggota extends CI_Controller
         }
     }
 
-    //done test avinda
     private function upload($name, $type, $msg)
     {
         $config['upload_path'] = './asset/admin/temp/';

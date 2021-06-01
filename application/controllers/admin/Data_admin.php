@@ -17,9 +17,9 @@ class Data_admin extends CI_Controller
         if (!$this->session->userdata('status_login')) {
             //session kosong
             redirect('admin/login', 'refresh');
-        } else if (!$this->session->userdata('tipe') == 'adm') {
+        } else if ($this->session->userdata('tipe') !== 'adm') {
             //akses bukan admin
-            redirect("login", "refresh");
+            redirect("beranda", "refresh");
         }
     }
 
@@ -28,13 +28,11 @@ class Data_admin extends CI_Controller
         $this->load->view('admin/data_admin');
     }
 
-    //done tested avinda
     public function ambil_semua_admin()
     {
         echo json_encode(array("data" => $this->model_admin->get_all(array("level" => 1))));
     }
 
-    //done tested avinda
     public function tambah_admin()
     {
         $data_admin = array(
@@ -55,13 +53,11 @@ class Data_admin extends CI_Controller
         echo json_encode($this->response);
     }
 
-    //done tested avinda
     public function tampil_edit()
     {
         echo json_encode($this->model_admin->get_where(array("id_admin" => $this->input->post('edit_id'))));
     }
 
-    //done tested avinda
     public function simpan_edit()
     {
         $data_admin = array(
@@ -87,7 +83,6 @@ class Data_admin extends CI_Controller
         echo json_encode($this->response);
     }
 
-    //done tested avinda
     public function hapus_admin()
     {
         $where = array(
@@ -105,7 +100,6 @@ class Data_admin extends CI_Controller
         echo json_encode($this->response);
     }
 
-    //done tested avinda
     public function reset_password()
     {
         $where = array(
