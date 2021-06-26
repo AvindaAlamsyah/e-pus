@@ -9,7 +9,7 @@
                         var CurrentYear = new Date().getFullYear()
                         document.write(CurrentYear)
                         </script>
-                        © SMK Negeri 1 Geger
+                        <a href="https://smkn1geger.sch.id/" target="_blank">© SMK Negeri 1 Geger</a>
                     </p>
                 </div>
                 <div class="col-sm-5 text-sm-right text-center">

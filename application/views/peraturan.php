@@ -27,8 +27,8 @@
     <link href="<?php echo base_url('asset/') ?>css/style.css" rel="stylesheet">
 
     <!--Favicon-->
-    <link rel="shortcut icon" href="<?php echo base_url('asset/') ?>images/favicon.png" type="image/x-icon">
-    <link rel="icon" href="<?php echo base_url('asset/') ?>images/favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="<?php echo base_url('asset/') ?>images/icon.png" type="image/x-icon">
+    <link rel="icon" href="<?php echo base_url('asset/') ?>images/icon.png" type="image/x-icon">
 
 </head>
 
@@ -173,11 +173,6 @@
     <script src="<?php echo base_url('asset/') ?>plugins/aos/aos.js"></script>
     <!-- venobox popup -->
     <script src="<?php echo base_url('asset/') ?>plugins/venobox/venobox.min.js"></script>
-    <!-- filter -->
-    <script src="<?php echo base_url('asset/') ?>plugins/filterizr/jquery.filterizr.min.js"></script>
-    <!-- google map -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu5nZKbeK-WHQ70oqOWo-_4VmwOwKP9YQ"></script>
-    <script src="<?php echo base_url('asset/') ?>plugins/google-map/gmap.js"></script>
 
     <!-- Main Script -->
     <script src="<?php echo base_url('asset/') ?>js/script.js"></script>
