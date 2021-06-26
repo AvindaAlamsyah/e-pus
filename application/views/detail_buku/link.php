@@ -5,6 +5,6 @@
                     if ($v->resource_id_tipe == 2) {
                         echo $v->source;
                       }
-                } ?>" class="btn btn-lg btn-primary">Kunjungi sumber</a>
+                } ?>" class="btn btn-lg btn-primary" target="_blank">Kunjungi sumber</a>
     </div>
 </div>
