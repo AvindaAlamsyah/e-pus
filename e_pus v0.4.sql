@@ -113,7 +113,22 @@ CREATE TABLE `kategori` (
 --
 
 INSERT INTO `kategori` (`id_kategori`, `nama_kategori`) VALUES
-(1, 'Matematika');
+(1, 'Pendidikan Agama');
+(2, 'Pendidikan Pancasila dan Kewarganegaraan');
+(3, 'Bahasa Indonesia');
+(4, 'Matematika');
+(5, 'Sejarah Indonesia');
+(6, 'Bahasa Inggris');
+(7, 'Seni Budaya');
+(8, 'Prakarya');
+(9, 'Pendidikan Jasmani dan Kesehatan');
+(10, 'Muatan Lokal Bahasa Jawa.');
+(11, 'TBSM');
+(12, 'TKJ');
+(13, 'AKL');
+(14, 'OTKP');
+(15, 'PBS');
+(16, 'Khusus');
 
 -- --------------------------------------------------------
 
