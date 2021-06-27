@@ -71,7 +71,7 @@
                 </div>
             </div>
 
-            <div class="row" style="margin-bottomm: 20px;">
+            <div class="row" style="margin-bottom: 20px;">
                 <div class="col-12">
                     <form action="<?php echo base_url('buku'); ?>" name="form_edit" id="form_edit" method="POST" enctype="multipart/form-data">
                         <div class="input-group mb-3">
