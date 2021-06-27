@@ -111,6 +111,34 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row" style="margin-top : 50px;">
+                        <div class="col-md-12">
+                            <div class="overview-wrap m-b-35">
+                                <h2 class="title-1">Informasi Peminjaman Buku</h2>
+                                <button class="au-btn au-btn-icon au-btn--blue" onclick="simpan_informasi_peminjaman_buku()">
+                                    <i class="zmdi zmdi-archive"></i>Simpan ke Excel</button>
+                            </div>
+                            <div class="au-card">
+                                <div class="table-responsive">
+                                    <table id="tabel_informasi_peminjaman_buku" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Judul Buku</th>
+                                                <th>Tahun Terbit</th>
+                                                <th>Penulis</th>
+                                                <th>Penerbit</th>
+                                                <th>Dipinjam</th>
+                                                <th>Tersedia</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="data_informasi_peminjaman_buku">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="copyright">
@@ -282,6 +310,44 @@
         //     }
         // })
     })
+
+    $(document).ready(function() {
+        $('#tabel_informasi_peminjaman_buku').DataTable();
+    })
+
+    $('#tabel_informasi_peminjaman_buku').DataTable({
+        'ajax': {
+            'url': "<?php echo base_url('admin/laporan/info_peminjaman') ?>",
+            'method': "GET",
+        },
+        'columns': [{
+                'data': "judul_buku"
+            },
+            {
+                'data': "tahun_terbit"
+            },
+            {
+                'data': "penulis"
+            },
+            {
+                'data': "penerbit"
+            },
+            {
+                'data': "dipinjam"
+            },
+            {
+                'data': "tersedia"
+            },
+            {
+                'data': "total"
+            },
+        ],
+        responsive: true
+    });
+
+    function simpan_informasi_peminjaman_buku() {
+        location.replace('<?php echo base_url("admin/export/simpan_informasi_peminjaman_buku") ?>');
+    }
     </script>
 
 </body>

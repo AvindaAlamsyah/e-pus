@@ -284,6 +284,136 @@ class Export extends CI_Controller {
         $drawing->setResizeProportional(true);
         $drawing->setWorksheet($file);
     }
+
+    public function simpan_informasi_peminjaman_buku() {
+        $this->load->database();
+        $sql = 'SELECT b.id_buku, b.judul_buku, b.penulis, b.penerbit, b.tahun_terbit, IF(a.pinjam IS NULL, 0, a.pinjam) as dipinjam, IF(a.sedia IS NULL, b.stok, a.sedia) as tersedia, b.stok as total FROM (SELECT buku.id_buku, COUNT(buku.id_buku) as pinjam, buku.stok-COUNT(buku.id_buku) as sedia FROM buku RIGHT JOIN peminjaman ON buku.id_buku = peminjaman.buku_id_buku WHERE peminjaman.tanggal_kembali IS NULL GROUP BY buku.id_buku) a RIGHT JOIN (SELECT buku.* FROM buku) b ON a.id_buku = b.id_buku';
+        $data = $this->db->query($sql)->result();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $spreadsheet->getDefaultStyle()->getFont()->setName('Times new Roman');
+        $spreadsheet->getDefaultStyle()->getFont()->setSize(12);
+
+        //style judul
+        $styleJudulDokumen = [
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP,
+            ],
+            'font' => [
+                'size' => 14,
+                'bold' => true,
+            ],
+        ];
+        $spreadsheet->getActiveSheet()->getStyle("A1")->applyFromArray($styleJudulDokumen);
+        $spreadsheet->getActiveSheet()->getStyle('A1')->getAlignment()->setWrapText(true);
+        $spreadsheet->getActiveSheet()->getRowDimension(1)->setRowHeight(37.50);
+        $spreadsheet->getActiveSheet()->mergeCells('A1:H1');
+
+        //judul
+        $judul = "INFORMASI PEMINJAMAN BUKU";
+        $sheet->setCellValue('A1', $judul);
+
+        //style header tabel
+        $styleHeaderTabel = [
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+                'wrapText' => true,
+            ],
+            'font' => [
+                'bold' => true,
+            ],
+        ];
+        $spreadsheet->getActiveSheet()->getStyle("A3:H3")->applyFromArray($styleHeaderTabel);
+        $spreadsheet->getActiveSheet()->getRowDimension(3)->setRowHeight(35);
+        $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(4);
+        $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(40);
+        $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(15);
+        $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(15);
+        $spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(15);
+        $spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(15);
+        $spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(15);
+        $spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(15);
+        
+        //tanggal
+        $spreadsheet->getActiveSheet()->mergeCells('G2:H2');
+        $sheet->setCellValue('F2', 'Tanggal')
+        ->setCellValue('G2', date("d-m-Y H:i:s"));
+
+        //header tabel
+        $sheet->setCellValue('A3', 'No')
+        ->setCellValue('B3', 'Judul Buku')
+        ->setCellValue('C3', 'Tahun Terbit')
+        ->setCellValue('D3', 'Penulis')
+        ->setCellValue('E3', 'Penerbit')
+        ->setCellValue('F3', 'Dipinjam')
+        ->setCellValue('G3', 'Tersedia')
+        ->setCellValue('H3', 'Total');
+        //data peminjaman
+        $row = 4;
+        $no = 1;
+        foreach($data as $v) {
+            $sheet->setCellValue("A$row", $no)
+                ->setCellValue("B$row", $v->judul_buku)
+                ->setCellValue("C$row", $v->tahun_terbit)
+                ->setCellValue("D$row", $v->penulis)
+                ->setCellValue("E$row", $v->penerbit)
+                ->setCellValue("F$row", $v->dipinjam)
+                ->setCellValue("G$row", $v->tersedia)
+                ->setCellValue("H$row", $v->total);
+            $row++;
+            $no++;
+        }
+
+        //style tabel
+        $row = $row-1;
+        //all
+        $styleTabelAll = [
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP,
+                'wrapText' => true,
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+            ],
+        ];
+        $spreadsheet->getActiveSheet()->getStyle("A3:H$row")->applyFromArray($styleTabelAll);
+
+        //header
+        $styleTabelHeader = [
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+                'wrapText' => true,
+            ],
+            'font' => [
+                'bold' => true,
+            ],
+        ];
+        $spreadsheet->getActiveSheet()->getStyle("A3:H3")->applyFromArray($styleTabelHeader);
+        // $spreadsheet->getActiveSheet()->getRowDimension(4)->setRowHeight(35);
+        //end style tabel
+
+
+        //membuat nama file
+        $filename = "Informasi Peminjaman Buku ".date("d-m-Y H:i:s");
+
+        //export ke xlsx
+        $writer = new Xlsx($spreadsheet);
+
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="'.$filename.'.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        $writer->save('php://output');
+        exit;
+    }
 }
 
 /* End of file Export.php */
