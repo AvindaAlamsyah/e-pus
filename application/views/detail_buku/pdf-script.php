@@ -2,12 +2,15 @@
 <script src="<?php echo base_url('asset/') ?>plugins/hammer/hammer.min.js"></script>
 <script>
   var canvas = document.getElementById("pdf_renderer");
+  var canvas2 = document.getElementById("pdf_renderer2");
+
   var mc = new Hammer(canvas);
+  var mc2 = new Hammer(canvas2);
 
   var pdfReaderState = {
     pdf: null,
     currentPage: 1,
-    zoom: 1
+    zoom: 2
   }
   var url = '<?php echo base_url('asset/'); ?>admin/buku/<?php foreach ($resource as $key => $v) {
     if ($v->resource_id_tipe == 1 || $v->resource_id_tipe == 5) {
@@ -25,15 +28,23 @@
     pdfReaderState.pdf.getPage(pdfReaderState.currentPage).then((page) => {
 
       var ctx = canvas.getContext('2d');
+      var ctx2 = canvas2.getContext('2d');
 
       var viewport = page.getViewport(pdfReaderState.zoom);
+      var viewport2 = page.getViewport(4);
 
       canvas.width = viewport.width;
       canvas.height = viewport.height;
+      canvas2.width = viewport2.width;
+      canvas2.height = viewport2.height;
 
       page.render({
         canvasContext: ctx,
         viewport: viewport
+      });
+      page.render({
+        canvasContext: ctx2,
+        viewport: viewport2
       });
     });
   }
@@ -108,6 +119,27 @@
         break;
     }
   });
+  canvas2.addEventListener('keyup', (e) => {
+    let code = e.keyCode;
+    switch (code) {
+      case 37:
+        if (pdfReaderState.pdf == null || pdfReaderState.currentPage == 1)
+          return;
+        pdfReaderState.currentPage -= 1;
+        document.getElementById("current_page").value = pdfReaderState.currentPage;
+        render();
+        break;
+      case 39:
+        if (pdfReaderState.pdf == null || pdfReaderState.currentPage >= pdfReaderState.pdf._pdfInfo.numPages)
+          return;
+        pdfReaderState.currentPage += 1;
+        document.getElementById("current_page").value = pdfReaderState.currentPage;
+        render();
+        break;
+      default:
+        break;
+    }
+  });
 
   // swipe...
   mc.on("swiperight", (e) =>{
@@ -124,4 +156,20 @@
     document.getElementById("current_page").value = pdfReaderState.currentPage;
     render();
   });
+  mc2.on("swiperight", (e) =>{
+    if (pdfReaderState.pdf == null || pdfReaderState.currentPage == 1)
+      return;
+    pdfReaderState.currentPage -= 1;
+    document.getElementById("current_page").value = pdfReaderState.currentPage;
+    render();
+  });
+  mc2.on("swipeleft", (e) =>{
+    if (pdfReaderState.pdf == null || pdfReaderState.currentPage >= pdfReaderState.pdf._pdfInfo.numPages)
+      return;
+    pdfReaderState.currentPage += 1;
+    document.getElementById("current_page").value = pdfReaderState.currentPage;
+    render();
+  });
+
+  
 </script>
