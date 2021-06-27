@@ -152,6 +152,19 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row" style="margin-bottomm: 20px;">
+                <div class="col-12">
+                    <form action="<?php echo base_url('buku'); ?>" name="form_edit" id="form_edit" method="POST" enctype="multipart/form-data">
+                        <div class="input-group mb-3">
+                            <input type="text" name="search_buku" class="form-control" placeholder="Cari judul buku" autocomplete="off">
+                            <div class="input-group-append">
+                                <input class="btn btn-outline-secondary" value="cari" type="submit" name="submit">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
             <!-- course list -->
             <div class="row justify-content-center">
                 <?php foreach ($buku as $buku) { ?>
@@ -161,13 +174,11 @@
                         <img style="object-fit: contain; height: 300px;" class="card-img-top rounded-0" src="<?php echo base_url('asset/admin/buku/'.$buku->cover) ?>" alt="cover tidak ada">
                         <div class="card-body">
                             <ul class="list-inline mb-2">
-                                <li class="list-inline-item"><i class="ti-star mr-1 text-color"></i>Level <?php echo $buku->level_buku; ?></li>
+                                <li class="list-inline-item"><i class="ti-star mr-1 text-color"></i>Lv. <?php echo $buku->level_buku; ?></li>
                                 <li class="list-inline-item"><i class="ti-tag mr-1 text-color"></i><?php echo $buku->tipe_buku; ?></li>
+                                <li class="list-inline-item"><i class="ti-archive mr-1 text-color"> Stok <?php echo $buku->stok; ?></i></li>
                             </ul>
-                            <a href="course-single.html">
-                                <h4 class="card-title">Judul</h4>
-                            </a>
-                            <p class="card-text mb-4" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"><?php echo $buku->judul_buku; ?></p>
+                            <h5 class="card-title" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"><?php echo $buku->judul_buku; ?></h5>
                             <buttton onclick="baca(<?php echo $buku->id_buku; ?>)" class="btn btn-primary btn-sm">Baca buku</buttton>
                         </div>
                     </div>
