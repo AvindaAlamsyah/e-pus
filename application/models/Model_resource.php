@@ -77,6 +77,36 @@ class Model_resource extends CI_Model
         return $this->db->get('buku',$limit,$offset)->result();
     }
 
+    function select_all_tipe($tipe,$level, $limit, $offset, $like = null)
+    {
+        $this->db->select('buku.id_buku, buku.judul_buku, buku.level_buku, buku.cover, (SELECT buku.stok - COUNT(peminjaman.id_peminjaman) FROM peminjaman WHERE peminjaman.tanggal_kembali IS NULL and peminjaman.buku_id_buku = buku.id_buku) AS stok, GROUP_CONCAT( IF(book_type.book_type_name = "book","E-book,Fisik",book_type.book_type_name)) AS tipe_buku', false);
+        $this->db->join('resource', 'buku.id_buku = resource.resource_id_buku', 'inner');
+        $this->db->join('book_type', 'resource.resource_id_tipe = book_type.id_book_type', 'inner');
+        $this->db->where('buku.level_buku <=', $level);
+        $this->db->where('resource.resource_id_tipe', $tipe);
+        if($like){
+            $this->db->like('buku.judul_buku', $like);
+        }
+        $this->db->group_by('buku.id_buku');
+        
+        return $this->db->get('buku',$limit,$offset)->result();
+    }
+
+    function select_all_kategori($kategori,$level, $limit, $offset, $like = null)
+    {
+        $this->db->select('buku.id_buku, buku.judul_buku, buku.level_buku, buku.cover, (SELECT buku.stok - COUNT(peminjaman.id_peminjaman) FROM peminjaman WHERE peminjaman.tanggal_kembali IS NULL and peminjaman.buku_id_buku = buku.id_buku) AS stok, GROUP_CONCAT( IF(book_type.book_type_name = "book","E-book,Fisik",book_type.book_type_name)) AS tipe_buku', false);
+        $this->db->join('resource', 'buku.id_buku = resource.resource_id_buku', 'inner');
+        $this->db->join('book_type', 'resource.resource_id_tipe = book_type.id_book_type', 'inner');
+        $this->db->where('buku.level_buku <=', $level);
+        $this->db->where('kategori_id_kategori', $kategori);
+        if($like){
+            $this->db->like('buku.judul_buku', $like);
+        }
+        $this->db->group_by('buku.id_buku');
+        
+        return $this->db->get('buku',$limit,$offset)->result();
+    }
+
     function count_tipe()
     {
         $this->db->select('book_type.book_type_name, COUNT(resource.id_resource) AS total');

@@ -4,12 +4,14 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-7 text-sm-left text-center">
-                    <p class="mb-0">Copyright
+                    <p class="mb-0" style="color: lemonchiffon;">Copyright ©
                         <script>
                         var CurrentYear = new Date().getFullYear()
                         document.write(CurrentYear)
                         </script>
-                        <a href="https://smkn1geger.sch.id/" target="_blank">© SMK Negeri 1 Geger</a>
+                        <a href="https://smkn1geger.sch.id/" target="_blank"> SMK Negeri 1 Geger</a>
+                        | Powered by
+                        <a href="https://robotindo.id/" target="_blank"> ROBOTINDO</a>
                     </p>
                 </div>
                 <div class="col-sm-5 text-sm-right text-center">

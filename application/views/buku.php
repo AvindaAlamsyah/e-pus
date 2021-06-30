@@ -70,69 +70,22 @@
                         <li class="nav-item">
                             <a class="nav-link active" href="#">Semua</a>
                         </li>
+                        <?php foreach ($tipe as $tipe) { ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">E-book</a>
+                            <a class="nav-link" href="<?php echo base_url('buku/tipe/').$tipe->id_book_type; ?>"><?php echo $tipe->book_type_name; ?></a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Audiobook</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Videobook</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
+                        <?php } ?>
                     </ul>
                     <h5>Kategori Buku</h5>
                     <ul class="nav nav-pills mb-4">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">Semua</a>
+                            <a class="nav-link active" href="<?php echo base_url('buku'); ?>">Semua</a>
                         </li>
+                        <?php foreach ($kategori as $kategori) { ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Pendidikan Agama</a>
+                            <a class="nav-link" href="<?php echo base_url('buku/kategori/').$kategori->id_kategori; ?>"><?php echo $kategori->nama_kategori; ?></a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Pendidikan Pancasila dan Kewarganegaraan</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Bahasa Indonesia</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Matematika</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Sejaran Indonesia</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Bahasa Inggris</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Seni Budaya</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Prakarya</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Pendidikan Jasmani dan Kesehatan</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Muatan Lokal Bahasa Jawa.</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">TBSM</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">TKJ</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">AKL</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">OTKP</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">PBS</a>
-                        </li>
+                        <?php } ?>
                     </ul>
                 </div>
             </div>

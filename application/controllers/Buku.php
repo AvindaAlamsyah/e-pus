@@ -13,6 +13,8 @@ class Buku extends CI_Controller
         $this->load->model('model_resource');
         $this->load->model('model_peminjaman');
         $this->load->model('model_user');
+        $this->load->model('model_book_type');
+        $this->load->model('model_kategori');
         
         if (!$this->session->userdata('status_login')) {
             //session kosong
@@ -41,6 +43,7 @@ class Buku extends CI_Controller
         $this->db->like('buku.judul_buku', $data['keyword']);
         $this->db->from('buku');
         $this->db->where('deleted_at', null);
+        $this->db->where('buku.level_buku <=', $this->session->userdata('level'));
         
         $config['base_url'] = base_url('/buku/index');
         $config['total_rows'] = $this->db->count_all_results();
@@ -68,10 +71,121 @@ class Buku extends CI_Controller
         $this->pagination->initialize($config);
         
         $data = array(
-            'buku' => $this->model_resource->select_all_join($this->session->userdata('level'), $config['per_page'], $this->uri->segment(3), $data['keyword'])
+            'buku' => $this->model_resource->select_all_join($this->session->userdata('level'), $config['per_page'], $this->uri->segment(3), $data['keyword']),
+            'tipe' => $this->model_book_type->select_all(),
+            'kategori' => $this->model_kategori->select_all()
         );
         $this->load->view('buku', $data);
-    }    
+    }
+
+    public function tipe($id)
+    {
+        $this->load->library('pagination');
+
+        if ($this->input->post('submit')) {
+            $data['keyword'] = $this->input->post('search_buku');
+            $this->session->set_userdata('seacrh_buku', $data['keyword']);
+            
+        } else {
+            $data['keyword'] = $this->session->userdata('keyword');
+            if ($this->uri->segment(4) == null) {
+                $data['keyword'] = null;
+            }
+        }        
+
+        $this->db->like('buku.judul_buku', $data['keyword']);
+        $this->db->from('buku');
+        $this->db->join('resource', 'resource.resource_id_buku = buku.id_buku', 'left');
+        $this->db->where('deleted_at', null);
+        $this->db->where('resource.resource_id_tipe', $id);
+        $this->db->where('buku.level_buku <=', $this->session->userdata('level'));
+        
+        $config['base_url'] = base_url('/buku/tipe/'.$id);
+        $config['total_rows'] = $this->db->count_all_results();
+        $config['per_page'] = 9;
+        $config['full_tag_open'] = '<nav><ul class="pagination justify-content-center">';
+        $config['full_tag_close'] = '</ul></nav>';
+        $config['first_link'] = 'First';
+        $config['first_tag_open'] = '<li class="page-item">';
+        $config['first_tag_close'] = '</li>';
+        $config['last_link'] = 'Last';
+        $config['last_tag_open'] = '<li class="page-item">';
+        $config['last_tag_close'] = '</li>';
+        $config['next_link'] = '&raquo';
+        $config['next_tag_open'] = '<li class="page-item">';
+        $config['next_tag_close'] = '</li>';
+        $config['prev_link'] = '&laquo';
+        $config['prev_tag_open'] = '<li class="page-item">';
+        $config['prev_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="page-item active"> <a class="page-link" href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li class="page-item">';
+        $config['num_tag_close'] = '</li>';
+        $config['attributes'] = array('class' => 'page-link');
+        
+        $this->pagination->initialize($config);
+        
+        $data = array(
+            'buku' => $this->model_resource->select_all_tipe($id,$this->session->userdata('level'), $config['per_page'], $this->uri->segment(4), $data['keyword']),
+            'tipe' => $this->model_book_type->select_all(),
+            'kategori' => $this->model_kategori->select_all()
+        );
+        $this->load->view('tipe_buku', $data);
+    }
+
+    public function kategori($id)
+    {
+        $this->load->library('pagination');
+
+        if ($this->input->post('submit')) {
+            $data['keyword'] = $this->input->post('search_buku');
+            $this->session->set_userdata('seacrh_buku', $data['keyword']);
+            
+        } else {
+            $data['keyword'] = $this->session->userdata('keyword');
+            if ($this->uri->segment(4) == null) {
+                $data['keyword'] = null;
+            }
+        }        
+
+        $this->db->like('buku.judul_buku', $data['keyword']);
+        $this->db->from('buku');
+        $this->db->where('deleted_at', null);
+        $this->db->where('kategori_id_kategori', $id);
+        $this->db->where('buku.level_buku <=', $this->session->userdata('level'));
+        
+        $config['base_url'] = base_url('/buku/kategori/'.$id);
+        $config['total_rows'] = $this->db->count_all_results();
+        $config['per_page'] = 9;
+        $config['full_tag_open'] = '<nav><ul class="pagination justify-content-center">';
+        $config['full_tag_close'] = '</ul></nav>';
+        $config['first_link'] = 'First';
+        $config['first_tag_open'] = '<li class="page-item">';
+        $config['first_tag_close'] = '</li>';
+        $config['last_link'] = 'Last';
+        $config['last_tag_open'] = '<li class="page-item">';
+        $config['last_tag_close'] = '</li>';
+        $config['next_link'] = '&raquo';
+        $config['next_tag_open'] = '<li class="page-item">';
+        $config['next_tag_close'] = '</li>';
+        $config['prev_link'] = '&laquo';
+        $config['prev_tag_open'] = '<li class="page-item">';
+        $config['prev_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="page-item active"> <a class="page-link" href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li class="page-item">';
+        $config['num_tag_close'] = '</li>';
+        $config['attributes'] = array('class' => 'page-link');
+        
+        $this->pagination->initialize($config);
+        
+        $data = array(
+            'buku' => $this->model_resource->select_all_kategori($id,$this->session->userdata('level'), $config['per_page'], $this->uri->segment(4), $data['keyword']),
+            'tipe' => $this->model_book_type->select_all(),
+            'kategori' => $this->model_kategori->select_all()
+        );
+        $this->load->view('kategori_buku', $data);
+    }
 
     public function detail_buku($id)
     {

@@ -80,14 +80,11 @@
             </div>
             <!-- course info -->
             <div class="row align-items-center mb-5">
-                <div class="col-xl-3 order-1 col-sm-6 mb-4 mb-xl-0">
-                    <h2>Informasi Buku</h2>
-                </div>
-                <div class="col-xl-6 order-sm-3 order-xl-2 col-12 order-2">
-                    <ul class="list-inline text-xl-center">
+                <div class="col-lg-9">
+                    <ul class="list-inline">
                         <li class="list-inline-item mr-4 mb-3 mb-sm-0">
                             <div class="d-flex align-items-center">
-                                <i class="ti-pencil-alt text-primary icon-md mr-2"></i>
+                                <i class="ti-pencil-alt icon-md mr-2"></i>
                                 <div class="text-left">
                                     <h6 class="mb-0">PENULIS</h6>
                                     <p class="mb-0"><?php echo $penulis; ?></p>
@@ -96,7 +93,7 @@
                         </li>
                         <li class="list-inline-item mr-4 mb-3 mb-sm-0">
                             <div class="d-flex align-items-center">
-                                <i class="ti-printer text-primary icon-md mr-2"></i>
+                                <i class="ti-printer icon-md mr-2"></i>
                                 <div class="text-left">
                                     <h6 class="mb-0">PENERBIT</h6>
                                     <p class="mb-0"><?php echo $penerbit; ?></p>
@@ -105,7 +102,7 @@
                         </li>
                         <li class="list-inline-item mr-4 mb-3 mb-sm-0">
                             <div class="d-flex align-items-center">
-                                <i class="ti-time text-primary icon-md mr-2"></i>
+                                <i class="ti-time icon-md mr-2"></i>
                                 <div class="text-left">
                                     <h6 class="mb-0">TAHUN</h6>
                                     <p class="mb-0"><?php echo $tahun_terbit; ?></p>
