@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Digital Library | SMKN 1 Geger</title>
+    <title>Daftar Buku | SMKN 1 Geger</title>
 
     <!-- mobile responsive meta -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -43,119 +43,68 @@
     <?php $this->load->view('header'); ?>
     <!-- /header -->
 
-    <!-- hero slider -->
-    <section class="hero-section overlay bg-cover" data-background="<?php echo base_url('asset/') ?>images/banner/banner-1.jpg">
+    <!-- page title -->
+    <section class="page-title-section overlay" data-background="images/backgrounds/page-title.jpg">
         <div class="container">
-            <div class="hero-slider">
-                <!-- slider item -->
-                <div class="hero-slider-item">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h1 class="text-white" data-animation-out="fadeOutRight" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInLeft" data-delay-in=".1">
-                                Jangan Membaca Sampai Koma, Tapi Bacalah Sampai Titik.
-                            </h1>
-                            <p class="text-muted mb-4" data-animation-out="fadeOutRight" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInLeft" data-delay-in=".4">
-                                Membaca itu ibarat menabung. Semakin dalam, semakin banyak hal berharga yang didapatkan.
-                            </p>
-                            <a href="<?php echo base_url('buku'); ?>" class="btn btn-primary" data-animation-out="fadeOutRight" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInLeft" data-delay-in=".7">Lihat buku</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- slider item -->
-                <div class="hero-slider-item">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h1 class="text-white" data-animation-out="fadeOutUp" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInDown" data-delay-in=".1">
-                                Pentingnya Membaca Buku Untuk Ilmu.
-                            </h1>
-                            <p class="text-muted mb-4" data-animation-out="fadeOutUp" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInDown" data-delay-in=".4">
-                                Jangan sekali-kali kamu berhenti membaca hingga akhirnya kamu mengerti sejarah dunia.
-                            </p>
-                            <a href="<?php echo base_url('buku'); ?>" class="btn btn-primary" data-animation-out="fadeOutUp" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInDown" data-delay-in=".7">Lihat buku</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- slider item -->
-                <div class="hero-slider-item">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h1 class="text-white" data-animation-out="fadeOutDown" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".1">
-                                Jarimu Terlalu Sibuk Mengetik, Sementara Matamu Terlalu Malas Membaca.
-                            </h1>
-                            <p class="text-muted mb-4" data-animation-out="fadeOutDown" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".4">
-                                Orang yang rajin membaca bagaikan sedang melihat masa lalu dan masa depan. Hadir disetiap sejarah, dan hadir disetiap imajinasi orang-orang hebat.
-                            </p>
-                            <a href="<?php echo base_url('buku'); ?>" class="btn btn-primary" data-animation-out="fadeOutDown" data-delay-out="5" data-duration-in=".3" data-animation-in="zoomIn" data-delay-in=".7">Lihat buku</a>
-                        </div>
-                    </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <ul class="list-inline custom-breadcrumb">
+                        <li class="list-inline-item"><a class="h2 text-primary font-secondary" href="<?php echo base_url('buku') ?>">Bacalah Buku</a></li>
+                        <li class="list-inline-item text-white h3 font-secondary "></li>
+                    </ul>
+                    <p class="text-lighten">"Buku adalah pembawa peradaban. Tanpa buku, sejarah itu sunyi, sastra itu bodoh, sains lumpuh, pemikiran dan spekulasi terhenti. Buku adalah mesin perubahan, jendela di dunia, mercusuar yang didirikan di lautan waktu." - Barbara W. Tuchman</p>
                 </div>
             </div>
         </div>
     </section>
-    <!-- /hero slider -->
-
-    <!-- banner-feature -->
-    <section class="bg-gray overflow-md-hidden">
-        <div class="container-fluid p-0">
-            <div class="row no-gutters">
-                <div class="col-xl-4 col-lg-5 align-self-end">
-                    <img class="img-fluid w-100" src="<?php echo base_url('asset/'); ?>images/banner/banner-feature.png" alt="banner-feature">
-                </div>
-                <div class="col-xl-8 col-lg-7">
-                    <div class="row feature-blocks bg-gray justify-content-between">
-                        <div class="col-sm-6 col-xl-5 mb-xl-5 mb-lg-3 mb-4 text-center text-sm-left">
-                            <i class="ti-book mb-xl-4 mb-lg-3 mb-4 feature-icon"> <?php echo $tipe[0]->total; ?></i>
-                            <h3 class="mb-xl-4 mb-lg-3 mb-4"><a href="<?php echo base_url('buku/tipe/1'); ?>">E-Book</a></h3>
-                            <p>
-                                Buku yang tersedia dalam bentuk digital, terdiri dari teks, gambar atau keduanya, yang dapat dibaca pada layar komputer atau perangkat elektronik lainnya.
-                            </p>
-                        </div>
-                        <div class="col-sm-6 col-xl-5 mb-xl-5 mb-lg-3 mb-4 text-center text-sm-left">
-                            <i class="ti-microphone mb-xl-4 mb-lg-3 mb-4 feature-icon"> <?php echo $tipe[2]->total; ?></i>
-                            <h3 class="mb-xl-4 mb-lg-3 mb-4"><a href="<?php echo base_url('buku/tipe/3'); ?>">Audiobook</a></h3>
-                            <p>
-                                Rekaman dari teks buku atau bahan tertulis lainnya yang dibacakan oleh seseorang atau sekelompok orang.
-                            </p>
-                        </div>
-                        <div class="col-sm-6 col-xl-5 mb-xl-5 mb-lg-3 mb-4 text-center text-sm-left">
-                            <i class="ti-video-camera mb-xl-4 mb-lg-3 mb-4 feature-icon"> <?php echo $tipe[3]->total; ?></i>
-                            <h3 class="mb-xl-4 mb-lg-3 mb-4"><a href="<?php echo base_url('buku/tipe/4'); ?>">Videobook</a></h3>
-                            <p>
-                                Rekaman dari tiap kalimat ataupun versi singkat dari buku yang dapat dilihat dan didengar tanpa harus membaca tulisan dari sebuah buku yang dipublikasikan.
-                            </p>
-                        </div>
-                        <div class="col-sm-6 col-xl-5 mb-xl-5 mb-lg-3 mb-4 text-center text-sm-left">
-                            <i class="ti-link mb-xl-4 mb-lg-3 mb-4 feature-icon"> <?php echo $tipe[1]->total; ?></i>
-                            <h3 class="mb-xl-4 mb-lg-3 mb-4"><a href="<?php echo base_url('buku/tipe/2'); ?>">External Link</a></h3>
-                            <p>
-                                Sebuah tautan yang mengarah langsung ke website lainnya berisi e-book, jurnal, artikel atau materi pembelajaran apapun.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- /banner-feature -->
+    <!-- /page title -->
 
     <!-- courses -->
-    <section class="section-sm">
+    <section class="section" style="padding-top: 40px;">
         <div class="container">
             <div class="row">
                 <div class="col-12">
+                    <!-- teacher category list -->
+                    <h5>Tipe Buku</h5>
+                    <ul class="nav nav-pills mb-1">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="<?php echo base_url('buku'); ?>">Semua</a>
+                        </li>
+                        <?php foreach ($tipe as $tipe) { ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?php echo base_url('buku/tipe/').$tipe->id_book_type; ?>"><?php echo $tipe->book_type_name; ?></a>
+                        </li>
+                        <?php } ?>
+                    </ul>
+                    <h5>Kategori Buku</h5>
+                    <ul class="nav nav-pills mb-4">
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?php echo base_url('buku'); ?>">Semua</a>
+                        </li>
+                        <?php foreach ($kategori as $kategori) { ?>
+                        <li class="nav-item">
+                            <a class="nav-link <?php 
+                            if ($this->uri->segment(3) == $kategori->id_kategori) {
+                                echo "active";
+                            } ?>" href="<?php echo base_url('buku/kategori/').$kategori->id_kategori; ?>"><?php echo $kategori->nama_kategori; ?></a>
+                        </li>
+                        <?php } ?>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
                     <div class="d-flex align-items-center section-title justify-content-between">
-                        <h2 class="mb-0 text-nowrap mr-3">Katalog Buku</h2>
+                        <h2 class="mb-0 text-nowrap mr-3">Daftar Buku</h2>
                         <div class="border-top w-100 border-primary d-none d-sm-block"></div>
-                        <div>
-                            <a href="<?php echo base_url('buku'); ?>" class="btn btn-sm btn-primary-outline ml-sm-3 d-none d-sm-block">Lihat lainnya</a>
-                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="row" style="margin-bottomm: 20px;">
+            <div class="row" style="margin-bottom: 20px;">
                 <div class="col-12">
-                    <form action="<?php echo base_url('buku'); ?>" name="form_edit" id="form_edit" method="POST" enctype="multipart/form-data">
+                    <form action="<?php echo base_url('buku/tipe/').$this->uri->segment(3); ?>" name="form_edit" id="form_edit" method="POST" enctype="multipart/form-data">
                         <div class="input-group mb-3">
                             <input type="text" name="search_buku" class="form-control" placeholder="Cari judul buku" autocomplete="off">
                             <div class="input-group-append">
@@ -186,36 +135,17 @@
                 <?php } ?>
             </div>
             <!-- /course list -->
-            <!-- mobile see all button -->
-            <div class="row">
-                <div class="col-12 text-center">
-                    <a href="<?php echo base_url('buku'); ?>" class="btn btn-sm btn-primary-outline d-sm-none d-inline-block">Lihat lainnya</a>
-                </div>
-            </div>
+            <?php echo $this->pagination->create_links(); ?>
         </div>
     </section>
     <!-- /courses -->
-
-    <!-- cta -->
-    <section class="section bg-primary">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <h6 class="text-white font-secondary mb-0">Penasaran dengan buku lainnya?</h6>
-                    <h2 class="section-title text-white">Yuk cari lebih banyak buku lagi</h2>
-                    <a href="<?php echo base_url('buku'); ?>" class="btn btn-secondary">Lihat buku</a>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- /cta -->
 
     <!-- Modal List -->
     <div id="modal_list" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">Tambah Admin</h4>
+                    <h4 class="modal-title" id="myModalLabel">Kembalikan Buku</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 </div>
                 <div class="modal-body">
@@ -273,7 +203,6 @@
 
     <!-- Main Script -->
     <script src="<?php echo base_url('asset/') ?>js/script.js"></script>
-
     <script>
     function baca(id) {
         $('#modal_loading').modal('show');
@@ -336,6 +265,10 @@
                 alert(errorMessage);
             }
         })
+    }
+
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
     }
     </script>
 
