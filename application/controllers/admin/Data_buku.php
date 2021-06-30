@@ -15,6 +15,7 @@ class Data_buku extends CI_Controller
         $this->load->model('model_buku');
         $this->load->model('model_resource');
         $this->load->model('model_peminjaman');
+        $this->load->model('model_kategori');
         if (!$this->session->userdata('status_login')) {
             //session kosong
             redirect('admin/login', 'refresh');
@@ -26,7 +27,10 @@ class Data_buku extends CI_Controller
 
     public function index()
     {
-        $this->load->view('admin/data_buku');
+        $context = array(
+            "data_kategori" => $this->model_kategori->select_all(),
+        );
+        $this->load->view('admin/data_buku', $context);
     }
 
     public function ambil_semua()
@@ -67,6 +71,7 @@ class Data_buku extends CI_Controller
     {
         $this->load->library('upload');
         $data_buku = array(
+            "kategori_id_kategori" => $this->input->post('tambah_kategori'),
             "judul_buku" => $this->input->post('tambah_judul'),
             "penulis" => $this->input->post('tambah_penulis'),
             "penerbit" => $this->input->post('tambah_penerbit'),
@@ -160,6 +165,7 @@ class Data_buku extends CI_Controller
 
         $this->load->library('upload');
         $data_buku = array(
+            "kategori_id_kategori" => $this->input->post('edit_kategori'),
             "judul_buku" => $this->input->post('edit_judul'),
             "penulis" => $this->input->post('edit_penulis'),
             "penerbit" => $this->input->post('edit_penerbit'),

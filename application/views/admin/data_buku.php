@@ -102,6 +102,16 @@
                 <form name="form_tambah" id="form_tambah" type="POST" enctype="multipart/form-data">
                     <div class="modal-body">
                         <div class="form-group">
+                            <label for="tambah_kategori">Kategori</label>
+                            <div class="controls">
+                                <select name="tambah_kategori" id="tambah_kategori" class="form-control">
+                                    <?php foreach ($data_kategori as $value) { ?>
+                                        <option value="<?php echo $value->id_kategori ?>"><?php echo $value->nama_kategori ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label for="tambah_judul">Judul</label>
                             <div class="controls">
                                 <input name="tambah_judul" id="tambah_judul" type="text" class="form-control">
@@ -202,6 +212,16 @@
                 <form name="form_edit" id="form_edit" type="POST" enctype="multipart/form-data">
                     <div class="modal-body">
                         <input type="text" name="edit_id" id="edit_id" class="form-control" hidden>
+                        <div class="form-group">
+                            <label for="edit_kategori">Kategori</label>
+                            <div class="controls">
+                                <select name="edit_kategori" id="edit_kategori" class="form-control">
+                                    <?php foreach ($data_kategori as $value) { ?>
+                                        <option value="<?php echo $value->id_kategori ?>"><?php echo $value->nama_kategori ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label for="edit_judul">Judul</label>
                             <div class="controls">
@@ -449,6 +469,9 @@
         $('.url').hide();
         $('form[name="form_tambah"]').validate({
             rules: {
+                tambah_kategori: {
+                    required: true
+                },
                 tambah_judul: {
                     required: true,
                     maxlength: 255
@@ -812,6 +835,7 @@
                     let cover = data.cover;
                     tipe_edit = data.tipe;
                     
+                    $('#edit_kategori').val(data.kategori_id_kategori);
                     $('#edit_judul').val(data.judul_buku);
                     $('#edit_penerbit').val(data.penerbit);
                     $('#edit_tahun').val(data.tahun_terbit);
@@ -846,6 +870,9 @@
         $('form[name="form_edit"]').validate({
             rules: {
                 edit_id: {
+                    required: true
+                },
+                edit_kategori: {
                     required: true
                 },
                 edit_judul: {
