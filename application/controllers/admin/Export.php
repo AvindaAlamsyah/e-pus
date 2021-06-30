@@ -286,9 +286,7 @@ class Export extends CI_Controller {
     }
 
     public function simpan_informasi_peminjaman_buku() {
-        $this->load->database();
-        $sql = 'SELECT b.id_buku, b.judul_buku, b.penulis, b.penerbit, b.tahun_terbit, IF(a.pinjam IS NULL, 0, a.pinjam) as dipinjam, IF(a.sedia IS NULL, b.stok, a.sedia) as tersedia, b.stok as total FROM (SELECT buku.id_buku, COUNT(buku.id_buku) as pinjam, buku.stok-COUNT(buku.id_buku) as sedia FROM buku RIGHT JOIN peminjaman ON buku.id_buku = peminjaman.buku_id_buku WHERE peminjaman.tanggal_kembali IS NULL GROUP BY buku.id_buku) a RIGHT JOIN (SELECT buku.* FROM buku) b ON a.id_buku = b.id_buku';
-        $data = $this->db->query($sql)->result();
+        $data = $this->model_peminjaman->select_join5_where()->result();
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();

@@ -75,6 +75,16 @@ class Model_peminjaman extends CI_Model {
         return $this->db->get();
     }
 
+    function select_join5_where()
+    {
+        $this->db->select('buku.judul_buku, buku.penulis, buku.penerbit, buku.tahun_terbit, COUNT(peminjaman.id_peminjaman) as dipinjam, buku.stok-COUNT(peminjaman.id_peminjaman) as tersedia, buku.stok as total');
+        $this->db->from($this->table);
+        $this->db->join('buku', 'peminjaman.buku_id_buku = buku.id_buku');
+        $this->db->where('peminjaman.tanggal_kembali IS NULL');
+        $this->db->group_by('peminjaman.buku_id_buku');
+        
+        return $this->db->get();
+    }
 
 }
 
