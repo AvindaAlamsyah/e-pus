@@ -16,3 +16,6 @@ application/logs/*
 !application/logs/.htaccess
 /vendor/
 /asset/admin/buku/*
+/application/vendor
+/application/tmp
+/application/.env
