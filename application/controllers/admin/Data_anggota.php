@@ -230,7 +230,7 @@ class Data_anggota extends CI_Controller
     {
         header('Content-Type: application/json');
 
-        $data = $this->http_request('http://padas.test/api/siswa/getsiswaaktif');
+        $data = $this->http_request($_ENV['URL_PADAS'].'api/siswa/getsiswaaktif');
 
         if (!is_array($data)) {
             $this->response = array('status' => 0, 'pesan' => $data);
