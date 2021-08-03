@@ -315,7 +315,7 @@ class Data_anggota extends CI_Controller
 
             // set header
             curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                'Authorization: Bearer 40CCEFFC-A38C-184E-7E7B-7D2810B2D95E',
+                "Authorization: Bearer {$_ENV['TOKEN_PADAS']}",
                 'Accept: application/json'
             ));
 
