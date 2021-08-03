@@ -17,5 +17,6 @@ application/logs/*
 /vendor/
 /asset/admin/buku/*
 /application/vendor
-/application/tmp
+application/tmp/*
+!application/tmp/.gitkeep
 /application/.env
