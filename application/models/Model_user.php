@@ -33,6 +33,7 @@ class Model_user extends CI_Model
 
         return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
     }
+
 }
 
 /* End of file Model_user.php */

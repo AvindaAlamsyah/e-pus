@@ -57,10 +57,10 @@
                             <div class="overview-wrap m-b-35">
                                 <h2 class="title-1">Data Anggota</h2>
                                 <div>
-                                    <button class="au-btn au-btn-icon au-btn--blue" data-toggle="modal" data-target="#modal_import">
-                                        <i class="zmdi zmdi-plus"></i>import data</button>
-                                    <button class="au-btn au-btn-icon au-btn--blue" data-toggle="modal" data-target="#modal_tambah">
-                                        <i class="zmdi zmdi-plus"></i>tambah data</button>
+                                    <button class="au-btn au-btn-icon au-btn--blue" id="sync-data">
+                                        <i class="zmdi zmdi-refresh-sync"></i>sinkronisasi data</button>
+                                    <!-- <button class="au-btn au-btn-icon au-btn--blue" data-toggle="modal" data-target="#modal_tambah">
+                                        <i class="zmdi zmdi-plus"></i>tambah data</button> -->
                                 </div>
                             </div>
                             <div class="au-card">
@@ -383,238 +383,158 @@
     <script src="<?php echo base_url('asset/admin/'); ?>js/main.js"></script>
 
     <script>
-    $('#edit_ttd').hide();
-    document.getElementById('ttd_status').addEventListener('change', (e) => {
-        if (e.target.checked) {
-            $('#edit_ttd').show();
-        } else {
-            $('#edit_ttd').hide();
-        }
-    })
+        $('#edit_ttd').hide();
+        document.getElementById('ttd_status').addEventListener('change', (e) => {
+            if (e.target.checked) {
+                $('#edit_ttd').show();
+            } else {
+                $('#edit_ttd').hide();
+            }
+        })
 
-    $(document).ready(function() {
-        $('#tabel_anggota').DataTable();
-    });
+        $(document).ready(function() {
+            $('#tabel_anggota').DataTable();
+        });
 
-    $('#tabel_anggota').DataTable({
-        'ajax': {
-            'url': "<?php echo base_url('admin/data_anggota/ambil_semua_anggota') ?>",
-            'method': "GET"
-        },
-        'columns': [{
-                'data': "nisn"
+        $('#tabel_anggota').DataTable({
+            'ajax': {
+                'url': "<?php echo base_url('admin/data_anggota/ambil_semua_anggota') ?>",
+                'method': "GET"
             },
-            {
-                'data': "nama_lengkap"
-            },
-            {
-                'data': "level"
-            },
-            {
-                'data': "status",
-                render: function(data, type, row) {
-                    if (row.status == 1) {
-                        return 'Aktif';
-                    } else {
-                        return 'Tidak Aktif';
+            'columns': [{
+                    'data': "nisn"
+                },
+                {
+                    'data': "nama_lengkap"
+                },
+                {
+                    'data': "level"
+                },
+                {
+                    'data': "status",
+                    render: function(data, type, row) {
+                        if (row.status == 1) {
+                            return 'Aktif';
+                        } else {
+                            return 'Tidak Aktif';
+                        }
                     }
+                },
+                {
+                    'data': "nisn",
+                    render: function(data, type, row) {
+                        return '<div class="btn-group dropleft">' +
+                            '<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  ' +
+                            '<i class="icons-Pencil"></i>' +
+                            '</button>' +
+                            '<div style="background-color:aquamarine;" class="dropdown-menu">' +
+                            '<a class="dropdown-item item_detail" href="<?php echo base_url() ?>/admin/data_anggota/detail_anggota/' + row.nisn + '">Detail</a>' +
+                            '<a class="dropdown-item item_edit" href="javascript:void(0)" data-item="' + row.nisn + '">Edit</a>' +
+                            '<a class="dropdown-item item_reset" href="javascript:void(0)" data-item="' + row.nisn + '">Reset Password</a>' +
+                            '<a class="dropdown-item item_hapus" href="javascript:void(0)" data-item="' + row.nisn + '">Hapus</a>' +
+                            '</div>' +
+                            '</div>';
+                    },
+                    'width': "5%",
+                    "orderable": false,
+                    "className": "text-center"
+                }
+            ],
+            responsive: true
+        });
+
+        $('form[name="form_tambah"]').validate({
+            rules: {
+                tambah_nisn: {
+                    required: true,
+                    maxlength: 10,
+                    minlength: 10
+                },
+                tambah_password: {
+                    required: true
+                },
+                tambah_nama: {
+                    required: true,
+                    maxlength: 155
+                },
+                tambah_kelas: {
+                    required: true
+                },
+                tambah_jurusan: {
+                    required: true
+                },
+                tambah_level: {
+                    required: true
                 }
             },
-            {
-                'data': "nisn",
-                render: function(data, type, row) {
-                    return '<div class="btn-group dropleft">' +
-                        '<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  ' +
-                        '<i class="icons-Pencil"></i>' +
-                        '</button>' +
-                        '<div style="background-color:aquamarine;" class="dropdown-menu">' +
-                        '<a class="dropdown-item item_detail" href="<?php echo base_url() ?>/admin/data_anggota/detail_anggota/' + row.nisn + '">Detail</a>' +
-                        '<a class="dropdown-item item_edit" href="javascript:void(0)" data-item="' + row.nisn + '">Edit</a>' +
-                        '<a class="dropdown-item item_reset" href="javascript:void(0)" data-item="' + row.nisn + '">Reset Password</a>' +
-                        '<a class="dropdown-item item_hapus" href="javascript:void(0)" data-item="' + row.nisn + '">Hapus</a>' +
-                        '</div>' +
-                        '</div>';
-                },
-                'width': "5%",
-                "orderable": false,
-                "className": "text-center"
-            }
-        ],
-        responsive: true
-    });
+            lang: "id",
+            submitHandler: function(form) {
+                $('#modal_loading').modal('show');
+                $.ajax({
+                    url: "<?php echo base_url('admin/data_anggota/tambah_anggota') ?>",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: $(form).serialize(),
+                    success: function(response) {
+                        $('#modal_loading').modal('hide');
+                        if (response.status == 1) {
+                            $("#modal_tambah").modal("hide");
+                            $("#form_tambah").trigger("reset");
+                            $('#tabel_anggota').DataTable().ajax.reload();
+                            $.toast({
+                                heading: "Sukses",
+                                text: response.pesan,
+                                position: 'top-right',
+                                loader: true,
+                                loaderBg: '#ff6849',
+                                icon: 'success',
+                                hideAfter: 3500,
+                                stack: 6
+                            });
+                        } else {
+                            Swal.fire({
+                                title: "Hmmm.....",
+                                text: response.pesan,
+                                type: "error"
+                            });
+                        }
 
-    $('form[name="form_tambah"]').validate({
-        rules: {
-            tambah_nisn: {
-                required: true,
-                maxlength: 10,
-                minlength: 10
-            },
-            tambah_password: {
-                required: true
-            },
-            tambah_nama: {
-                required: true,
-                maxlength: 155
-            },
-            tambah_kelas: {
-                required: true
-            },
-            tambah_jurusan: {
-                required: true
-            },
-            tambah_level: {
-                required: true
-            }
-        },
-        lang: "id",
-        submitHandler: function(form) {
-            $('#modal_loading').modal('show');
-            $.ajax({
-                url: "<?php echo base_url('admin/data_anggota/tambah_anggota') ?>",
-                type: "POST",
-                dataType: "JSON",
-                data: $(form).serialize(),
-                success: function(response) {
-                    $('#modal_loading').modal('hide');
-                    if (response.status == 1) {
-                        $("#modal_tambah").modal("hide");
-                        $("#form_tambah").trigger("reset");
-                        $('#tabel_anggota').DataTable().ajax.reload();
-                        $.toast({
-                            heading: "Sukses",
-                            text: response.pesan,
-                            position: 'top-right',
-                            loader: true,
-                            loaderBg: '#ff6849',
-                            icon: 'success',
-                            hideAfter: 3500,
-                            stack: 6
-                        });
-                    } else {
+                    },
+                    error: function(xhr, status, error) {
+                        var errorMessage = xhr.status + ': ' + xhr.statusText;
+                        $('#modal_loading').modal("hide");
                         Swal.fire({
-                            title: "Hmmm.....",
-                            text: response.pesan,
-                            type: "error"
+                            title: "Oops...",
+                            text: errorMessage,
+                            type: "error",
+                            footer: "Harap hubungi developer untuk penanganan error."
                         });
                     }
-
-                },
-                error: function(xhr, status, error) {
-                    var errorMessage = xhr.status + ': ' + xhr.statusText;
-                    $('#modal_loading').modal("hide");
-                    Swal.fire({
-                        title: "Oops...",
-                        text: errorMessage,
-                        type: "error",
-                        footer: "Harap hubungi developer untuk penanganan error."
-                    });
-                }
-            });
-        }
-    })
-
-    $('#data_anggota').on('click', '.item_edit', function() {
-        $("#modal_loading").modal("show");
-        $.ajax({
-            url: "<?php echo base_url('admin/data_anggota/tampil_edit'); ?>",
-            type: "POST",
-            dataType: "JSON",
-            data: {
-                edit_nisn: $(this).data('item')
-            },
-            success: function(data) {
-                $('#modal_loading').modal('hide');
-
-                $('#edit_id').val(data.nisn);
-                $('#edit_nisn').val(data.nisn);
-                $('#edit_nama').val(data.nama_lengkap);
-                $('#edit_level').val(data.level);
-                $('#edit_jurusan').val(data.jurusan);
-                $('#edit_kelas').val(data.kelas);
-                $('#edit_status').val(data.status);
-
-                $('#modal_edit').modal('show');
-            },
-            error: function(xhr, status, error) {
-                var errorMessage = xhr.status + ': ' + xhr.statusText;
-                $('#modal_loading').modal("hide");
-                Swal.fire({
-                    title: "Oops...",
-                    text: errorMessage,
-                    type: "error",
-                    footer: "Harap hubungi developer untuk penanganan error."
                 });
             }
         })
-    })
 
-    $('form[name="form_edit"]').validate({
-        rules: {
-            edit_nisn: {
-                required: true,
-                maxlength: 10,
-                minlength: 10
-            },
-            edit_nama: {
-                required: true,
-                maxlength: 155
-            },
-            edit_kelas: {
-                required: true
-            },
-            edit_jurusan: {
-                required: true
-            },
-            edit_level: {
-                required: true
-            },
-            edit_status: {
-                required: true
-            },
-            edit_ttd: {
-                required: {
-                    depends: function(element) {
-                        return $("#ttd_status").is(":checked");
-                    }
-                }
-            }
-        },
-        lang: "id",
-        submitHandler: function(form) {
-            $('#modal_loading').modal('show');
+        $('#data_anggota').on('click', '.item_edit', function() {
+            $("#modal_loading").modal("show");
             $.ajax({
-                url: "<?php echo base_url('admin/data_anggota/simpan_edit') ?>",
+                url: "<?php echo base_url('admin/data_anggota/tampil_edit'); ?>",
                 type: "POST",
                 dataType: "JSON",
-                processData: false,
-                contentType: false,
-                data: new FormData(form),
-                success: function(response) {
+                data: {
+                    edit_nisn: $(this).data('item')
+                },
+                success: function(data) {
                     $('#modal_loading').modal('hide');
-                    $('#form_edit').trigger('reset');
-                    $('#edit_ttd').hide();
-                    if (response.status == 1) {
-                        $("#modal_edit").modal("hide");
-                        $('#tabel_anggota').DataTable().ajax.reload();
-                        $.toast({
-                            heading: "Sukses",
-                            text: response.pesan,
-                            position: 'top-right',
-                            loader: true,
-                            loaderBg: '#ff6849',
-                            icon: 'success',
-                            hideAfter: 3500,
-                            stack: 6
-                        });
-                    } else {
-                        Swal.fire({
-                            title: "Hmmm.....",
-                            text: response.pesan,
-                            type: "error"
-                        });
-                    }
 
+                    $('#edit_id').val(data.nisn);
+                    $('#edit_nisn').val(data.nisn);
+                    $('#edit_nama').val(data.nama_lengkap);
+                    $('#edit_level').val(data.level);
+                    $('#edit_jurusan').val(data.jurusan);
+                    $('#edit_kelas').val(data.kelas);
+                    $('#edit_status').val(data.status);
+
+                    $('#modal_edit').modal('show');
                 },
                 error: function(xhr, status, error) {
                     var errorMessage = xhr.status + ': ' + xhr.statusText;
@@ -626,136 +546,109 @@
                         footer: "Harap hubungi developer untuk penanganan error."
                     });
                 }
-            });
-        }
-    })
+            })
+        })
 
-    $('#data_anggota').on('click', '.item_hapus', function() {
-        let id = $(this).data('item');
-        $('#hapus_nisn').val(id);
-        $('#modal_hapus').modal('show');
-    })
-
-    $('#btn_hapus').on('click', function() {
-        $('#modal_loading').modal('show');
-        $.ajax({
-            url: "<?php echo base_url('admin/data_anggota/hapus_anggota') ?>",
-            type: "POST",
-            dataType: "JSON",
-            data: {
-                hapus_nisn: document.getElementById("hapus_nisn").value
-            },
-            success: function(response) {
-                $('#modal_loading').modal('hide');
-                if (response.status == 1) {
-                    $("#modal_hapus").modal("hide");
-                    $('#tabel_anggota').DataTable().ajax.reload();
-                    $.toast({
-                        heading: "Sukses",
-                        text: response.pesan,
-                        position: 'top-right',
-                        loader: true,
-                        loaderBg: '#ff6849',
-                        icon: 'success',
-                        hideAfter: 3500,
-                        stack: 6
-                    });
-                } else {
-                    $('#modal_loading').modal('hide');
-                    Swal.fire({
-                        title: "Hmmmm.....",
-                        text: response.pesan,
-                        type: "error"
-                    });
+        $('form[name="form_edit"]').validate({
+            rules: {
+                edit_nisn: {
+                    required: true,
+                    maxlength: 10,
+                    minlength: 10
+                },
+                edit_nama: {
+                    required: true,
+                    maxlength: 155
+                },
+                edit_kelas: {
+                    required: true
+                },
+                edit_jurusan: {
+                    required: true
+                },
+                edit_level: {
+                    required: true
+                },
+                edit_status: {
+                    required: true
+                },
+                edit_ttd: {
+                    required: {
+                        depends: function(element) {
+                            return $("#ttd_status").is(":checked");
+                        }
+                    }
                 }
-
             },
-            error: function(xhr, status, error) {
-                var errorMessage = xhr.status + ': ' + xhr.statusText;
-                $('#modal_loading').modal("hide");
-                Swal.fire({
-                    title: "Oops...",
-                    text: errorMessage,
-                    type: "error",
-                    footer: "Harap hubungi developer untuk penanganan error."
+            lang: "id",
+            submitHandler: function(form) {
+                $('#modal_loading').modal('show');
+                $.ajax({
+                    url: "<?php echo base_url('admin/data_anggota/simpan_edit') ?>",
+                    type: "POST",
+                    dataType: "JSON",
+                    processData: false,
+                    contentType: false,
+                    data: new FormData(form),
+                    success: function(response) {
+                        $('#modal_loading').modal('hide');
+                        $('#form_edit').trigger('reset');
+                        $('#edit_ttd').hide();
+                        if (response.status == 1) {
+                            $("#modal_edit").modal("hide");
+                            $('#tabel_anggota').DataTable().ajax.reload();
+                            $.toast({
+                                heading: "Sukses",
+                                text: response.pesan,
+                                position: 'top-right',
+                                loader: true,
+                                loaderBg: '#ff6849',
+                                icon: 'success',
+                                hideAfter: 3500,
+                                stack: 6
+                            });
+                        } else {
+                            Swal.fire({
+                                title: "Hmmm.....",
+                                text: response.pesan,
+                                type: "error"
+                            });
+                        }
+
+                    },
+                    error: function(xhr, status, error) {
+                        var errorMessage = xhr.status + ': ' + xhr.statusText;
+                        $('#modal_loading').modal("hide");
+                        Swal.fire({
+                            title: "Oops...",
+                            text: errorMessage,
+                            type: "error",
+                            footer: "Harap hubungi developer untuk penanganan error."
+                        });
+                    }
                 });
             }
-        });
-    })
+        })
 
-    $('#data_anggota').on('click', '.item_reset', function() {
-        let id = $(this).data('item');
-        $('#reset_id').val(id);
-        $('#modal_reset').modal('show');
-    })
+        $('#data_anggota').on('click', '.item_hapus', function() {
+            let id = $(this).data('item');
+            $('#hapus_nisn').val(id);
+            $('#modal_hapus').modal('show');
+        })
 
-    $('#btn_reset').on('click', function() {
-        $('#modal_loading').modal('show');
-        $.ajax({
-            url: "<?php echo base_url('admin/data_anggota/reset_password') ?>",
-            type: "POST",
-            dataType: "JSON",
-            data: {
-                reset_id: document.getElementById("reset_id").value
-            },
-            success: function(response) {
-                $('#modal_loading').modal('hide');
-                if (response.status == 1) {
-                    $("#modal_reset").modal("hide");
-                    $.toast({
-                        heading: "Sukses",
-                        text: response.pesan,
-                        position: 'top-right',
-                        loader: true,
-                        loaderBg: '#ff6849',
-                        icon: 'success',
-                        hideAfter: 3500,
-                        stack: 6
-                    });
-                } else {
-                    Swal.fire({
-                        title: "Hmmmm.....",
-                        text: response.pesan,
-                        type: "error"
-                    });
-                }
-
-            },
-            error: function(xhr, status, error) {
-                var errorMessage = xhr.status + ': ' + xhr.statusText;
-                $('#modal_loading').modal("hide");
-                Swal.fire({
-                    title: "Oops...",
-                    text: errorMessage,
-                    type: "error",
-                    footer: "Harap hubungi developer untuk penanganan error."
-                });
-            }
-        });
-    })
-
-    $('form[name="form_import"]').validate({
-        rules: {
-            import_file: {
-                required: true
-            }
-        },
-        lang: "id",
-        submitHandler: function(form) {
+        $('#btn_hapus').on('click', function() {
             $('#modal_loading').modal('show');
-            let fd = new FormData(form);
             $.ajax({
-                url: "<?php echo base_url('admin/data_anggota/import') ?>",
+                url: "<?php echo base_url('admin/data_anggota/hapus_anggota') ?>",
                 type: "POST",
                 dataType: "JSON",
-                processData: false,
-                contentType: false,
-                data: fd,
+                data: {
+                    hapus_nisn: document.getElementById("hapus_nisn").value
+                },
                 success: function(response) {
+                    $('#modal_loading').modal('hide');
                     if (response.status == 1) {
-                        $("#modal_import").modal("hide");
-                        $("#form_import").trigger("reset");
-                        $('#modal_loading').modal('hide');
+                        $("#modal_hapus").modal("hide");
                         $('#tabel_anggota').DataTable().ajax.reload();
                         $.toast({
                             heading: "Sukses",
@@ -769,7 +662,6 @@
                         });
                     } else {
                         $('#modal_loading').modal('hide');
-                        $("#form_import").trigger("reset");
                         Swal.fire({
                             title: "Hmmmm.....",
                             text: response.pesan,
@@ -781,7 +673,6 @@
                 error: function(xhr, status, error) {
                     var errorMessage = xhr.status + ': ' + xhr.statusText;
                     $('#modal_loading').modal("hide");
-                    $("#form_import").trigger("reset");
                     Swal.fire({
                         title: "Oops...",
                         text: errorMessage,
@@ -790,8 +681,161 @@
                     });
                 }
             });
-        }
-    })
+        })
+
+        $('#data_anggota').on('click', '.item_reset', function() {
+            let id = $(this).data('item');
+            $('#reset_id').val(id);
+            $('#modal_reset').modal('show');
+        })
+
+        $('#btn_reset').on('click', function() {
+            $('#modal_loading').modal('show');
+            $.ajax({
+                url: "<?php echo base_url('admin/data_anggota/reset_password') ?>",
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    reset_id: document.getElementById("reset_id").value
+                },
+                success: function(response) {
+                    $('#modal_loading').modal('hide');
+                    if (response.status == 1) {
+                        $("#modal_reset").modal("hide");
+                        $.toast({
+                            heading: "Sukses",
+                            text: response.pesan,
+                            position: 'top-right',
+                            loader: true,
+                            loaderBg: '#ff6849',
+                            icon: 'success',
+                            hideAfter: 3500,
+                            stack: 6
+                        });
+                    } else {
+                        Swal.fire({
+                            title: "Hmmmm.....",
+                            text: response.pesan,
+                            type: "error"
+                        });
+                    }
+
+                },
+                error: function(xhr, status, error) {
+                    var errorMessage = xhr.status + ': ' + xhr.statusText;
+                    $('#modal_loading').modal("hide");
+                    Swal.fire({
+                        title: "Oops...",
+                        text: errorMessage,
+                        type: "error",
+                        footer: "Harap hubungi developer untuk penanganan error."
+                    });
+                }
+            });
+        })
+
+        $('form[name="form_import"]').validate({
+            rules: {
+                import_file: {
+                    required: true
+                }
+            },
+            lang: "id",
+            submitHandler: function(form) {
+                $('#modal_loading').modal('show');
+                let fd = new FormData(form);
+                $.ajax({
+                    url: "<?php echo base_url('admin/data_anggota/import') ?>",
+                    type: "POST",
+                    dataType: "JSON",
+                    processData: false,
+                    contentType: false,
+                    data: fd,
+                    success: function(response) {
+                        if (response.status == 1) {
+                            $("#modal_import").modal("hide");
+                            $("#form_import").trigger("reset");
+                            $('#modal_loading').modal('hide');
+                            $('#tabel_anggota').DataTable().ajax.reload();
+                            $.toast({
+                                heading: "Sukses",
+                                text: response.pesan,
+                                position: 'top-right',
+                                loader: true,
+                                loaderBg: '#ff6849',
+                                icon: 'success',
+                                hideAfter: 3500,
+                                stack: 6
+                            });
+                        } else {
+                            $('#modal_loading').modal('hide');
+                            $("#form_import").trigger("reset");
+                            Swal.fire({
+                                title: "Hmmmm.....",
+                                text: response.pesan,
+                                type: "error"
+                            });
+                        }
+
+                    },
+                    error: function(xhr, status, error) {
+                        var errorMessage = xhr.status + ': ' + xhr.statusText;
+                        $('#modal_loading').modal("hide");
+                        $("#form_import").trigger("reset");
+                        Swal.fire({
+                            title: "Oops...",
+                            text: errorMessage,
+                            type: "error",
+                            footer: "Harap hubungi developer untuk penanganan error."
+                        });
+                    }
+                });
+            }
+        })
+
+        $('#sync-data').on('click', (e) => {
+            Swal.fire({
+                title: 'Konfirmasi',
+                type: 'info',
+                text: 'data akan disinkronkan dengan database siswa',
+                showCancelButton: () => true,
+                confirmButtonText: 'Ya, sinkronkan sekarang!',
+                showLoaderOnConfirm: true,
+                preConfirm: (login) => {
+                    return fetch(`<?= base_url('admin/data_anggota/sinkronisasi'); ?>`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(response.statusText)
+                            }
+                            return response.json()
+                        })
+                        .catch(error => {
+                            Swal.showValidationMessage(
+                                `Request failed: server error`
+                            )
+                        })
+                },
+                allowOutsideClick: () => !Swal.isLoading(),
+                allowEscapeKey: () => !Swal.isLoading(),
+            }).then((result) => {
+
+                if (result.value.status == 1) {
+                    Swal.fire({
+                        title: result.value.pesan,
+                        type: 'success',
+                        timer: 2000,
+                        showConfirmButton: false
+                    })
+                } else {
+                    Swal.fire({
+                        title: result.value.pesan,
+                        type: 'error',
+                        timer: 2000,
+                        showConfirmButton: false
+                    })
+                }
+            })
+        })
     </script>
 
 </body>

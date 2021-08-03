@@ -71,7 +71,7 @@ class Data_anggota extends CI_Controller
             "status" => $this->input->post('edit_status')
         );
         $nisn = $this->input->post('edit_id');
-        
+
         if ($this->input->post('ttd_status') == null) {
 
             if ($this->model_user->update($data_user, array("nisn" => $nisn))) {
@@ -170,7 +170,7 @@ class Data_anggota extends CI_Controller
         }
     }
 
-    public function import() 
+    private function import()
     {
         $this->load->library('upload');
         $this->load->library('MySimpleXLSX');
@@ -179,57 +179,180 @@ class Data_anggota extends CI_Controller
         $NISN = 1;
         $KELAS = 2;
         $JURUSAN = 3;
-        $cols = array('nama','nisn','kelas','jurusan');
-        if ( $xlsx = SimpleXLSX::parse('./asset/admin/temp/file-import.xlsx') ) {
+        $cols = array('nama', 'nisn', 'kelas', 'jurusan');
+        if ($xlsx = SimpleXLSX::parse('./asset/admin/temp/file-import.xlsx')) {
             $data = $xlsx->rows();
-            for ($i=0; $i < count($data[0]); $i++) { 
+            for ($i = 0; $i < count($data[0]); $i++) {
                 if ($data[0][$i] == $cols[0]) {
                     $NAMA = $i;
-                }
-                else if ($data[0][$i] == $cols[1]) {
+                } else if ($data[0][$i] == $cols[1]) {
                     $NISN = $i;
-                }
-                else if ($data[0][$i] == $cols[2]) {
+                } else if ($data[0][$i] == $cols[2]) {
                     $KELAS = $i;
-                }
-                else if ($data[0][$i] == $cols[3]) {
+                } else if ($data[0][$i] == $cols[3]) {
                     $JURUSAN = $i;
-                } 
-            }
-            $data_insert=array();
-            for ($i=1; $i < count($data); $i++) { 
-                $data_insert[$i-1]['nama_lengkap'] = $data[$i][$NAMA];
-                $data_insert[$i-1]['password'] = password_hash($data[$i][$NISN], PASSWORD_ARGON2I);
-                $data_insert[$i-1]['status'] = 1;
-                $data_insert[$i-1][$cols[1]] = $data[$i][$NISN];
-                $data_insert[$i-1][$cols[2]] = $data[$i][$KELAS];
-                $data_insert[$i-1][$cols[3]] = $data[$i][$JURUSAN];
-                if ($data[$i][$KELAS] == 'X'){
-                    $data_insert[$i-1]['level'] = 1;  
-                } else if ($data[$i][$KELAS] == 'XI'){
-                    $data_insert[$i-1]['level'] = 2;  
-                } else if ($data[$i][$KELAS] == 'XII'){
-                    $data_insert[$i-1]['level'] = 3;  
                 }
             }
-            
+            $data_insert = array();
+            for ($i = 1; $i < count($data); $i++) {
+                $data_insert[$i - 1]['nama_lengkap'] = $data[$i][$NAMA];
+                $data_insert[$i - 1]['password'] = password_hash($data[$i][$NISN], PASSWORD_ARGON2I);
+                $data_insert[$i - 1]['status'] = 1;
+                $data_insert[$i - 1][$cols[1]] = $data[$i][$NISN];
+                $data_insert[$i - 1][$cols[2]] = $data[$i][$KELAS];
+                $data_insert[$i - 1][$cols[3]] = $data[$i][$JURUSAN];
+                if ($data[$i][$KELAS] == 'X') {
+                    $data_insert[$i - 1]['level'] = 1;
+                } else if ($data[$i][$KELAS] == 'XI') {
+                    $data_insert[$i - 1]['level'] = 2;
+                } else if ($data[$i][$KELAS] == 'XII') {
+                    $data_insert[$i - 1]['level'] = 3;
+                }
+            }
+
             $this->load->helper('MyDB');
             $sql = insert_batch_string('user', $data_insert, true);
             $this->load->database();
-            if($this->db->query($sql)){
-                $this->response = array('status'=>1,'pesan'=>'Berhasil Import Data Anggota');
+            if ($this->db->query($sql)) {
+                $this->response = array('status' => 1, 'pesan' => 'Berhasil Import Data Anggota');
                 echo json_encode($this->response);
             } else {
-                $this->response = array('status'=>0,'pesan'=>'Gagal Import Data Anggota');
+                $this->response = array('status' => 0, 'pesan' => 'Gagal Import Data Anggota');
                 echo json_encode($this->response);
             }
-
         } else {
-            $this->response = array('status'=>0,'pesan'=>SimpleXLSX::parseError());
+            $this->response = array('status' => 0, 'pesan' => SimpleXLSX::parseError());
             echo json_encode($this->response);
         }
     }
 
+    public function sinkronisasi()
+    {
+        header('Content-Type: application/json');
+
+        $data = $this->http_request('http://padas.test/api/siswa/getsiswaaktif');
+
+        if (!is_array($data)) {
+            $this->response = array('status' => 0, 'pesan' => $data);
+            echo json_encode($this->response);
+            exit;
+        }
+        $this->model_user->update(["status" => 0], ["level <" => 4]);
+
+        $data_insert = array();
+        $data_update = array();
+        foreach ($data['data'] as $key => $value) {
+
+            $nisn = $value['nisn'];
+            if (empty($nisn)) {
+                continue;
+            }
+            $nama = $value['nama'];
+            if (empty($nama)) {
+                $nama = 'tidak ada nama';
+            }
+            $kelas = $value['kelas'];
+            if (empty($kelas)) {
+                $kelas = 'tidak ada kelas';
+            }
+            $jurusan = $value['kompetensi_keahlian'];
+            if (empty($jurusan)) {
+                $jurusan = 'tidak ada jurusan';
+            }
+            $level = '';
+            if ($value['kelas'] == 'X') {
+                $level = 1;
+            } else if ($value['kelas'] == 'XI') {
+                $level = 2;
+            } else if ($value['kelas'] == 'XII') {
+                $level = 3;
+            } else {
+                $level = 1;
+            }
+            array_push($data_insert, array(
+                'nisn' => $nisn,
+                'nama_lengkap' => $nama,
+                'password' => '$argon2i$v=19$m=65536,t=10,p=1$NHhtQm1vc2tCYmtTUDBkdQ$tpigzUmGSqKfC798WoGGLo/TmZTTeNU2GjA9BqrT5So',
+                'status' => 0,
+                'kelas' => $kelas,
+                'jurusan' => $jurusan,
+                'level' => $level,
+            ));
+            array_push($data_update, array(
+                'nisn' => $nisn,
+                'nama_lengkap' => $nama,
+                'status' => 1,
+                'kelas' => $kelas,
+                'jurusan' => $jurusan,
+                'level' => $level,
+            ));
+        }
+
+        $this->load->helper('MyDB');
+        $sql = insert_batch_string('user', $data_insert, true);
+        $this->load->database();
+        if ($this->db->query($sql)) {
+            $update = $this->db->update_batch('user', $data_update, 'nisn');
+            $this->response = array('status' => 1, 'pesan' => 'Sinkronisasi berhasil');
+            if ($update === false) {
+                $this->response = array('status' => 0, 'pesan' => 'Sinkronisasi bermasalah');
+            }
+            echo json_encode($this->response);
+        } else {
+            $this->response = array('status' => 0, 'pesan' => 'Gagal Sinkronisasi');
+            echo json_encode($this->response);
+        }
+    }
+
+    private function http_request($url)
+    {
+        try {
+            // persiapkan curl
+            $ch = curl_init();
+
+            // set url 
+            curl_setopt($ch, CURLOPT_URL, $url);
+
+            // set header
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Authorization: Bearer 40CCEFFC-A38C-184E-7E7B-7D2810B2D95E',
+                'Accept: application/json'
+            ));
+
+            // set user agent    
+            curl_setopt($ch, CURLOPT_USERAGENT, 'digilib/1.0.0');
+
+            // return the transfer as a string 
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+            // $output contains the output string 
+            $output = curl_exec($ch);
+            if ($output === false) {
+                throw new Exception(curl_error($ch), curl_errno($ch));
+            }
+            // tutup curl 
+            curl_close($ch);
+            // mengembalikan hasil curl
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            if ($httpCode !== 200) {
+                throw new Exception(curl_error($ch), curl_errno($ch));
+            }
+
+            if (empty($output)) return 'Tidak ada data dari server';
+            return json_decode($output, true);
+        } catch (Exception $e) {
+
+            // trigger_error(
+            //     sprintf(
+            //         'Curl failed with error #%d: %s',
+            //         $e->getCode(),
+            //         $e->getMessage()
+            //     ),
+            //     E_USER_ERROR
+            // );
+            return 'Koneksi error';
+        }
+    }
     private function upload($name, $type, $msg)
     {
         $config['upload_path'] = './asset/admin/temp/';
