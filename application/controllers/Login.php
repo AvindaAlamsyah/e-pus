@@ -23,7 +23,15 @@ class Login extends CI_Controller
             redirect('beranda', 'refresh');
         } else if ($this->session->userdata('status_login')) {
             //akses bukan user
-            redirect("admin/dashboard", "refresh");
+            //akses bukan admin
+			if ($this->session->userdata('tipe') == 'guru') {
+
+				redirect('guru/beranda', 'refresh');
+			}
+			if ($this->session->userdata('tipe') == 'adm') {
+
+				redirect("admin/dashboard", "refresh");
+			}
         } else {
             $this->load->view('login', $this->pesan);
         }        

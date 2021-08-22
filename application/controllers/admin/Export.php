@@ -12,7 +12,20 @@ class Export extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('model_peminjaman');
-        
+        if (!$this->session->userdata('status_login')) {
+            //session kosong
+            redirect('admin/login', 'refresh');
+        } else if ($this->session->userdata('tipe') !== 'adm') {
+            //akses bukan admin
+			if ($this->session->userdata('tipe') == 'guru') {
+
+				redirect('guru/beranda', 'refresh');
+			}
+			if ($this->session->userdata('tipe') == 'usr') {
+
+				redirect("beranda", "refresh");
+			}
+        }
     }    
 
     public function index($bulan)

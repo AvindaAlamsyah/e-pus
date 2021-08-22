@@ -19,7 +19,14 @@ class Peminjaman extends CI_Controller
             redirect('admin/login', 'refresh');
         } else if ($this->session->userdata('tipe') !== 'adm') {
             //akses bukan admin
-            redirect("beranda", "refresh");
+			if ($this->session->userdata('tipe') == 'guru') {
+
+				redirect('guru/beranda', 'refresh');
+			}
+			if ($this->session->userdata('tipe') == 'usr') {
+
+				redirect("beranda", "refresh");
+			}
         }
     }
 

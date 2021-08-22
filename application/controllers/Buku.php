@@ -21,7 +21,14 @@ class Buku extends CI_Controller
             redirect('login', 'refresh');
         } else if ($this->session->userdata('tipe') !== 'usr') {
             //akses bukan user
-            redirect("admin/login", "refresh");
+			if ($this->session->userdata('tipe') == 'guru') {
+
+				redirect('guru/beranda', 'refresh');
+			}
+			if ($this->session->userdata('tipe') == 'adm') {
+
+				redirect("admin/dashboard", "refresh");
+			}
         }
     }
 
