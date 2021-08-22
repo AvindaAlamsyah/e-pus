@@ -99,6 +99,46 @@ INSERT INTO `buku` (`id_buku`, `kategori_id_kategori`, `judul_buku`, `penulis`, 
 
 -- --------------------------------------------------------
 
+
+--
+-- Table structure for table `guru`
+--
+
+CREATE TABLE `guru` (
+  `id_guru` int(11) NOT NULL,
+  `username` varchar(25) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `nipd` varchar(50) DEFAULT NULL,
+  `nama_guru` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `status` int NOT NULL COMMENT '0=tidak aktif, 1=aktif'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `guru`
+--
+
+INSERT INTO `guru` (`id_guru`, `username`, `password`, `nipd`, `nama_guru`, `status`) VALUES
+(1, 'budi123', '$argon2i$v=19$m=65536,t=4,p=1$SXFDbHdXTjZ1by5NNUhVVg$fJTsH1PafLecFOYgMlk2260IM9BCiKwxvGSUWIHBbIM', NULL, 'Budi Ibud', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `guru_pinjam`
+--
+
+CREATE TABLE `guru_pinjam` (
+  `guru_id_guru` int NOT NULL,
+  `buku_id_buku` int NOT NULL,
+  `tanggal` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `guru_pinjam`
+--
+
+INSERT INTO `guru_pinjam` (`guru_id_guru`, `buku_id_buku`, `tanggal`) VALUES
+(1, 60, '2021-08-22 10:33:13')
+
 --
 -- Table structure for table `kategori`
 --
@@ -273,6 +313,12 @@ ALTER TABLE `buku`
   ADD KEY `kategori_id_kategori` (`kategori_id_kategori`);
 
 --
+-- Indexes for table `guru`
+--
+ALTER TABLE `guru`
+  ADD PRIMARY KEY (`id_guru`);
+
+--
 -- Indexes for table `kategori`
 --
 ALTER TABLE `kategori`
@@ -322,6 +368,26 @@ ALTER TABLE `book_type`
 --
 ALTER TABLE `buku`
   MODIFY `id_buku` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+
+--
+-- AUTO_INCREMENT for table `guru`
+--
+ALTER TABLE `guru`
+  MODIFY `id_guru` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Indexes for table `guru_pinjam`
+--
+ALTER TABLE `guru_pinjam`
+  ADD KEY `FK_GURU_BUKU` (`guru_id_guru`),
+  ADD KEY `FK_GURU_BUKU2` (`buku_id_buku`);
+
+--
+-- Constraints for table `guru_pinjam`
+--
+ALTER TABLE `guru_pinjam`
+  ADD CONSTRAINT `FK_GURU_BUKU` FOREIGN KEY (`guru_id_guru`) REFERENCES `guru` (`id_guru`),
+  ADD CONSTRAINT `FK_GURU_BUKU2` FOREIGN KEY (`buku_id_buku`) REFERENCES `buku` (`id_buku`);
 
 --
 -- AUTO_INCREMENT for table `kategori`
