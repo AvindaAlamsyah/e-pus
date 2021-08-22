@@ -21,6 +21,10 @@ class Model_kategori extends CI_Model {
         return $this->db->get($this->table)->result();
     }
 
+    function select_where($where)
+    {
+        return $this->db->get_where($this->table, $where)->row_array();
+    }
 }
 
 /* End of file Model_kategori.php */
