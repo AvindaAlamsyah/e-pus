@@ -8,6 +8,20 @@ class Buku extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+		if (!$this->session->userdata('status_login')) {
+            //session kosong
+            redirect('admin/login', 'refresh');
+        } else if ($this->session->userdata('tipe') !== 'guru') {
+            //akses bukan guru
+			if ($this->session->userdata('tipe') == 'adm') {
+
+				redirect('admin/dashboard', 'refresh');
+			}
+			if ($this->session->userdata('tipe') == 'usr') {
+
+				redirect("beranda", "refresh");
+			}
+        }
 		$this->load->model('guru/model_guru_pinjam');
 		$this->load->model('model_buku');
 		$this->load->model('model_kategori');
