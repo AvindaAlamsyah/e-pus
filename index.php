@@ -290,9 +290,7 @@ define('VIEWPATH', $view_folder . DIRECTORY_SEPARATOR);
  * @link https://github.com/vlucas/phpdotenv/issues/412
  * @link https://stackoverflow.com/a/59515340/1990745
  */
-require_once APPPATH . 'vendor/autoload.php';
-$dotenv = Dotenv\Dotenv::createImmutable(APPPATH);
-$dotenv->safeLoad();
+
 
 /*
  * --------------------------------------------------------------------
