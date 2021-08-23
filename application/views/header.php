@@ -24,7 +24,7 @@
                                 Hai, <?php echo $this->session->userdata('nama'); ?>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <!-- <a class="dropdown-item" href="#">Akun</a> -->
+                                <a class="dropdown-item" href="<?php echo base_url('akun'); ?>">Akun</a>
                                 <a class="dropdown-item" href="<?php echo base_url('login/logout'); ?>">Logout</a>
                             </div>
                         </li>
