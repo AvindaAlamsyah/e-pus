@@ -23,11 +23,15 @@
                 </li>
                 <li>
                     <a href="<?php echo base_url("admin/peminjaman") ?>">
-                    <i class="fa fa-handshake-o" aria-hidden="true"></i>Peminjaman</a>
+                        <i class="fa fa-handshake-o" aria-hidden="true"></i>Peminjaman</a>
                 </li>
                 <li>
                     <a href="<?php echo base_url("admin/data_anggota") ?>">
                         <i class="fas fa-group"></i>Data Anggota</a>
+                </li>
+                <li>
+                    <a href="<?php echo base_url("admin/data_guru") ?>">
+                        <i class="fas fa-group"></i>Data Guru</a>
                 </li>
                 <?php
                 if ($this->session->userdata('level') == 0) {
@@ -69,11 +73,15 @@
                 </li>
                 <li>
                     <a href="<?php echo base_url("admin/peminjaman") ?>">
-                    <i class="fa fa-handshake-o" aria-hidden="true"></i>Peminjaman</a>
+                        <i class="fa fa-handshake-o" aria-hidden="true"></i>Peminjaman</a>
                 </li>
                 <li>
                     <a href="<?php echo base_url("admin/data_anggota") ?>">
                         <i class="fas fa-group"></i>Data Anggota</a>
+                </li>
+                <li>
+                    <a href="<?php echo base_url("admin/data_guru") ?>">
+                        <i class="fas fa-group"></i>Data Guru</a>
                 </li>
                 <?php
                 if ($this->session->userdata('level') == 0) {
