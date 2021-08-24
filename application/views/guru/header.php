@@ -121,7 +121,7 @@
 									</div>
 									<div class="account-dropdown__body">
 										<div class="account-dropdown__item">
-											<a href="#">
+											<a href="<?php echo base_url('guru/akun'); ?>">
 												<i class="zmdi zmdi-account"></i>Akun</a>
 										</div>
 									</div>
