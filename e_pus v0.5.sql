@@ -111,7 +111,7 @@ CREATE TABLE `guru` (
   `nipd` varchar(50) DEFAULT NULL,
   `nama_guru` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `status` int NOT NULL COMMENT '0=tidak aktif, 1=aktif'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 --
 -- Dumping data for table `guru`
@@ -130,7 +130,7 @@ CREATE TABLE `guru_pinjam` (
   `guru_id_guru` int NOT NULL,
   `buku_id_buku` int NOT NULL,
   `tanggal` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 --
 -- Dumping data for table `guru_pinjam`
