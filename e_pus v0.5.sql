@@ -137,14 +137,14 @@ CREATE TABLE `guru_pinjam` (
 --
 
 INSERT INTO `guru_pinjam` (`guru_id_guru`, `buku_id_buku`, `tanggal`) VALUES
-(1, 60, '2021-08-22 10:33:13')
+(1, 60, '2021-08-22 10:33:13');
 
 --
 -- Table structure for table `kategori`
 --
 
 CREATE TABLE `kategori` (
-  `id_kategori` int NOT NULL,
+  `id_kategori` int(11) NOT NULL,
   `nama_kategori` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
