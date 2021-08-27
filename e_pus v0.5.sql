@@ -144,7 +144,7 @@ INSERT INTO `guru_pinjam` (`guru_id_guru`, `buku_id_buku`, `tanggal`) VALUES
 --
 
 CREATE TABLE `kategori` (
-  `id_kategori` int(11) NOT NULL,
+  `id_kategori` int NOT NULL,
   `nama_kategori` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
