@@ -9,7 +9,7 @@ class Beranda extends CI_Controller {
 		parent::__construct();
 		if (!$this->session->userdata('status_login')) {
             //session kosong
-            redirect('admin/login', 'refresh');
+            redirect('guru/login', 'refresh');
         } else if ($this->session->userdata('tipe') !== 'guru') {
             //akses bukan guru
 			if ($this->session->userdata('tipe') == 'adm') {

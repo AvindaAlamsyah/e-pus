@@ -55,3 +55,4 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['cron/return'] = 'background/cron/kembali';
 $route['guru/buku/(:num)'] = 'guru/buku/index/$1';
+$route['guru/embed/(:num)'] = 'guru/embed/index/$1';

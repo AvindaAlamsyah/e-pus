@@ -1,6 +1,6 @@
 <div class="container">
 	<div class="row justify-content-center" style="margin-bottom: 2px;;">
-		<button type="button" class="btn btn-outline-success" >Salin Embedcode</button>
+		<button id="copy" type="button" class="btn btn-outline-success" onclick="copy(<?= $id_buku?>)">Salin Embedcode</button>
 	</div>
 	<div class="row justify-content-center">
 		<div class="col" id="video_container">
