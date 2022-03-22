@@ -18,14 +18,14 @@ class Data_anggota extends CI_Controller
             redirect('admin/login', 'refresh');
         } else if ($this->session->userdata('tipe') !== 'adm') {
             //akses bukan admin
-			if ($this->session->userdata('tipe') == 'guru') {
+            if ($this->session->userdata('tipe') == 'guru') {
 
-				redirect('guru/beranda', 'refresh');
-			}
-			if ($this->session->userdata('tipe') == 'usr') {
+                redirect('guru/beranda', 'refresh');
+            }
+            if ($this->session->userdata('tipe') == 'usr') {
 
-				redirect("beranda", "refresh");
-			}
+                redirect("beranda", "refresh");
+            }
         }
     }
 
@@ -177,7 +177,7 @@ class Data_anggota extends CI_Controller
         }
     }
 
-    private function import()
+    public function import()
     {
         $this->load->library('upload');
         $this->load->library('MySimpleXLSX');
@@ -201,6 +201,7 @@ class Data_anggota extends CI_Controller
                 }
             }
             $data_insert = array();
+            $data_update = array();
             for ($i = 1; $i < count($data); $i++) {
                 $data_insert[$i - 1]['nama_lengkap'] = $data[$i][$NAMA];
                 $data_insert[$i - 1]['password'] = password_hash($data[$i][$NISN], PASSWORD_ARGON2I);
@@ -209,19 +210,34 @@ class Data_anggota extends CI_Controller
                 $data_insert[$i - 1][$cols[2]] = $data[$i][$KELAS];
                 $data_insert[$i - 1][$cols[3]] = $data[$i][$JURUSAN];
                 if ($data[$i][$KELAS] == 'X') {
-                    $data_insert[$i - 1]['level'] = 1;
+                    $level = 1;
                 } else if ($data[$i][$KELAS] == 'XI') {
-                    $data_insert[$i - 1]['level'] = 2;
+                    $level = 2;
                 } else if ($data[$i][$KELAS] == 'XII') {
-                    $data_insert[$i - 1]['level'] = 3;
+                    $level = 3;
+                } else {
+                    $level = 1;
                 }
+                $data_insert[$i - 1]['level'] = $level;
+                array_push($data_update, array(
+                    'nisn' => $data[$i][$NISN],
+                    'nama_lengkap' => $data[$i][$NAMA],
+                    'status' => 1,
+                    'kelas' => $data[$i][$KELAS],
+                    'jurusan' => $data[$i][$JURUSAN],
+                    'level' => $level,
+                ));
             }
 
             $this->load->helper('MyDB');
             $sql = insert_batch_string('user', $data_insert, true);
             $this->load->database();
             if ($this->db->query($sql)) {
+                $update = $this->db->update_batch('user', $data_update, 'nisn');
                 $this->response = array('status' => 1, 'pesan' => 'Berhasil Import Data Anggota');
+                if ($update === false) {
+                    $this->response = array('status' => 0, 'pesan' => 'Import Data Anggota Bermasalah');
+                }
                 echo json_encode($this->response);
             } else {
                 $this->response = array('status' => 0, 'pesan' => 'Gagal Import Data Anggota');
@@ -237,7 +253,7 @@ class Data_anggota extends CI_Controller
     {
         header('Content-Type: application/json');
 
-        $data = $this->http_request($_ENV['URL_PADAS'].'api/siswa/getsiswaaktif');
+        $data = $this->http_request($_ENV['URL_PADAS'] . 'api/siswa/getsiswaaktif');
 
         if (!is_array($data)) {
             $this->response = array('status' => 0, 'pesan' => $data);

@@ -61,6 +61,8 @@
                                         <i class="zmdi zmdi-refresh-sync"></i>sinkronisasi data</button>
                                     <!-- <button class="au-btn au-btn-icon au-btn--blue" data-toggle="modal" data-target="#modal_tambah">
                                         <i class="zmdi zmdi-plus"></i>tambah data</button> -->
+                                    <button class="au-btn au-btn-icon au-btn--blue" data-toggle="modal" data-target="#modal_import">
+                                        <i class="zmdi zmdi-plus"></i>import data</button>
                                 </div>
                             </div>
                             <div class="au-card">
@@ -469,6 +471,7 @@
             },
             lang: "id",
             submitHandler: function(form) {
+                $("#modal_tambah").modal("hide");
                 $('#modal_loading').modal('show');
                 $.ajax({
                     url: "<?php echo base_url('admin/data_anggota/tambah_anggota') ?>",
@@ -478,7 +481,6 @@
                     success: function(response) {
                         $('#modal_loading').modal('hide');
                         if (response.status == 1) {
-                            $("#modal_tambah").modal("hide");
                             $("#form_tambah").trigger("reset");
                             $('#tabel_anggota').DataTable().ajax.reload();
                             $.toast({
@@ -582,6 +584,7 @@
             },
             lang: "id",
             submitHandler: function(form) {
+                $("#modal_edit").modal("hide");
                 $('#modal_loading').modal('show');
                 $.ajax({
                     url: "<?php echo base_url('admin/data_anggota/simpan_edit') ?>",
@@ -595,7 +598,6 @@
                         $('#form_edit').trigger('reset');
                         $('#edit_ttd').hide();
                         if (response.status == 1) {
-                            $("#modal_edit").modal("hide");
                             $('#tabel_anggota').DataTable().ajax.reload();
                             $.toast({
                                 heading: "Sukses",
@@ -637,6 +639,7 @@
         })
 
         $('#btn_hapus').on('click', function() {
+            $("#modal_hapus").modal("hide");
             $('#modal_loading').modal('show');
             $.ajax({
                 url: "<?php echo base_url('admin/data_anggota/hapus_anggota') ?>",
@@ -648,7 +651,6 @@
                 success: function(response) {
                     $('#modal_loading').modal('hide');
                     if (response.status == 1) {
-                        $("#modal_hapus").modal("hide");
                         $('#tabel_anggota').DataTable().ajax.reload();
                         $.toast({
                             heading: "Sukses",
@@ -742,6 +744,7 @@
             },
             lang: "id",
             submitHandler: function(form) {
+                $("#modal_import").modal("hide");
                 $('#modal_loading').modal('show');
                 let fd = new FormData(form);
                 $.ajax({
@@ -753,7 +756,6 @@
                     data: fd,
                     success: function(response) {
                         if (response.status == 1) {
-                            $("#modal_import").modal("hide");
                             $("#form_import").trigger("reset");
                             $('#modal_loading').modal('hide');
                             $('#tabel_anggota').DataTable().ajax.reload();

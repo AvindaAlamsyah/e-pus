@@ -63,7 +63,9 @@
                                         <label class=" form-control-label">NISN</label>
                                     </div>
                                     <div class="col-12 col-md-9">
-                                        <input type="text" value="<?php echo $nisn; ?>" class="form-control" readonly>
+                                        <p>
+                                            <?php echo $nisn; ?>
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -71,7 +73,9 @@
                                         <label class=" form-control-label">Nama Lengkap</label>
                                     </div>
                                     <div class="col-12 col-md-9">
-                                        <input type="text" value="<?php echo $nama_lengkap; ?>" class="form-control" readonly>
+                                        <p>
+                                            <?php echo $nama_lengkap; ?>
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -79,11 +83,9 @@
                                         <label class=" form-control-label">Kelas</label>
                                     </div>
                                     <div class="col-12 col-md-9">
-                                        <select class="form-control" disabled="true">
-                                            <option <?php if ($kelas == 1) echo 'selected'; ?>>X</option>
-                                            <option <?php if ($kelas == 2) echo 'selected'; ?>>XI</option>
-                                            <option <?php if ($kelas == 3) echo 'selected'; ?>>XII</option>
-                                        </select>
+                                        <p>
+                                            <?php echo $kelas; ?>
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -91,7 +93,9 @@
                                         <label class=" form-control-label">Jurusan</label>
                                     </div>
                                     <div class="col-12 col-md-9">
-                                        <input type="text" value="<?php echo $jurusan; ?>" class="form-control" readonly>
+                                        <p>
+                                            <?php echo $jurusan; ?>
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -99,7 +103,9 @@
                                         <label class=" form-control-label">Level</label>
                                     </div>
                                     <div class="col-12 col-md-9">
-                                        <input type="text" value="<?php echo $level; ?>" class="form-control" readonly>
+                                        <p>
+                                            <?php echo $level; ?>
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -107,10 +113,9 @@
                                         <label class=" form-control-label">Status</label>
                                     </div>
                                     <div class="col-12 col-md-9">
-                                        <select class="form-control" disabled="true">
-                                            <option <?php if ($status == 1) echo 'selected'; ?>>Aktif</option>
-                                            <option <?php if ($status == 0) echo 'selected'; ?>>Tidak Aktif</option>
-                                        </select>
+                                        <p>
+                                            <?= $status == 1 ? 'Aktif' : 'Tidak Aktif'; ?>
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -118,7 +123,7 @@
                                         <label class=" form-control-label">TTD</label>
                                     </div>
                                     <div class="col-12 col-md-9">
-                                        <img width="200" src="<?php echo base_url('asset/admin/ttd/' . $ttd); ?>" alt="Foto tandatangan belum di upload" />
+                                        <img width="200" src="<?php echo base_url('asset/admin/ttd/' . $ttd); ?>" alt=" <?= !empty($ttd) ? $ttd : 'Foto tandatangan belum di upload' ?>" />
                                     </div>
                                 </div>
                             </div>
