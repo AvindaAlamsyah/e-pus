@@ -4,6 +4,8 @@
 */cache/*
 !*/cache/index.html
 !*/cache/.htaccess
+/asset/admin/temp/*
+!asset/admin/temp/.gitkeep 
 
 user_guide_src/build/*
 user_guide_src/cilexer/build/*
